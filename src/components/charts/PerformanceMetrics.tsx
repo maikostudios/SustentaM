@@ -1,8 +1,8 @@
 import React from 'react';
-import { 
-  AcademicCapIcon, 
-  UserGroupIcon, 
-  TrendingUpIcon, 
+import {
+  AcademicCapIcon,
+  UserGroupIcon,
+  ChartBarIcon,
   CheckCircleIcon,
   ClockIcon,
   StarIcon
@@ -72,7 +72,7 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
     {
       title: 'Cursos Activos',
       value: data.cursosActivos,
-      icon: TrendingUpIcon,
+      icon: ChartBarIcon,
       color: 'indigo',
       bgColor: 'bg-indigo-50',
       iconColor: 'text-indigo-600',
