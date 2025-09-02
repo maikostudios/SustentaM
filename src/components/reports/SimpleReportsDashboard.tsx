@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { mockCourses, mockParticipants } from '../../lib/mockData';
 import { Button } from '../ui/Button';
-import { GradeDistributionChart } from '../charts/GradeDistributionChart';
-import { AttendanceByCoursesChart } from '../charts/AttendanceByCoursesChart';
+import { SimpleGradeChart } from '../charts/SimpleGradeChart';
+import { SimpleAttendanceChart } from '../charts/SimpleAttendanceChart';
 import { TopStudentsRanking } from '../charts/TopStudentsRanking';
 import { PerformanceMetrics } from '../charts/PerformanceMetrics';
 import {
@@ -263,14 +263,14 @@ export function SimpleReportsDashboard() {
       {/* Nuevos Gráficos */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de distribución de notas */}
-        <GradeDistributionChart data={reportData.gradeDistribution} />
+        <SimpleGradeChart data={reportData.gradeDistribution} />
 
         {/* Ranking de mejores estudiantes */}
         <TopStudentsRanking data={reportData.topStudents} />
       </div>
 
       {/* Gráfico de asistencia por curso - ancho completo */}
-      <AttendanceByCoursesChart data={reportData.attendanceByCourse} />
+      <SimpleAttendanceChart data={reportData.attendanceByCourse} />
 
       {/* Gráficos y tablas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

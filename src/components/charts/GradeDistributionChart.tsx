@@ -72,6 +72,9 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
               outerRadius={100}
               fill="#8884d8"
               dataKey="count"
+              animationBegin={0}
+              animationDuration={0}
+              isAnimationActive={false}
             >
               {memoizedData.map((entry, index) => (
                 <Cell 

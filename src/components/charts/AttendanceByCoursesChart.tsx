@@ -82,10 +82,13 @@ export function AttendanceByCoursesChart({ data }: AttendanceByCoursesChartProps
               label={{ value: 'Asistencia (%)', angle: -90, position: 'insideLeft' }}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="asistenciaPromedio" 
+            <Bar
+              dataKey="asistenciaPromedio"
               radius={[4, 4, 0, 0]}
               shape={<CustomBar />}
+              animationBegin={0}
+              animationDuration={0}
+              isAnimationActive={false}
             />
           </BarChart>
         </ResponsiveContainer>
