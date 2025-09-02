@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importar tema oficial SUSTENTA */
+@import './styles/sustenta-theme.css';
+
+/* Variables CSS para temas */
+:root {
+  --theme-transition-duration: 300ms;
+  --theme-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Transiciones de tema */
+.theme-transitions,
+.theme-transitions *,
+.theme-transitions *:before,
+.theme-transitions *:after {
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-timing),
+    border-color var(--theme-transition-duration) var(--theme-transition-timing),
+    color var(--theme-transition-duration) var(--theme-transition-timing),
+    fill var(--theme-transition-duration) var(--theme-transition-timing),
+    stroke var(--theme-transition-duration) var(--theme-transition-timing),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-timing) !important;
+}
+
+/* Modo oscuro - colores base */
+.dark {
+  color-scheme: dark;
+}
+
+/* Alto contraste */
+.high-contrast {
+  --tw-contrast: contrast(1.5);
+  filter: var(--tw-contrast);
+}
+
+/* Clases utilitarias para modo oscuro */
+@layer utilities {
+  .bg-theme-primary {
+    @apply bg-white dark:bg-dark-primary;
+  }
+
+  .bg-theme-secondary {
+    @apply bg-gray-50 dark:bg-dark-secondary;
+  }
+
+  .bg-theme-tertiary {
+    @apply bg-gray-100 dark:bg-dark-tertiary;
+  }
+
+  .text-theme-primary {
+    @apply text-gray-900 dark:text-dark-primary;
+  }
+
+  .text-theme-secondary {
+    @apply text-gray-600 dark:text-dark-secondary;
+  }
+
+  .text-theme-muted {
+    @apply text-gray-500 dark:text-dark-muted;
+  }
+
+  .border-theme {
+    @apply border-gray-200 dark:border-dark-border;
+  }
+
+  .border-theme-light {
+    @apply border-gray-300 dark:border-dark-border-light;
+  }
+
+  .shadow-theme {
+    @apply shadow-sm dark:shadow-lg dark:shadow-black/20;
+  }
+
+  .ring-theme {
+    @apply ring-gray-200 dark:ring-dark-border;
+  }
+}
+
+/* Custom FullCalendar overrides */
+.fc {
+  font-family: inherit;
+}
+
+.fc-button {
+  @apply bg-sustenta-blue border-sustenta-blue text-white hover:bg-sustenta-dark-blue focus:ring-2 focus:ring-sustenta-blue focus:ring-offset-2;
+}
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+  @apply bg-sustenta-dark-blue border-sustenta-dark-blue;
+}
+
+.fc-today-button {
+  @apply bg-gray-600 border-gray-600 hover:bg-gray-700;
+}
+
+.fc-daygrid-event {
+  @apply rounded-md border-l-4;
+}
+
+.fc-event-title {
+  @apply font-medium;
+}
+
+.fc-col-header-cell {
+  @apply bg-gray-50 font-semibold text-gray-700 dark:bg-dark-secondary dark:text-dark-primary;
+}
+
+.fc-daygrid-day-number {
+  @apply text-gray-900 font-medium dark:text-dark-primary;
+}
+
+.fc-day-today {
+  @apply bg-sustenta-light-blue/20 dark:bg-sustenta-blue/20;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+  @apply text-sustenta-blue font-bold dark:text-sustenta-light-blue;
+}
+
+/* FullCalendar modo oscuro */
+.dark .fc-theme-standard .fc-scrollgrid {
+  @apply border-dark-border;
+}
+
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th {
+  @apply border-dark-border;
+}
+
+.dark .fc-daygrid-day-frame {
+  @apply bg-dark-primary;
+}
+
+.dark .fc-daygrid-day:hover {
+  @apply bg-dark-secondary;
+}
+
+.dark .fc-event {
+  @apply border-opacity-60;
+}

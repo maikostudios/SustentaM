@@ -1,0 +1,210 @@
+/* 
+ * SUSTENTA - Paleta de Colores Oficial
+ * Basada en la identidad visual corporativa
+ */
+
+:root {
+  /* Colores principales SUSTENTA */
+  --sustenta-blue: #007fd1;
+  --sustenta-purple: #443f9a;
+  --sustenta-gray: #f1f2f2;
+  --sustenta-light-blue: #b7ddff;
+  --sustenta-dark-blue: #005a9c;
+  --sustenta-light-purple: #6b5bb3;
+  
+  /* Variables de tema principal */
+  --color-primary: var(--sustenta-blue);
+  --color-secondary: var(--sustenta-purple);
+  --color-accent: var(--sustenta-light-blue);
+  --color-background: #ffffff;
+  --color-surface: var(--sustenta-gray);
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-border: #e0e0e0;
+  
+  /* Estados interactivos */
+  --color-hover: var(--sustenta-dark-blue);
+  --color-focus: var(--sustenta-light-purple);
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  
+  /* Sombras con colores SUSTENTA */
+  --shadow-primary: 0 4px 6px -1px rgba(0, 127, 209, 0.1);
+  --shadow-secondary: 0 4px 6px -1px rgba(68, 63, 154, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 127, 209, 0.1);
+}
+
+/* Tema oscuro con adaptación SUSTENTA */
+.dark {
+  --color-primary: var(--sustenta-light-blue);
+  --color-secondary: var(--sustenta-light-purple);
+  --color-accent: var(--sustenta-blue);
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f8fafc;
+  --color-text-secondary: #e2e8f0;
+  --color-border: #334155;
+  
+  --color-hover: var(--sustenta-blue);
+  --color-focus: var(--sustenta-purple);
+}
+
+/* Clases utilitarias SUSTENTA */
+.bg-sustenta-primary {
+  background-color: var(--sustenta-blue);
+}
+
+.bg-sustenta-secondary {
+  background-color: var(--sustenta-purple);
+}
+
+.bg-sustenta-surface {
+  background-color: var(--sustenta-gray);
+}
+
+.text-sustenta-primary {
+  color: var(--sustenta-blue);
+}
+
+.text-sustenta-secondary {
+  color: var(--sustenta-purple);
+}
+
+.border-sustenta-primary {
+  border-color: var(--sustenta-blue);
+}
+
+.border-sustenta-secondary {
+  border-color: var(--sustenta-purple);
+}
+
+/* Gradientes corporativos */
+.bg-gradient-sustenta {
+  background: linear-gradient(135deg, var(--sustenta-blue) 0%, var(--sustenta-purple) 100%);
+}
+
+.bg-gradient-sustenta-light {
+  background: linear-gradient(135deg, var(--sustenta-light-blue) 0%, var(--sustenta-light-purple) 100%);
+}
+
+/* Botones con estilo SUSTENTA */
+.btn-sustenta-primary {
+  background-color: var(--sustenta-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-sustenta-primary:hover {
+  background-color: var(--sustenta-dark-blue);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-sustenta-secondary {
+  background-color: var(--sustenta-purple);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-sustenta-secondary:hover {
+  background-color: var(--sustenta-light-purple);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-secondary);
+}
+
+.btn-sustenta-outline {
+  background-color: transparent;
+  color: var(--sustenta-blue);
+  border: 2px solid var(--sustenta-blue);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-sustenta-outline:hover {
+  background-color: var(--sustenta-blue);
+  color: white;
+}
+
+/* Cards con estilo SUSTENTA */
+.card-sustenta {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--sustenta-gray);
+  transition: all 0.3s ease;
+}
+
+.card-sustenta:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.dark .card-sustenta {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+/* Headers con gradiente SUSTENTA */
+.header-sustenta {
+  background: var(--sustenta-blue);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.header-sustenta-gradient {
+  background: linear-gradient(135deg, var(--sustenta-blue) 0%, var(--sustenta-purple) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* Animaciones suaves */
+.transition-sustenta {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states accesibles */
+.focus-sustenta:focus {
+  outline: 2px solid var(--sustenta-blue);
+  outline-offset: 2px;
+}
+
+/* Hexágono decorativo (inspirado en el logo) */
+.hexagon-sustenta {
+  width: 60px;
+  height: 52px;
+  background: var(--sustenta-blue);
+  position: relative;
+  margin: 26px 0;
+}
+
+.hexagon-sustenta:before,
+.hexagon-sustenta:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+}
+
+.hexagon-sustenta:before {
+  bottom: 100%;
+  border-bottom: 26px solid var(--sustenta-blue);
+}
+
+.hexagon-sustenta:after {
+  top: 100%;
+  border-top: 26px solid var(--sustenta-blue);
+}
