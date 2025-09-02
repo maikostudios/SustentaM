@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   AcademicCapIcon,
   UserGroupIcon,
@@ -20,7 +20,7 @@ interface PerformanceMetricsProps {
 }
 
 export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
-  const metrics = [
+  const metrics = useMemo(() => [
     {
       title: 'Total Estudiantes',
       value: data.totalEstudiantes,
@@ -78,12 +78,12 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       iconColor: 'text-indigo-600',
       suffix: ''
     }
-  ];
+  ], [data]);
 
-  const formatValue = (value: number, decimals?: number, suffix?: string) => {
+  const formatValue = useMemo(() => (value: number, decimals?: number, suffix?: string) => {
     const formattedValue = decimals ? value.toFixed(decimals) : value.toString();
     return `${formattedValue}${suffix || ''}`;
-  };
+  }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">

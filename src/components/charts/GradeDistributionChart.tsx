@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 interface GradeDistributionChartProps {
@@ -17,7 +17,9 @@ const COLORS = {
 };
 
 export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percentage }: any) => {
+  const memoizedData = useMemo(() => data, [data]);
+
+  const renderCustomizedLabel = useMemo(() => ({ cx, cy, midAngle, innerRadius, outerRadius, percentage }: any) => {
     const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -36,9 +38,9 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
         {`${percentage.toFixed(1)}%`}
       </text>
     );
-  };
+  }, []);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = useMemo(() => ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -51,7 +53,7 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
       );
     }
     return null;
-  };
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -62,7 +64,7 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={memoizedData}
               cx="50%"
               cy="50%"
               labelLine={false}
@@ -71,7 +73,7 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
               fill="#8884d8"
               dataKey="count"
             >
-              {data.map((entry, index) => (
+              {memoizedData.map((entry, index) => (
                 <Cell 
                   key={`cell-${index}`} 
                   fill={COLORS[entry.range as keyof typeof COLORS]} 
@@ -92,7 +94,7 @@ export function GradeDistributionChart({ data }: GradeDistributionChartProps) {
         </ResponsiveContainer>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-        {data.map((item, index) => (
+        {memoizedData.map((item, index) => (
           <div key={index} className="flex items-center">
             <div 
               className="w-3 h-3 rounded-full mr-2"

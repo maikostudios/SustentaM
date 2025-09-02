@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface AttendanceByCoursesChartProps {
@@ -12,7 +12,9 @@ interface AttendanceByCoursesChartProps {
 }
 
 export function AttendanceByCoursesChart({ data }: AttendanceByCoursesChartProps) {
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const memoizedData = useMemo(() => data, [data]);
+
+  const CustomTooltip = useMemo(() => ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -33,14 +35,14 @@ export function AttendanceByCoursesChart({ data }: AttendanceByCoursesChartProps
       );
     }
     return null;
-  };
+  }, []);
 
-  const getBarColor = (asistencia: number) => {
+  const getBarColor = useMemo(() => (asistencia: number) => {
     if (asistencia >= 90) return '#10B981'; // green-500
     if (asistencia >= 80) return '#3B82F6'; // blue-500
     if (asistencia >= 70) return '#F59E0B'; // amber-500
     return '#EF4444'; // red-500
-  };
+  }, []);
 
   const CustomBar = (props: any) => {
     const { fill, ...rest } = props;
@@ -56,7 +58,7 @@ export function AttendanceByCoursesChart({ data }: AttendanceByCoursesChartProps
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={data}
+            data={memoizedData}
             margin={{
               top: 20,
               right: 30,

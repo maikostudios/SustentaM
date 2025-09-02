@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TrophyIcon, StarIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { UserIcon } from '@heroicons/react/24/outline';
 
@@ -16,7 +16,9 @@ interface TopStudentsRankingProps {
 }
 
 export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
-  const getRankIcon = (position: number) => {
+  const memoizedData = useMemo(() => data, [data]);
+
+  const getRankIcon = useMemo(() => (position: number) => {
     switch (position) {
       case 1:
         return <TrophyIcon className="w-6 h-6 text-yellow-500" />;
@@ -27,9 +29,9 @@ export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
       default:
         return <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-600">{position}</div>;
     }
-  };
+  }, []);
 
-  const getRankBadgeColor = (position: number) => {
+  const getRankBadgeColor = useMemo(() => (position: number) => {
     switch (position) {
       case 1:
         return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white';
@@ -40,14 +42,14 @@ export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
       default:
         return 'bg-gray-100 text-gray-700';
     }
-  };
+  }, []);
 
-  const getPerformanceColor = (score: number) => {
+  const getPerformanceColor = useMemo(() => (score: number) => {
     if (score >= 90) return 'text-green-600 bg-green-50';
     if (score >= 80) return 'text-blue-600 bg-blue-50';
     if (score >= 70) return 'text-amber-600 bg-amber-50';
     return 'text-red-600 bg-red-50';
-  };
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -59,7 +61,7 @@ export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
       </div>
       
       <div className="space-y-4">
-        {data.map((student, index) => {
+        {memoizedData.map((student, index) => {
           const position = index + 1;
           return (
             <div 
