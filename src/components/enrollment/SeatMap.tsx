@@ -95,11 +95,11 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
           </div>
           <div className="bg-red-50 p-4 rounded-lg">
             <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
-            <div className="text-sm text-gray-600">Asientos Ocupados</div>
+            <div className="text-sm text-gray-600">Ocupados</div>
           </div>
           <div className="bg-green-50 p-4 rounded-lg">
             <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
-            <div className="text-sm text-gray-600">Asientos Disponibles</div>
+            <div className="text-sm text-gray-600">Disponibles</div>
           </div>
         </div>
 

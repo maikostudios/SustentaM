@@ -26,6 +26,7 @@ import { SearchDemo } from '../components/demo/SearchDemo';
 import { AccessibilityDemo } from '../components/demo/AccessibilityDemo';
 import { ThemeDemo } from '../components/demo/ThemeDemo';
 import { ErrorHandlingDemo } from '../components/demo/ErrorHandlingDemo';
+import { ContractorManagement } from '../components/contractors/ContractorManagement';
 
 export function AdminDashboard() {
   // Component state
@@ -34,6 +35,7 @@ export function AdminDashboard() {
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [showAttendanceImport, setShowAttendanceImport] = useState(false);
+  const [showGradesImport, setShowGradesImport] = useState(false);
   const [showBulkCertificates, setShowBulkCertificates] = useState<Course | null>(null);
   const [showCertificatePreview, setShowCertificatePreview] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
@@ -169,7 +171,7 @@ export function AdminDashboard() {
       attendanceData.forEach(data => {
         const participant = participants.find(p => p.rut === data.rut);
         if (participant) {
-          updateAttendance(participant.id, data.asistencia, data.nota);
+          updateAttendance(participant.id, data.asistencia, participant.nota);
           successCount++;
         } else {
           errorCount++;
@@ -200,6 +202,50 @@ export function AdminDashboard() {
       notifications.error(
         'Error en importación',
         'Ha ocurrido un error al importar la asistencia.'
+      );
+    }
+  };
+
+  const handleImportGrades = (gradesData: any[]) => {
+    try {
+      let successCount = 0;
+      let errorCount = 0;
+
+      // Simulate importing grades data
+      gradesData.forEach(data => {
+        const participant = participants.find(p => p.rut === data.rut);
+        if (participant) {
+          updateAttendance(participant.id, participant.asistencia, data.nota);
+          successCount++;
+        } else {
+          errorCount++;
+        }
+      });
+
+      setShowGradesImport(false);
+
+      // Notificaciones basadas en el resultado
+      if (successCount > 0 && errorCount === 0) {
+        notifications.success(
+          'Notas importadas',
+          `Se importaron ${successCount} registros de notas correctamente.`
+        );
+      } else if (successCount > 0 && errorCount > 0) {
+        notifications.warning(
+          'Importación parcial',
+          `Se importaron ${successCount} registros. ${errorCount} registros no pudieron procesarse.`
+        );
+      } else {
+        notifications.error(
+          'Error en importación',
+          'No se pudo importar ningún registro de notas.'
+        );
+      }
+    } catch (error) {
+      console.error('Error importing grades:', error);
+      notifications.error(
+        'Error en importación',
+        'Ha ocurrido un error al importar las notas.'
       );
     }
   };
@@ -287,6 +333,7 @@ export function AdminDashboard() {
             participants={participants}
             onUpdateAttendance={updateAttendance}
             onImportAttendance={() => setShowAttendanceImport(true)}
+            onImportGrades={() => setShowGradesImport(true)}
             onExportReport={handleExportReport}
           />
         );
@@ -342,7 +389,10 @@ export function AdminDashboard() {
             </div>
           </div>
         );
-        
+
+      case 'contractors':
+        return <ContractorManagement />;
+
       case 'reports':
         return (
           <LazyReports participants={participants} courses={courses} />
@@ -456,6 +506,11 @@ export function AdminDashboard() {
           { label: 'Dashboard', href: '#' },
           { label: 'Certificados', current: true }
         ];
+      case 'contractors':
+        return [
+          { label: 'Dashboard', href: '#' },
+          { label: 'Gestión de Contratistas', current: true }
+        ];
       case 'reports':
         return [
           { label: 'Dashboard', href: '#' },
@@ -511,6 +566,8 @@ export function AdminDashboard() {
         return 'Asistencia y Notas';
       case 'certificates':
         return 'Gestión de Certificados';
+      case 'contractors':
+        return 'Gestión de Contratistas';
       case 'reports':
         return 'Reportes y Análisis';
       case 'notifications':
@@ -597,6 +654,16 @@ export function AdminDashboard() {
           isOpen={showAttendanceImport}
           onClose={() => setShowAttendanceImport(false)}
           onImport={handleImportAttendance}
+          existingParticipants={participants.map(p => ({ rut: p.rut, nombre: p.nombre }))}
+        />
+      )}
+
+      {/* Grades Import Modal */}
+      {showGradesImport && (
+        <LazyAttendanceImport
+          isOpen={showGradesImport}
+          onClose={() => setShowGradesImport(false)}
+          onImport={handleImportGrades}
           existingParticipants={participants.map(p => ({ rut: p.rut, nombre: p.nombre }))}
         />
       )}

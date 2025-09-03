@@ -15,16 +15,18 @@ interface AttendanceTableProps {
   participants: Participant[];
   onUpdateAttendance: (participantId: string, asistencia: number, nota: number) => void;
   onImportAttendance: () => void;
+  onImportGrades: () => void;
   onExportReport: () => void;
 }
 
 const columnHelper = createColumnHelper<Participant>();
 
-export function AttendanceTable({ 
-  participants, 
-  onUpdateAttendance, 
-  onImportAttendance, 
-  onExportReport 
+export function AttendanceTable({
+  participants,
+  onUpdateAttendance,
+  onImportAttendance,
+  onImportGrades,
+  onExportReport
 }: AttendanceTableProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editData, setEditData] = useState<{ asistencia: number; nota: number }>({
@@ -202,7 +204,16 @@ export function AttendanceTable({
             className="flex items-center space-x-2"
           >
             <DocumentArrowUpIcon className="w-4 h-4" />
-            <span>Importar Excel</span>
+            <span>Importar Asistencia</span>
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={onImportGrades}
+            className="flex items-center space-x-2"
+          >
+            <DocumentArrowUpIcon className="w-4 h-4" />
+            <span>Importar Notas</span>
           </Button>
           
           <Button

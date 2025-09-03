@@ -5,6 +5,7 @@ import {
   CalendarDaysIcon,
   DocumentCheckIcon,
   UsersIcon,
+  UserGroupIcon,
   CogIcon,
   HomeIcon,
   BellIcon,
@@ -61,6 +62,12 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '' }: 
             label: 'Certificados',
             icon: DocumentCheckIcon,
             description: 'Generar y gestionar certificados'
+          },
+          {
+            id: 'contractors',
+            label: 'Gestión de Contratistas',
+            icon: UserGroupIcon,
+            description: 'Administrar contratistas y sus datos'
           },
           {
             id: 'reports',
@@ -250,6 +257,7 @@ export function MobileMainMenu({ activeItem, onItemClick, userRole }: Omit<MainM
           { id: 'courses', label: 'Cursos', icon: AcademicCapIcon },
           { id: 'attendance', label: 'Asistencia', icon: DocumentCheckIcon },
           { id: 'certificates', label: 'Certificados', icon: DocumentCheckIcon },
+          { id: 'contractors', label: 'Contratistas', icon: UserGroupIcon },
           { id: 'reports', label: 'Reportes', icon: ChartBarIcon },
           { id: 'notifications', label: 'Notificaciones', icon: BellIcon },
           { id: 'performance', label: 'Rendimiento', icon: RocketLaunchIcon },

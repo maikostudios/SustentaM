@@ -6,6 +6,18 @@ import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { DocumentArrowUpIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
+// Datos hardcodeados para simulación de validación nombre-RUT
+const VALID_NAME_RUT_COMBINATIONS = [
+  { nombre: 'Juan Carlos Pérez González', rut: '12.345.678-5' },
+  { nombre: 'María Elena Rodríguez Silva', rut: '98.765.432-1' },
+  { nombre: 'Carlos Alberto Muñoz Torres', rut: '15.678.234-9' },
+  { nombre: 'Ana Patricia López Herrera', rut: '22.456.789-3' },
+  { nombre: 'Roberto Francisco Díaz Morales', rut: '18.234.567-8' },
+  { nombre: 'Carmen Rosa Vega Sánchez', rut: '11.222.333-4' },
+  { nombre: 'Luis Fernando Castro Jiménez', rut: '33.444.555-6' },
+  { nombre: 'Patricia Isabel Moreno Ruiz', rut: '44.555.666-7' }
+];
+
 interface BulkUploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,6 +37,31 @@ export function BulkUploadDialog({
   const [preview, setPreview] = useState<any[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showCapacityWarning, setShowCapacityWarning] = useState(false);
+  const [capacityDetails, setCapacityDetails] = useState<{
+    totalCapacity: number;
+    currentOccupancy: number;
+    available: number;
+    attemptingToAdd: number;
+    wouldExceed: number;
+  } | null>(null);
+
+  const validateNameRutCombination = (nombre: string, rut: string): boolean => {
+    // Normalizar nombre para comparación (sin tildes, minúsculas, espacios múltiples)
+    const normalizeString = (str: string) =>
+      str.toLowerCase()
+         .normalize('NFD')
+         .replace(/[\u0300-\u036f]/g, '')
+         .replace(/\s+/g, ' ')
+         .trim();
+
+    const normalizedInputName = normalizeString(nombre);
+
+    return VALID_NAME_RUT_COMBINATIONS.some(combination => {
+      const normalizedValidName = normalizeString(combination.nombre);
+      return normalizedValidName === normalizedInputName && combination.rut === rut;
+    });
+  };
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -42,14 +79,31 @@ export function BulkUploadDialog({
 
       // Skip header row and process data
       const dataRows = rows.slice(1) as any[][];
-      const previewData = dataRows.map((row, index) => ({
-        rowNumber: index + 2,
-        nombre: row[0] || '',
-        rut: row[1] || '',
-        contractor: row[2] || '',
-        valid: true,
-        errors: []
-      }));
+      const previewData = dataRows.map((row, index) => {
+        const nombre = row[0] || '';
+        const rut = row[1] || '';
+        const contractor = row[2] || '';
+        const rowErrors: string[] = [];
+
+        // Validar RUT
+        if (!validarRUT(rut).valido) {
+          rowErrors.push('RUT inválido');
+        }
+
+        // Validar combinación nombre-RUT
+        if (nombre && rut && !validateNameRutCombination(nombre, rut)) {
+          rowErrors.push('El nombre no pertenece al RUT');
+        }
+
+        return {
+          rowNumber: index + 2,
+          nombre,
+          rut,
+          contractor,
+          valid: rowErrors.length === 0,
+          errors: rowErrors
+        };
+      });
 
       setPreview(previewData);
     } catch (error) {
@@ -63,37 +117,40 @@ export function BulkUploadDialog({
     const validationErrors: string[] = [];
     const validParticipants: EnrollmentData[] = [];
 
-    preview.forEach(item => {
-      const rowErrors: string[] = [];
+    // Usar los datos ya validados del preview
+    const validItems = preview.filter(item => item.valid);
+    const invalidItems = preview.filter(item => !item.valid);
 
-      // Validate required fields
-      if (!item.nombre.trim()) {
-        rowErrors.push('Nombre requerido');
-      }
-
-      if (!item.rut.trim()) {
-        rowErrors.push('RUT requerido');
-      } else {
-        const rutValidation = validarRUT(item.rut);
-        if (!rutValidation.valido) {
-          rowErrors.push(rutValidation.mensaje);
-        }
-      }
-
-      if (!item.contractor.trim()) {
-        rowErrors.push('Contratista requerido');
-      }
-
-      if (rowErrors.length > 0) {
-        validationErrors.push(`Fila ${item.rowNumber}: ${rowErrors.join(', ')}`);
-      } else {
-        validParticipants.push({
-          nombre: item.nombre.trim(),
-          rut: item.rut.trim(),
-          contractor: item.contractor.trim()
-        });
-      }
+    // Agregar errores de validación
+    invalidItems.forEach(item => {
+      validationErrors.push(`Fila ${item.rowNumber}: ${item.errors.join(', ')}`);
     });
+
+    // Preparar participantes válidos
+    validItems.forEach(item => {
+      validParticipants.push({
+        nombre: item.nombre.trim(),
+        rut: item.rut.trim(),
+        contractor: item.contractor.trim()
+      });
+    });
+
+    // Verificar capacidad del curso
+    const available = capacity - currentOccupancy;
+    const attemptingToAdd = validParticipants.length;
+
+    if (attemptingToAdd > available) {
+      const wouldExceed = attemptingToAdd - available;
+      setCapacityDetails({
+        totalCapacity: capacity,
+        currentOccupancy,
+        available,
+        attemptingToAdd,
+        wouldExceed
+      });
+      setShowCapacityWarning(true);
+      return;
+    }
 
     // Check capacity
     const availableSpace = capacity - currentOccupancy;
@@ -135,11 +192,16 @@ export function BulkUploadDialog({
               <span>RUT</span>
               <span>Contratista</span>
             </div>
-            <div className="grid grid-cols-3 gap-2 pt-1">
-              <span>Juan Pérez</span>
-              <span>12345678-5</span>
-              <span>Empresa ABC</span>
-            </div>
+            {VALID_NAME_RUT_COMBINATIONS.slice(0, 3).map((combo, index) => (
+              <div key={index} className="grid grid-cols-3 gap-2 pt-1">
+                <span>{combo.nombre}</span>
+                <span>{combo.rut}</span>
+                <span>Empresa ABC</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 text-xs text-blue-600">
+            💡 <strong>Datos de prueba válidos:</strong> Use los nombres y RUTs mostrados arriba para probar la validación exitosa.
           </div>
         </div>
 
@@ -230,6 +292,65 @@ export function BulkUploadDialog({
           </Button>
         </div>
       </div>
+
+      {/* Modal de advertencia de capacidad */}
+      {showCapacityWarning && capacityDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex items-center space-x-3 mb-4">
+              <ExclamationTriangleIcon className="w-8 h-8 text-amber-500" />
+              <h3 className="text-lg font-semibold text-gray-900">
+                Excedió el número de inscripciones para este curso
+              </h3>
+            </div>
+
+            <div className="space-y-4 mb-6">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="font-medium text-amber-900 mb-3">Detalles de Capacidad:</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Capacidad total del curso:</span>
+                    <span className="font-medium">{capacityDetails.totalCapacity} participantes</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Actualmente ocupados:</span>
+                    <span className="font-medium">{capacityDetails.currentOccupancy} participantes</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Disponibles:</span>
+                    <span className="font-medium text-green-600">{capacityDetails.available} participantes</span>
+                  </div>
+                  <div className="flex justify-between border-t pt-2">
+                    <span className="text-gray-600">Intentando agregar:</span>
+                    <span className="font-medium text-blue-600">{capacityDetails.attemptingToAdd} participantes</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Excedería en:</span>
+                    <span className="font-medium text-red-600">{capacityDetails.wouldExceed} participantes</span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-sm text-gray-600">
+                Por favor, modifique su archivo Excel para incluir solo {capacityDetails.available} participantes
+                o menos, y vuelva a intentar la carga.
+              </p>
+            </div>
+
+            <div className="flex justify-end space-x-3">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setShowCapacityWarning(false);
+                  setCapacityDetails(null);
+                }}
+              >
+                Entendido
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Modal>
   );
 }
