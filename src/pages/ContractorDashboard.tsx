@@ -4,6 +4,7 @@ import { Course, Session, EnrollmentData } from '../types';
 import { ContractorLayout } from '../components/layout/ContractorLayout';
 import { HelpModal } from '../components/help/HelpModal';
 import { SeatMap } from '../components/enrollment/SeatMap';
+import { ParticipantsList } from '../components/enrollment/ParticipantsList';
 import { ManualEnrollmentForm } from '../components/enrollment/ManualEnrollmentForm';
 import { BulkUploadDialog } from '../components/enrollment/BulkUploadDialog';
 import { LazyCalendar, CalendarSkeleton, LazyReports, ReportsSkeleton } from '../components/lazy/LazyComponents';
@@ -163,48 +164,23 @@ export function ContractorDashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Lista de Participantes - Lado Izquierdo */}
           <div>
-            <SeatMap
-              session={selectedSession.session}
+            <ParticipantsList
               participants={sessionParticipants}
+              capacity={selectedSession.session.capacity}
               onManualEnrollment={() => setShowManualForm(true)}
               onBulkUpload={() => setShowBulkUpload(true)}
             />
           </div>
 
-          <div className="space-y-4">
-            <div className="flex space-x-3">
-              <Button
-                onClick={() => setShowManualForm(true)}
-                className="flex-1"
-              >
-                Inscripción Manual
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => setShowBulkUpload(true)}
-                className="flex-1"
-              >
-                Carga Masiva
-              </Button>
-            </div>
-
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="font-semibold mb-2">Participantes Inscritos ({sessionParticipants.length})</h3>
-              <div className="max-h-40 overflow-y-auto">
-                {sessionParticipants.length > 0 ? (
-                  <ul className="space-y-1">
-                    {sessionParticipants.map((participant) => (
-                      <li key={participant.id} className="text-sm">
-                        {participant.nombre} - {participant.rut}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-500 text-sm">No hay participantes inscritos</p>
-                )}
-              </div>
-            </div>
+          {/* Mapa de Butacas - Lado Derecho */}
+          <div>
+            <SeatMap
+              session={selectedSession.session}
+              participants={sessionParticipants}
+              showActions={false}
+            />
           </div>
         </div>
       </div>

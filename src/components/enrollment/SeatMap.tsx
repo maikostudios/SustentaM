@@ -7,11 +7,12 @@ import { UserPlusIcon, DocumentArrowUpIcon } from '@heroicons/react/24/outline';
 interface SeatMapProps {
   session: Session;
   participants: Participant[];
-  onManualEnrollment: () => void;
-  onBulkUpload: () => void;
+  onManualEnrollment?: () => void;
+  onBulkUpload?: () => void;
+  showActions?: boolean;
 }
 
-export function SeatMap({ session, participants, onManualEnrollment, onBulkUpload }: SeatMapProps) {
+export function SeatMap({ session, participants, onManualEnrollment, onBulkUpload, showActions = false }: SeatMapProps) {
   // Validaciones robustas
   if (!session) {
     return (
@@ -80,44 +81,44 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 h-full">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Gestión de Butacas
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Mapa de Butacas
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <div className="flex items-start space-x-3">
-              <div className="text-3xl font-bold text-gray-900">{safeCapacity}</div>
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-1">
+              <div className="text-2xl font-bold text-gray-900">{safeCapacity}</div>
               <SeatIcon status="total" size="sm" showNumber={false} />
             </div>
-            <div className="text-sm text-gray-700 font-medium mt-1">Capacidad Total</div>
+            <div className="text-xs text-gray-700 font-medium">Total</div>
           </div>
-          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-            <div className="flex items-start space-x-3">
-              <div className="text-3xl font-bold text-red-600">{occupiedSeats}</div>
+          <div className="bg-red-50 p-3 rounded-lg border border-red-200 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-1">
+              <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
               <SeatIcon status="occupied" size="sm" showNumber={false} />
             </div>
-            <div className="text-sm text-gray-700 font-medium mt-1">Ocupados</div>
+            <div className="text-xs text-gray-700 font-medium">Ocupados</div>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-            <div className="flex items-start space-x-3">
-              <div className="text-3xl font-bold text-green-600">{availableSeats}</div>
+          <div className="bg-green-50 p-3 rounded-lg border border-green-200 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-1">
+              <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
               <SeatIcon status="available" size="sm" showNumber={false} />
             </div>
-            <div className="text-sm text-gray-700 font-medium mt-1">Disponibles</div>
+            <div className="text-xs text-gray-700 font-medium">Disponibles</div>
           </div>
         </div>
 
-        <div className="mb-4">
-          <div className="flex justify-between text-sm text-gray-800 font-medium mb-1">
+        <div className="mb-6">
+          <div className="flex justify-between text-sm text-gray-800 font-medium mb-2">
             <span>Ocupación</span>
             <span>{occupancyPercentage.toFixed(1)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className={`h-3 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all ${
                 occupancyPercentage > 90 ? 'bg-red-500' :
                 occupancyPercentage > 70 ? 'bg-orange-500' : 'bg-green-500'
               }`}
@@ -127,26 +128,28 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        <Button
-          onClick={safeOnManualEnrollment}
-          disabled={availableSeats === 0}
-          className="flex items-center space-x-2"
-        >
-          <UserPlusIcon className="w-4 h-4" />
-          <span>Inscripción Manual</span>
-        </Button>
+      {showActions && (
+        <div className="flex flex-wrap gap-3 mb-6">
+          <Button
+            onClick={safeOnManualEnrollment}
+            disabled={availableSeats === 0}
+            className="flex items-center space-x-2"
+          >
+            <UserPlusIcon className="w-4 h-4" />
+            <span>Inscripción Manual</span>
+          </Button>
 
-        <Button
-          variant="secondary"
-          onClick={safeOnBulkUpload}
-          disabled={availableSeats === 0}
-          className="flex items-center space-x-2"
-        >
-          <DocumentArrowUpIcon className="w-4 h-4" />
-          <span>Carga Masiva (Excel)</span>
-        </Button>
-      </div>
+          <Button
+            variant="secondary"
+            onClick={safeOnBulkUpload}
+            disabled={availableSeats === 0}
+            className="flex items-center space-x-2"
+          >
+            <DocumentArrowUpIcon className="w-4 h-4" />
+            <span>Carga Masiva (Excel)</span>
+          </Button>
+        </div>
+      )}
 
       <div className="border-t pt-6">
         <div className="flex items-center justify-center space-x-6 text-sm mb-4">
@@ -160,8 +163,10 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
           </div>
         </div>
         
-        <div className="bg-gray-50 p-4 rounded-lg max-h-80 overflow-y-auto">
-          {renderSeats()}
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <div className="flex flex-col items-center space-y-2">
+            {renderSeats()}
+          </div>
         </div>
       </div>
     </div>
