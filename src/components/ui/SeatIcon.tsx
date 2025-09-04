@@ -1,27 +1,29 @@
 import React from 'react';
 
 interface SeatIconProps {
-  number: number;
+  number?: number;
   status: 'available' | 'occupied' | 'total';
   size?: 'sm' | 'md' | 'lg';
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  showNumber?: boolean;
 }
 
-export function SeatIcon({ 
-  number, 
-  status, 
-  size = 'md', 
-  onClick, 
+export function SeatIcon({
+  number,
+  status,
+  size = 'md',
+  onClick,
   disabled = false,
-  className = '' 
+  className = '',
+  showNumber = true
 }: SeatIconProps) {
-  // Configuración de tamaños
+  // Configuración de tamaños - aumentados para mejor visibilidad
   const sizeConfig = {
-    sm: { width: 32, height: 32, fontSize: '14px' },
-    md: { width: 40, height: 40, fontSize: '16px' },
-    lg: { width: 48, height: 48, fontSize: '18px' }
+    sm: { width: 40, height: 40, fontSize: '12px' },
+    md: { width:50, height: 50, fontSize: '14px' },
+    lg: { width: 60, height: 60, fontSize: '16px' }
   };
 
   const { width, height, fontSize } = sizeConfig[size];
@@ -85,7 +87,7 @@ export function SeatIcon({
       onKeyDown={handleKeyDown}
       tabIndex={onClick && !disabled ? 0 : -1}
       role={onClick ? 'button' : 'img'}
-      aria-label={`Butaca ${number} ${status === 'occupied' ? 'ocupada' : status === 'available' ? 'disponible' : ''}`}
+      aria-label={showNumber && number ? `Butaca ${number} ${status === 'occupied' ? 'ocupada' : status === 'available' ? 'disponible' : ''}` : `Butaca ${status === 'occupied' ? 'ocupada' : status === 'available' ? 'disponible' : 'total'}`}
       style={{ width, height }}
     >
       <svg
@@ -127,31 +129,35 @@ export function SeatIcon({
           <rect x="25" y="75" width="4" height="10" fill={colors.fill} />
           <rect x="71" y="75" width="4" height="10" fill={colors.fill} />
 
-          {/* Círculo central para el número */}
-          <circle
-            cx="50"
-            cy="40"
-            r="12"
-            fill="white"
-            stroke={colors.stroke}
-            strokeWidth="2"
-          />
+          {/* Círculo central para el número - solo si showNumber es true */}
+          {showNumber && (
+            <circle
+              cx="50"
+              cy="40"
+              r="15"
+              fill="white"
+              stroke={colors.stroke}
+              strokeWidth="2"
+            />
+          )}
         </g>
 
-        {/* Número en el centro */}
-        <text
-          x="50"
-          y="40"
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill={colors.textColor}
-          fontSize={fontSize}
-          fontWeight="bold"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          style={{ userSelect: 'none' }}
-        >
-          {number}
-        </text>
+        {/* Número en el centro - solo si showNumber es true */}
+        {showNumber && number && (
+          <text
+            x="50"
+            y="40"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill={colors.textColor}
+            fontSize={fontSize}
+            fontWeight="bold"
+            fontFamily="system-ui, -apple-system, sans-serif"
+            style={{ userSelect: 'none' }}
+          >
+            {number}
+          </text>
+        )}
       </svg>
     </div>
   );

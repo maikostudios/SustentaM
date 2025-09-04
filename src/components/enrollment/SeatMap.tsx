@@ -63,13 +63,14 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
             size={safeCapacity > 100 ? 'sm' : 'md'}
             onClick={isOccupied ? undefined : safeOnManualEnrollment}
             disabled={isOccupied}
+            showNumber={true}
             className="m-1"
           />
         );
       }
       
       seatElements.push(
-        <div key={row} className="flex justify-center">
+        <div key={row} className="flex justify-center space-x-2 mb-2">
           {rowSeats}
         </div>
       );
@@ -89,21 +90,21 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div className="flex items-start space-x-3">
               <div className="text-3xl font-bold text-gray-900">{safeCapacity}</div>
-              <SeatIcon number={safeCapacity} status="total" size="sm" />
+              <SeatIcon status="total" size="sm" showNumber={false} />
             </div>
             <div className="text-sm text-gray-700 font-medium mt-1">Capacidad Total</div>
           </div>
           <div className="bg-red-50 p-4 rounded-lg border border-red-200">
             <div className="flex items-start space-x-3">
               <div className="text-3xl font-bold text-red-600">{occupiedSeats}</div>
-              <SeatIcon number={occupiedSeats} status="occupied" size="sm" />
+              <SeatIcon status="occupied" size="sm" showNumber={false} />
             </div>
             <div className="text-sm text-gray-700 font-medium mt-1">Ocupados</div>
           </div>
           <div className="bg-green-50 p-4 rounded-lg border border-green-200">
             <div className="flex items-start space-x-3">
               <div className="text-3xl font-bold text-green-600">{availableSeats}</div>
-              <SeatIcon number={availableSeats} status="available" size="sm" />
+              <SeatIcon status="available" size="sm" showNumber={false} />
             </div>
             <div className="text-sm text-gray-700 font-medium mt-1">Disponibles</div>
           </div>
@@ -150,16 +151,16 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
       <div className="border-t pt-6">
         <div className="flex items-center justify-center space-x-6 text-sm mb-4">
           <div className="flex items-center space-x-2">
-            <SeatIcon number={1} status="available" size="sm" />
+            <SeatIcon status="available" size="sm" showNumber={false} />
             <span className="text-gray-800 font-medium">Disponible</span>
           </div>
           <div className="flex items-center space-x-2">
-            <SeatIcon number={1} status="occupied" size="sm" />
+            <SeatIcon status="occupied" size="sm" showNumber={false} />
             <span className="text-gray-800 font-medium">Ocupado</span>
           </div>
         </div>
         
-        <div className="max-h-64 overflow-y-auto">
+        <div className="bg-gray-50 p-4 rounded-lg max-h-80 overflow-y-auto">
           {renderSeats()}
         </div>
       </div>

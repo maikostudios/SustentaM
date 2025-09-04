@@ -26,17 +26,17 @@ export function SeatIconDemo() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Estados de Butacas</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
-            <SeatIcon number={1} status="available" size="lg" />
+            <SeatIcon number={1} status="available" size="lg" showNumber={true} />
             <p className="mt-2 text-sm font-medium text-green-600">Disponible</p>
             <p className="text-xs text-gray-500">Color verde - Clickeable</p>
           </div>
           <div className="text-center">
-            <SeatIcon number={2} status="occupied" size="lg" />
+            <SeatIcon number={2} status="occupied" size="lg" showNumber={true} />
             <p className="mt-2 text-sm font-medium text-red-600">Ocupada</p>
             <p className="text-xs text-gray-500">Color rojo - No clickeable</p>
           </div>
           <div className="text-center">
-            <SeatIcon number={30} status="total" size="lg" />
+            <SeatIcon number={30} status="total" size="lg" showNumber={true} />
             <p className="mt-2 text-sm font-medium text-gray-900">Capacidad Total</p>
             <p className="text-xs text-gray-500">Color negro - Informativo</p>
           </div>
@@ -48,19 +48,42 @@ export function SeatIconDemo() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Tamaños Disponibles</h3>
         <div className="flex items-end justify-center space-x-8">
           <div className="text-center">
-            <SeatIcon number={5} status="available" size="sm" />
-            <p className="mt-2 text-sm text-gray-600">Pequeño (32px)</p>
+            <SeatIcon number={5} status="available" size="sm" showNumber={true} />
+            <p className="mt-2 text-sm text-gray-600">Pequeño (40px)</p>
             <p className="text-xs text-gray-500">Para cursos online (200 butacas)</p>
           </div>
           <div className="text-center">
-            <SeatIcon number={15} status="available" size="md" />
-            <p className="mt-2 text-sm text-gray-600">Mediano (40px)</p>
+            <SeatIcon number={15} status="available" size="md" showNumber={true} />
+            <p className="mt-2 text-sm text-gray-600">Mediano (50px)</p>
             <p className="text-xs text-gray-500">Para cursos presenciales (30 butacas)</p>
           </div>
           <div className="text-center">
-            <SeatIcon number={25} status="available" size="lg" />
-            <p className="mt-2 text-sm text-gray-600">Grande (48px)</p>
-            <p className="text-xs text-gray-500">Para demostraciones y estadísticas</p>
+            <SeatIcon number={25} status="available" size="lg" showNumber={true} />
+            <p className="mt-2 text-sm text-gray-600">Grande (60px)</p>
+            <p className="text-xs text-gray-500">Para demostraciones</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Iconos con y sin números */}
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Iconos con y sin Números</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="text-center">
+            <h4 className="font-medium text-gray-900 mb-3">Con Números (para mapa de butacas)</h4>
+            <div className="flex justify-center space-x-4">
+              <SeatIcon number={1} status="available" size="md" showNumber={true} />
+              <SeatIcon number={2} status="occupied" size="md" showNumber={true} />
+              <SeatIcon number={3} status="total" size="md" showNumber={true} />
+            </div>
+          </div>
+          <div className="text-center">
+            <h4 className="font-medium text-gray-900 mb-3">Sin Números (para estadísticas)</h4>
+            <div className="flex justify-center space-x-4">
+              <SeatIcon status="available" size="md" showNumber={false} />
+              <SeatIcon status="occupied" size="md" showNumber={false} />
+              <SeatIcon status="total" size="md" showNumber={false} />
+            </div>
           </div>
         </div>
       </div>
@@ -79,6 +102,7 @@ export function SeatIconDemo() {
                 number={num}
                 status="available"
                 size="md"
+                showNumber={true}
                 onClick={() => handleSeatClick(num)}
                 className={selectedSeat === num ? 'ring-2 ring-blue-500 ring-offset-2' : ''}
               />
