@@ -27,6 +27,7 @@ import { AccessibilityDemo } from '../components/demo/AccessibilityDemo';
 import { ThemeDemo } from '../components/demo/ThemeDemo';
 import { ErrorHandlingDemo } from '../components/demo/ErrorHandlingDemo';
 import { ContractorManagement } from '../components/contractors/ContractorManagement';
+import { SeatIconDemo } from '../components/demo/SeatIconDemo';
 
 export function AdminDashboard() {
   // Component state
@@ -482,6 +483,13 @@ export function AdminDashboard() {
           </div>
         );
 
+      case 'seat-icons':
+        return (
+          <div className="space-y-6">
+            <SeatIconDemo />
+          </div>
+        );
+
       default:
         return null;
     }
@@ -551,6 +559,11 @@ export function AdminDashboard() {
           { label: 'Dashboard', href: '#' },
           { label: 'Errores', current: true }
         ];
+      case 'seat-icons':
+        return [
+          { label: 'Dashboard', href: '#' },
+          { label: 'Iconos de Butacas', current: true }
+        ];
       default:
         return [];
     }
@@ -584,6 +597,8 @@ export function AdminDashboard() {
         return 'Sistema de Temas';
       case 'errors':
         return 'Manejo de Errores';
+      case 'seat-icons':
+        return 'Iconos de Butacas SVG';
       default:
         return 'Panel de Administración';
     }

@@ -14,7 +14,8 @@ import {
   MagnifyingGlassIcon,
   EyeIcon,
   SwatchIcon,
-  ShieldExclamationIcon
+  ShieldExclamationIcon,
+  BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
 
 interface MenuItem {
@@ -116,6 +117,12 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '' }: 
             label: 'Errores',
             icon: ShieldExclamationIcon,
             description: 'Sistema de manejo de errores y logging'
+          },
+          {
+            id: 'seat-icons',
+            label: 'Iconos de Butacas',
+            icon: BuildingOfficeIcon,
+            description: 'Demostración de iconos SVG de butacas'
           },
           {
             id: 'settings',

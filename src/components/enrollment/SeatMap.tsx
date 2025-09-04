@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Session, Participant } from '../../types';
 import { Button } from '../ui/Button';
+import { SeatIcon } from '../ui/SeatIcon';
 import { UserPlusIcon, DocumentArrowUpIcon } from '@heroicons/react/24/outline';
 
 interface SeatMapProps {
@@ -55,19 +56,15 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         const isOccupied = seatNumber <= occupiedSeats;
         
         rowSeats.push(
-          <button
+          <SeatIcon
             key={seatNumber}
-            className={`w-8 h-8 m-1 rounded-full border-2 text-xs font-medium transition-colors ${
-              isOccupied
-                ? 'bg-red-500 border-red-600 text-white cursor-not-allowed'
-                : 'bg-green-100 border-green-300 text-green-700 hover:bg-green-200'
-            }`}
-            disabled={isOccupied}
-            aria-label={`Asiento ${seatNumber} ${isOccupied ? 'ocupado' : 'disponible'}`}
+            number={seatNumber}
+            status={isOccupied ? 'occupied' : 'available'}
+            size={safeCapacity > 100 ? 'sm' : 'md'}
             onClick={isOccupied ? undefined : safeOnManualEnrollment}
-          >
-            {seatNumber}
-          </button>
+            disabled={isOccupied}
+            className="m-1"
+          />
         );
       }
       
@@ -90,16 +87,31 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-gray-900">{safeCapacity}</div>
-            <div className="text-sm text-gray-600">Capacidad Total</div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl font-bold text-gray-900">{safeCapacity}</div>
+                <div className="text-sm text-gray-600">Capacidad Total</div>
+              </div>
+              <SeatIcon number={safeCapacity} status="total" size="sm" />
+            </div>
           </div>
           <div className="bg-red-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
-            <div className="text-sm text-gray-600">Ocupados</div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
+                <div className="text-sm text-gray-600">Ocupados</div>
+              </div>
+              <SeatIcon number={occupiedSeats} status="occupied" size="sm" />
+            </div>
           </div>
           <div className="bg-green-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
-            <div className="text-sm text-gray-600">Disponibles</div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
+                <div className="text-sm text-gray-600">Disponibles</div>
+              </div>
+              <SeatIcon number={availableSeats} status="available" size="sm" />
+            </div>
           </div>
         </div>
 
@@ -144,11 +156,11 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
       <div className="border-t pt-6">
         <div className="flex items-center justify-center space-x-6 text-sm mb-4">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-100 border-2 border-green-300 rounded-full"></div>
+            <SeatIcon number={1} status="available" size="sm" />
             <span>Disponible</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-red-500 border-2 border-red-600 rounded-full"></div>
+            <SeatIcon number={1} status="occupied" size="sm" />
             <span>Ocupado</span>
           </div>
         </div>
