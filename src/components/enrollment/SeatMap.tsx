@@ -86,44 +86,38 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-gray-900">{safeCapacity}</div>
-                <div className="text-sm text-gray-600">Capacidad Total</div>
-              </div>
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            <div className="flex items-start space-x-3">
+              <div className="text-3xl font-bold text-gray-900">{safeCapacity}</div>
               <SeatIcon number={safeCapacity} status="total" size="sm" />
             </div>
+            <div className="text-sm text-gray-700 font-medium mt-1">Capacidad Total</div>
           </div>
-          <div className="bg-red-50 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
-                <div className="text-sm text-gray-600">Ocupados</div>
-              </div>
+          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+            <div className="flex items-start space-x-3">
+              <div className="text-3xl font-bold text-red-600">{occupiedSeats}</div>
               <SeatIcon number={occupiedSeats} status="occupied" size="sm" />
             </div>
+            <div className="text-sm text-gray-700 font-medium mt-1">Ocupados</div>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
-                <div className="text-sm text-gray-600">Disponibles</div>
-              </div>
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <div className="flex items-start space-x-3">
+              <div className="text-3xl font-bold text-green-600">{availableSeats}</div>
               <SeatIcon number={availableSeats} status="available" size="sm" />
             </div>
+            <div className="text-sm text-gray-700 font-medium mt-1">Disponibles</div>
           </div>
         </div>
 
         <div className="mb-4">
-          <div className="flex justify-between text-sm text-gray-600 mb-1">
+          <div className="flex justify-between text-sm text-gray-800 font-medium mb-1">
             <span>Ocupación</span>
             <span>{occupancyPercentage.toFixed(1)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-3">
             <div
-              className={`h-2 rounded-full transition-all ${
-                occupancyPercentage > 90 ? 'bg-red-500' : 
+              className={`h-3 rounded-full transition-all ${
+                occupancyPercentage > 90 ? 'bg-red-500' :
                 occupancyPercentage > 70 ? 'bg-orange-500' : 'bg-green-500'
               }`}
               style={{ width: `${occupancyPercentage}%` }}
@@ -157,11 +151,11 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         <div className="flex items-center justify-center space-x-6 text-sm mb-4">
           <div className="flex items-center space-x-2">
             <SeatIcon number={1} status="available" size="sm" />
-            <span>Disponible</span>
+            <span className="text-gray-800 font-medium">Disponible</span>
           </div>
           <div className="flex items-center space-x-2">
             <SeatIcon number={1} status="occupied" size="sm" />
-            <span>Ocupado</span>
+            <span className="text-gray-800 font-medium">Ocupado</span>
           </div>
         </div>
         

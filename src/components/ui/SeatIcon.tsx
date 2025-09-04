@@ -26,32 +26,32 @@ export function SeatIcon({
 
   const { width, height, fontSize } = sizeConfig[size];
 
-  // Configuración de colores según el estado
+  // Configuración de colores según el estado usando paleta SUSTENTA
   const getColors = () => {
     switch (status) {
       case 'available':
         return {
-          fill: '#00bf63',
-          stroke: '#00bf63',
-          textColor: '#00bf63'
+          fill: 'var(--color-success, #10b981)', // Verde success del tema
+          stroke: 'var(--color-success, #10b981)',
+          textColor: 'var(--color-success, #10b981)'
         };
       case 'occupied':
         return {
-          fill: '#ff3131',
-          stroke: '#ff3131',
-          textColor: '#ff3131'
+          fill: 'var(--color-error, #ef4444)', // Rojo error del tema
+          stroke: 'var(--color-error, #ef4444)',
+          textColor: 'var(--color-error, #ef4444)'
         };
       case 'total':
         return {
-          fill: '#000000',
-          stroke: '#000000',
-          textColor: '#000000'
+          fill: 'var(--color-text-primary, #1a1a1a)', // Color de texto principal del tema
+          stroke: 'var(--color-text-primary, #1a1a1a)',
+          textColor: 'var(--color-text-primary, #1a1a1a)'
         };
       default:
         return {
-          fill: '#6b7280',
-          stroke: '#6b7280',
-          textColor: '#6b7280'
+          fill: 'var(--color-text-secondary, #666666)', // Color de texto secundario del tema
+          stroke: 'var(--color-text-secondary, #666666)',
+          textColor: 'var(--color-text-secondary, #666666)'
         };
     }
   };

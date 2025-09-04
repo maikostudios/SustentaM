@@ -162,7 +162,7 @@
 
 /* Mejoras para badges y estados */
 .badge-sustenta-success {
-  background-color: #10b981;
+  background-color: var(--color-success);
   color: #ffffff;
   font-weight: 600;
   padding: 0.25rem 0.75rem;
@@ -171,7 +171,7 @@
 }
 
 .badge-sustenta-warning {
-  background-color: #f59e0b;
+  background-color: var(--color-warning);
   color: #ffffff;
   font-weight: 600;
   padding: 0.25rem 0.75rem;
@@ -180,7 +180,7 @@
 }
 
 .badge-sustenta-error {
-  background-color: #ef4444;
+  background-color: var(--color-error);
   color: #ffffff;
   font-weight: 600;
   padding: 0.25rem 0.75rem;
@@ -189,7 +189,7 @@
 }
 
 .badge-sustenta-info {
-  background-color: var(--sustenta-blue);
+  background-color: var(--color-primary);
   color: #ffffff;
   font-weight: 600;
   padding: 0.25rem 0.75rem;

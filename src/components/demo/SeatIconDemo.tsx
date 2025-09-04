@@ -174,9 +174,9 @@ export function SeatIconDemo() {
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-semibold text-gray-900 mb-2">🎨 Colores SUSTENTA</h4>
             <ul className="space-y-1 text-gray-600">
-              <li>• Verde: #00bf63 (disponible)</li>
-              <li>• Rojo: #ff3131 (ocupada)</li>
-              <li>• Negro: #000000 (total/capacidad)</li>
+              <li>• Verde: #10b981 (disponible)</li>
+              <li>• Rojo: #ef4444 (ocupada)</li>
+              <li>• Negro: #1a1a1a (total/capacidad)</li>
               <li>• Hover y focus states incluidos</li>
               <li>• Transiciones suaves</li>
               <li>• Responsive design</li>
