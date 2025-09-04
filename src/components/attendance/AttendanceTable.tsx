@@ -338,22 +338,22 @@ export function AttendanceTable({
           </div>
         )}
       </div>
-    </div>
 
-    {/* Modal de detalle de asistencia */}
-    <AttendanceDetailModal
-      isOpen={showAttendanceDetail}
-      onClose={() => {
-        setShowAttendanceDetail(false);
-        setSelectedParticipant(null);
-      }}
-      participant={selectedParticipant ? {
-        id: selectedParticipant.id,
-        nombre: selectedParticipant.nombre,
-        rut: selectedParticipant.rut,
-        curso: selectedParticipant.curso
-      } : null}
-      onUpdateAttendance={handleUpdateSessionAttendance}
-    />
+      {/* Modal de detalle de asistencia */}
+      <AttendanceDetailModal
+        isOpen={showAttendanceDetail}
+        onClose={() => {
+          setShowAttendanceDetail(false);
+          setSelectedParticipant(null);
+        }}
+        participant={selectedParticipant ? {
+          id: selectedParticipant.id,
+          nombre: selectedParticipant.nombre,
+          rut: selectedParticipant.rut,
+          curso: selectedParticipant.curso
+        } : null}
+        onUpdateAttendance={handleUpdateSessionAttendance}
+      />
+    </div>
   );
 }

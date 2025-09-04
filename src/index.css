@@ -1,10 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Importar tema oficial SUSTENTA */
 @import './styles/sustenta-theme.css';
 @import './styles/accessibility-improvements.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Variables CSS para temas */
 :root {
