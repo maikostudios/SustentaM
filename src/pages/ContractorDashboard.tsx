@@ -8,6 +8,7 @@ import { ParticipantsList } from '../components/enrollment/ParticipantsList';
 import { ManualEnrollmentForm } from '../components/enrollment/ManualEnrollmentForm';
 import { BulkUploadDialog } from '../components/enrollment/BulkUploadDialog';
 import { LazyCalendar, CalendarSkeleton, LazyReports, ReportsSkeleton } from '../components/lazy/LazyComponents';
+import { useAuthStore } from '../store/authStore';
 import { Modal } from '../components/ui/Modal';
 import { Button } from '../components/ui/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -18,7 +19,8 @@ export function ContractorDashboard() {
   const [showManualForm, setShowManualForm] = useState(false);
   const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  
+
+  const { user } = useAuthStore();
   const {
     courses,
     sessions,
@@ -64,11 +66,19 @@ export function ContractorDashboard() {
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
+        const filteredParticipantsForDashboard = getFilteredParticipants();
         return (
           <div className="space-y-6">
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Panel de Contratista</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Panel de Contratista
+                  {user?.empresa && (
+                    <span className="block text-lg font-normal text-gray-600 mt-1">
+                      {user.empresa}
+                    </span>
+                  )}
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h3 className="text-lg font-semibold text-blue-900">Cursos Activos</h3>
@@ -79,8 +89,9 @@ export function ContractorDashboard() {
                     <p className="text-3xl font-bold text-green-600">{sessions.length}</p>
                   </div>
                   <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-purple-900">Participantes</h3>
-                    <p className="text-3xl font-bold text-purple-600">{participants.length}</p>
+                    <h3 className="text-lg font-semibold text-purple-900">Mis Participantes</h3>
+                    <p className="text-3xl font-bold text-purple-600">{filteredParticipantsForDashboard.length}</p>
+                    <p className="text-sm text-purple-600 mt-1">de {user?.empresa}</p>
                   </div>
                 </div>
               </div>
@@ -95,7 +106,8 @@ export function ContractorDashboard() {
         return renderEnrollmentView();
 
       case 'reports':
-        return <LazyReports />;
+        const filteredParticipants = getFilteredParticipants();
+        return <LazyReports participants={filteredParticipants} courses={courses} />;
 
       default:
         return renderCalendarView();
@@ -109,6 +121,14 @@ export function ContractorDashboard() {
 
   const getExistingRuts = () => {
     return getSessionParticipants().map(p => p.rut);
+  };
+
+  // Filtrar participantes por empresa del contratista logueado
+  const getFilteredParticipants = () => {
+    if (!user || user.rol !== 'contratista' || !user.empresa) {
+      return participants; // Si no es contratista o no tiene empresa, devolver todos
+    }
+    return participants.filter(p => p.contractor === user.empresa);
   };
 
   const renderCalendarView = () => {

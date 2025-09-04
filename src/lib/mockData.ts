@@ -14,14 +14,32 @@ export const mockUsers: User[] = [
     nombre: 'Empresa Contratista ABC',
     rut: '22.222.222-2',
     rol: 'contratista',
-    clave: '1234'
+    clave: '1234',
+    empresa: 'Empresa ABC Ltda.'
   },
   {
     id: 'contractor-2',
     nombre: 'Constructora XYZ Ltda.',
     rut: '33.333.333-3',
     rol: 'contratista',
-    clave: '1234'
+    clave: '1234',
+    empresa: 'Constructora XYZ S.A.'
+  },
+  {
+    id: 'contractor-3',
+    nombre: 'Tech Solutions SpA',
+    rut: '44.444.444-4',
+    rol: 'contratista',
+    clave: '1234',
+    empresa: 'Tech Solutions SpA'
+  },
+  {
+    id: 'contractor-4',
+    nombre: 'Servicios Integrales DEF',
+    rut: '55.555.555-5',
+    rol: 'contratista',
+    clave: '1234',
+    empresa: 'Servicios Integrales DEF'
   },
   {
     id: 'user-1',

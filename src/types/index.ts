@@ -4,6 +4,7 @@ export interface User {
   rut: string;
   rol: 'administrador' | 'contratista' | 'usuario';
   clave: string;
+  empresa?: string; // Empresa contratista (solo para rol contratista)
 }
 
 export interface Course {
