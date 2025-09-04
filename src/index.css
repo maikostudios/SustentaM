@@ -4,6 +4,7 @@
 
 /* Importar tema oficial SUSTENTA */
 @import './styles/sustenta-theme.css';
+@import './styles/accessibility-improvements.css';
 
 /* Variables CSS para temas */
 :root {

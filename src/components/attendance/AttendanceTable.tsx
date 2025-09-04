@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
-  useReactTable, 
-  getCoreRowModel, 
+import {
+  useReactTable,
+  getCoreRowModel,
   getSortedRowModel,
   flexRender,
   createColumnHelper
@@ -9,7 +9,8 @@ import {
 import { Participant } from '../../types';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
-import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon } from '@heroicons/react/24/outline';
+import { AttendanceDetailModal } from './AttendanceDetailModal';
+import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, EyeIcon } from '@heroicons/react/24/outline';
 
 interface AttendanceTableProps {
   participants: Participant[];
@@ -33,6 +34,8 @@ export function AttendanceTable({
     asistencia: 0,
     nota: 0
   });
+  const [showAttendanceDetail, setShowAttendanceDetail] = useState(false);
+  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
 
   const handleEdit = (participant: Participant) => {
     setEditingId(participant.id);
@@ -52,6 +55,17 @@ export function AttendanceTable({
   const handleCancel = () => {
     setEditingId(null);
     setEditData({ asistencia: 0, nota: 0 });
+  };
+
+  const handleShowAttendanceDetail = (participant: Participant) => {
+    setSelectedParticipant(participant);
+    setShowAttendanceDetail(true);
+  };
+
+  const handleUpdateSessionAttendance = (participantId: string, sessionId: string, attended: boolean) => {
+    // Aquí se actualizaría la asistencia de la sesión específica
+    // Por ahora solo mostramos el cambio en consola
+    console.log(`Updating session ${sessionId} for participant ${participantId}: ${attended ? 'Present' : 'Absent'}`);
   };
 
   const columns = [
@@ -138,6 +152,25 @@ export function AttendanceTable({
           }`}>
             {estado.charAt(0).toUpperCase() + estado.slice(1)}
           </span>
+        );
+      }
+    }),
+    columnHelper.display({
+      id: 'attendance-detail',
+      header: 'Detalle Asistencia',
+      cell: ({ row }) => {
+        const participant = row.original;
+        return (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleShowAttendanceDetail(participant)}
+            className="flex items-center space-x-1 text-blue-600 hover:text-blue-900"
+            title="Ver detalle de asistencia por sesión"
+          >
+            <EyeIcon className="w-4 h-4" />
+            <span>Ver Detalle</span>
+          </Button>
         );
       }
     }),
@@ -306,5 +339,21 @@ export function AttendanceTable({
         )}
       </div>
     </div>
+
+    {/* Modal de detalle de asistencia */}
+    <AttendanceDetailModal
+      isOpen={showAttendanceDetail}
+      onClose={() => {
+        setShowAttendanceDetail(false);
+        setSelectedParticipant(null);
+      }}
+      participant={selectedParticipant ? {
+        id: selectedParticipant.id,
+        nombre: selectedParticipant.nombre,
+        rut: selectedParticipant.rut,
+        curso: selectedParticipant.curso
+      } : null}
+      onUpdateAttendance={handleUpdateSessionAttendance}
+    />
   );
 }

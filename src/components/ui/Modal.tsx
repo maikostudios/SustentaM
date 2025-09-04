@@ -56,23 +56,23 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
   return createPortal(
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div 
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
         <div
           ref={modalRef}
           className={clsx(
-            'relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6',
+            'relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6 border border-gray-200 dark:border-gray-700',
             sizeClasses[size]
           )}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
         >
-          <div className="flex items-center justify-between pb-4 border-b">
-            <h3 id="modal-title" className="text-lg font-medium text-gray-900">
+          <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {title}
             </h3>
             <Button

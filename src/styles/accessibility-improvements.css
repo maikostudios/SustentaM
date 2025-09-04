@@ -1,0 +1,285 @@
+/* 
+ * Mejoras de Accesibilidad y Contraste
+ * Basado en WCAG 2.2 AA y configuraciones de tema SUSTENTA
+ */
+
+/* Mejoras de contraste para textos */
+.text-high-contrast {
+  color: #000000 !important;
+}
+
+.dark .text-high-contrast {
+  color: #ffffff !important;
+}
+
+/* Mejoras para botones con mejor contraste */
+.btn-sustenta-primary {
+  background-color: var(--sustenta-blue);
+  color: #ffffff;
+  border: 2px solid var(--sustenta-blue);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-sustenta-primary:hover {
+  background-color: var(--sustenta-dark-blue);
+  border-color: var(--sustenta-dark-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 127, 209, 0.3);
+}
+
+.btn-sustenta-primary:focus {
+  outline: none;
+  ring: 3px solid var(--sustenta-light-blue);
+  ring-opacity: 0.5;
+}
+
+/* Mejoras para inputs con mejor contraste */
+.input-sustenta {
+  border: 2px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+  font-weight: 500;
+}
+
+.input-sustenta:focus {
+  border-color: var(--sustenta-blue);
+  ring: 2px solid var(--sustenta-light-blue);
+  ring-opacity: 0.3;
+  outline: none;
+}
+
+.dark .input-sustenta {
+  background-color: #374151;
+  border-color: #6b7280;
+  color: #f9fafb;
+}
+
+.dark .input-sustenta:focus {
+  border-color: var(--sustenta-light-blue);
+  ring-color: var(--sustenta-blue);
+}
+
+/* Mejoras para labels con mejor contraste */
+.label-sustenta {
+  color: #111827;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.dark .label-sustenta {
+  color: #f9fafb;
+}
+
+/* Mejoras para textos de error */
+.error-text-sustenta {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.dark .error-text-sustenta {
+  color: #fca5a5;
+}
+
+/* Mejoras para textos de ayuda */
+.helper-text-sustenta {
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.dark .helper-text-sustenta {
+  color: #d1d5db;
+}
+
+/* Mejoras para modales con mejor contraste */
+.modal-sustenta {
+  background-color: #ffffff;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .modal-sustenta {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Mejoras para títulos de modal */
+.modal-title-sustenta {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.dark .modal-title-sustenta {
+  color: #f9fafb;
+}
+
+/* Mejoras para tablas con mejor contraste */
+.table-sustenta {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .table-sustenta {
+  background-color: #1f2937;
+  border-color: #4b5563;
+}
+
+.table-sustenta th {
+  background-color: #f9fafb;
+  color: #111827;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dark .table-sustenta th {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.table-sustenta td {
+  color: #374151;
+  font-weight: 500;
+}
+
+.dark .table-sustenta td {
+  color: #d1d5db;
+}
+
+/* Mejoras para filas de tabla hover */
+.table-sustenta tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.dark .table-sustenta tbody tr:hover {
+  background-color: #374151;
+}
+
+/* Mejoras para badges y estados */
+.badge-sustenta-success {
+  background-color: #10b981;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+.badge-sustenta-warning {
+  background-color: #f59e0b;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+.badge-sustenta-error {
+  background-color: #ef4444;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+.badge-sustenta-info {
+  background-color: var(--sustenta-blue);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+/* Mejoras para iconos con mejor contraste */
+.icon-sustenta {
+  color: #6b7280;
+}
+
+.dark .icon-sustenta {
+  color: #9ca3af;
+}
+
+.icon-sustenta-primary {
+  color: var(--sustenta-blue);
+}
+
+.icon-sustenta-secondary {
+  color: var(--sustenta-purple);
+}
+
+/* Mejoras para enlaces con mejor contraste */
+.link-sustenta {
+  color: var(--sustenta-blue);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.link-sustenta:hover {
+  color: var(--sustenta-dark-blue);
+  text-decoration-color: currentColor;
+}
+
+.dark .link-sustenta {
+  color: var(--sustenta-light-blue);
+}
+
+.dark .link-sustenta:hover {
+  color: #ffffff;
+}
+
+/* Mejoras para focus visible */
+.focus-sustenta:focus-visible {
+  outline: 3px solid var(--sustenta-light-blue);
+  outline-offset: 2px;
+}
+
+/* Mejoras para alto contraste */
+@media (prefers-contrast: high) {
+  .text-gray-600 {
+    color: #374151 !important;
+  }
+  
+  .dark .text-gray-600 {
+    color: #d1d5db !important;
+  }
+  
+  .text-gray-500 {
+    color: #111827 !important;
+  }
+  
+  .dark .text-gray-500 {
+    color: #f9fafb !important;
+  }
+  
+  .border-gray-200 {
+    border-color: #6b7280 !important;
+  }
+  
+  .dark .border-gray-200 {
+    border-color: #9ca3af !important;
+  }
+}
+
+/* Mejoras para movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .transition-all,
+  .transition-colors,
+  .transition-transform {
+    transition: none !important;
+  }
+  
+  .animate-spin,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none !important;
+  }
+}

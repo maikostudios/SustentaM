@@ -19,8 +19,8 @@ export function SimpleGradeChart({ data }: SimpleGradeChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
         Distribución de Notas
       </h3>
       
@@ -29,10 +29,10 @@ export function SimpleGradeChart({ data }: SimpleGradeChartProps) {
         {data.map((item, index) => (
           <div key={index} className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-700">{item.range}</span>
-              <span className="text-sm text-gray-600">{item.count} ({item.percentage.toFixed(1)}%)</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.range}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">{item.count} ({item.percentage.toFixed(1)}%)</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
               <div 
                 className="h-3 rounded-full transition-all duration-500"
                 style={{ 
