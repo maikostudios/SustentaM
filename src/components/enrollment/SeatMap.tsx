@@ -65,13 +65,18 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
             onClick={isOccupied ? undefined : safeOnManualEnrollment}
             disabled={isOccupied}
             showNumber={true}
-            className="m-1"
+            className={safeCapacity > 100 ? "m-0.5" : "m-1"}
           />
         );
       }
       
       seatElements.push(
-        <div key={row} className="flex justify-center space-x-2 mb-2">
+        <div
+          key={row}
+          className={`flex justify-center ${
+            safeCapacity > 100 ? 'space-x-1 mb-1' : 'space-x-2 mb-2'
+          }`}
+        >
           {rowSeats}
         </div>
       );
@@ -152,19 +157,25 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
       )}
 
       <div className="border-t pt-6">
-        <div className="flex items-center justify-center space-x-6 text-sm mb-4">
-          <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-center space-x-4 text-sm mb-4">
+          <div className="flex items-center space-x-1">
             <SeatIcon status="available" size="sm" showNumber={false} />
-            <span className="text-gray-800 font-medium">Disponible</span>
+            <span className="text-gray-700 text-xs">Disponible</span>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <SeatIcon status="occupied" size="sm" showNumber={false} />
-            <span className="text-gray-800 font-medium">Ocupado</span>
+            <span className="text-gray-700 text-xs">Ocupado</span>
           </div>
         </div>
         
         <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="flex flex-col items-center space-y-2">
+          <div
+            className={`flex flex-col items-center ${
+              safeCapacity > 100
+                ? 'max-h-96 overflow-y-auto space-y-1'
+                : 'space-y-2'
+            }`}
+          >
             {renderSeats()}
           </div>
         </div>

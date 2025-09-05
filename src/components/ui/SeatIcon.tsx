@@ -19,11 +19,11 @@ export function SeatIcon({
   className = '',
   showNumber = true
 }: SeatIconProps) {
-  // Configuración de tamaños - aumentados para mejor visibilidad
+  // Configuración de tamaños - optimizados para diferentes capacidades
   const sizeConfig = {
-    sm: { width: 40, height: 40, fontSize: '12px' },
-    md: { width:50, height: 50, fontSize: '14px' },
-    lg: { width: 60, height: 60, fontSize: '16px' }
+    sm: { width: 24, height: 24, fontSize: '10px' }, // Para cursos online (200 butacas)
+    md: { width: 40, height: 40, fontSize: '12px' }, // Para cursos presenciales (30 butacas)
+    lg: { width: 50, height: 50, fontSize: '14px' }  // Para casos especiales
   };
 
   const { width, height, fontSize } = sizeConfig[size];
