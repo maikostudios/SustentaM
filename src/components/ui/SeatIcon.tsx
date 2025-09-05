@@ -21,8 +21,8 @@ export function SeatIcon({
 }: SeatIconProps) {
   // Configuración de tamaños - optimizados para diferentes capacidades
   const sizeConfig = {
-    sm: { width: 24, height: 24, fontSize: '10px' }, // Para cursos online (200 butacas)
-    md: { width: 40, height: 40, fontSize: '12px' }, // Para cursos presenciales (30 butacas)
+    sm: { width: 32, height: 32, fontSize: '11px' }, // Para cursos online (200 butacas - 10x20 grid)
+    md: { width: 40, height: 40, fontSize: '12px' }, // Para cursos presenciales (30 butacas - 6x5 grid)
     lg: { width: 50, height: 50, fontSize: '14px' }  // Para casos especiales
   };
 

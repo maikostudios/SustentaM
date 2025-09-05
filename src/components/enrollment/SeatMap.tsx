@@ -44,7 +44,7 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
       );
     }
 
-    const seatsPerRow = safeCapacity === 200 ? 20 : 6; // Teams vs Presencial
+    const seatsPerRow = safeCapacity === 200 ? 10 : 6; // Teams (10x20) vs Presencial (6x5)
     const rows = Math.ceil(safeCapacity / seatsPerRow);
     const seatElements = [];
 
@@ -65,7 +65,7 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
             onClick={isOccupied ? undefined : safeOnManualEnrollment}
             disabled={isOccupied}
             showNumber={true}
-            className={safeCapacity > 100 ? "m-0.5" : "m-1"}
+            className="m-1"
           />
         );
       }
@@ -74,7 +74,7 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         <div
           key={row}
           className={`flex justify-center ${
-            safeCapacity > 100 ? 'space-x-1 mb-1' : 'space-x-2 mb-2'
+            safeCapacity > 100 ? 'space-x-2 mb-1' : 'space-x-2 mb-2'
           }`}
         >
           {rowSeats}
@@ -172,7 +172,7 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
           <div
             className={`flex flex-col items-center ${
               safeCapacity > 100
-                ? 'max-h-96 overflow-y-auto space-y-1'
+                ? 'space-y-1'
                 : 'space-y-2'
             }`}
           >
