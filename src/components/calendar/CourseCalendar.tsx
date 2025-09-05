@@ -10,6 +10,8 @@ import {
   CalendarDaysIcon,
   UsersIcon
 } from '@heroicons/react/24/outline';
+import { MatrixCalendar } from './MatrixCalendar';
+import { CalendarViewSelector, CalendarViewType } from './CalendarViewSelector';
 
 interface CourseCalendarProps {
   onSelectSession: (session: Session, course: Course) => void;
@@ -17,6 +19,7 @@ interface CourseCalendarProps {
 
 export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [viewType, setViewType] = useState<CalendarViewType>('traditional');
   const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
 
   useEffect(() => {
@@ -76,36 +79,56 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         <h2 className="text-xl font-semibold text-gray-900">
           Calendario de Cursos
         </h2>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigateMonth('prev')}
-            aria-label="Mes anterior"
-          >
-            <ChevronLeftIcon className="w-5 h-5" />
-          </Button>
-          <span className="text-lg font-medium min-w-48 text-center">
-            {format(currentDate, 'MMMM yyyy', { locale: es })}
-          </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigateMonth('next')}
-            aria-label="Mes siguiente"
-          >
-            <ChevronRightIcon className="w-5 h-5" />
-          </Button>
+
+        {/* Selector de vista */}
+        <div className="flex items-center space-x-4">
+          <CalendarViewSelector
+            currentView={viewType}
+            onViewChange={setViewType}
+          />
+
+          {/* Navegación de mes */}
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigateMonth('prev')}
+              aria-label="Mes anterior"
+            >
+              <ChevronLeftIcon className="w-5 h-5" />
+            </Button>
+            <span className="text-lg font-medium min-w-48 text-center">
+              {format(currentDate, 'MMMM yyyy', { locale: es })}
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigateMonth('next')}
+              aria-label="Mes siguiente"
+            >
+              <ChevronRightIcon className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 mb-4">
-        {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
-          <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
-            {day}
+      {/* Renderizado condicional según el tipo de vista */}
+      {viewType === 'matrix' ? (
+        <MatrixCalendar
+          courses={courses}
+          sessions={sessions}
+          currentDate={currentDate}
+          onSessionSelect={onSelectSession}
+        />
+      ) : (
+        <>
+          <div className="grid grid-cols-7 gap-1 mb-4">
+            {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
+              <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+                {day}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
       <div className="grid grid-cols-7 gap-1">
         {days.map((date, index) => {
@@ -158,16 +181,18 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         })}
       </div>
 
-      <div className="mt-6 flex items-center justify-center space-x-6 text-sm">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-500 rounded"></div>
-          <span>Presencial</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-green-500 rounded"></div>
-          <span>Virtual (Teams)</span>
-        </div>
-      </div>
+          <div className="mt-6 flex items-center justify-center space-x-6 text-sm">
+            <div className="flex items-center space-x-2">
+              <div className="w-4 h-4 bg-blue-500 rounded"></div>
+              <span>Presencial</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-4 h-4 bg-green-500 rounded"></div>
+              <span>Virtual (Teams)</span>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
