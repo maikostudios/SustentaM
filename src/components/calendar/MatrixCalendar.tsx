@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Course, Session } from '../../types';
+import { logger } from '../../utils/logger';
 
 interface MatrixCalendarProps {
   courses: Course[];
@@ -14,6 +15,23 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+  useEffect(() => {
+    logger.info('MatrixCalendar', 'Componente MatrixCalendar montado', {
+      coursesCount: courses.length,
+      sessionsCount: sessions.length,
+      currentDate: currentDate.toISOString(),
+      daysInMonth: daysInMonth.length
+    });
+  }, []);
+
+  useEffect(() => {
+    logger.debug('MatrixCalendar', 'Props actualizadas', {
+      coursesCount: courses.length,
+      sessionsCount: sessions.length,
+      currentDate: currentDate.toISOString()
+    });
+  }, [courses, sessions, currentDate]);
 
   // Agrupar cursos por modalidad para mejor organización
   const presencialCourses = courses.filter(c => c.modalidad === 'presencial');

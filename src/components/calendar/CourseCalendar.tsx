@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { MatrixCalendar } from './MatrixCalendar';
 import { CalendarViewSelector, CalendarViewType } from './CalendarViewSelector';
+import { logger } from '../../utils/logger';
 
 interface CourseCalendarProps {
   onSelectSession: (session: Session, course: Course) => void;
@@ -23,14 +24,30 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
 
   useEffect(() => {
+    logger.info('CourseCalendar', 'Componente CourseCalendar montado');
+    logger.debug('CourseCalendar', 'Estado inicial', { viewType, currentDate });
     fetchCourses();
     fetchSessions();
   }, [fetchCourses, fetchSessions]);
 
+  useEffect(() => {
+    logger.debug('CourseCalendar', 'Datos actualizados', {
+      coursesCount: courses.length,
+      sessionsCount: sessions.length,
+      viewType
+    });
+  }, [courses, sessions, viewType]);
+
   const navigateMonth = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
     newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+    logger.info('CourseCalendar', `Navegando al mes ${direction}`, { newDate: newDate.toISOString() });
     setCurrentDate(newDate);
+  };
+
+  const handleViewChange = (newViewType: CalendarViewType) => {
+    logger.info('CourseCalendar', 'Cambiando vista de calendario', { from: viewType, to: newViewType });
+    setViewType(newViewType);
   };
 
   const getDaysInMonth = () => {
@@ -76,7 +93,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="text-xl font-semibold text-red-600">
           Calendario de Cursos
         </h2>
 
@@ -84,7 +101,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         <div className="flex items-center space-x-4">
           <CalendarViewSelector
             currentView={viewType}
-            onViewChange={setViewType}
+            onViewChange={handleViewChange}
           />
 
           {/* Navegación de mes */}

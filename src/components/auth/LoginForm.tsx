@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -6,6 +6,8 @@ import { useAuthStore } from '../../store/authStore';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { EyeIcon, EyeSlashIcon, UserIcon } from '@heroicons/react/24/outline';
+import { logger } from '../../utils/logger';
+import { LogViewer } from '../debug/LogViewer';
 
 const loginSchema = z.object({
   usuario: z.string().min(1, 'Usuario requerido'),
@@ -20,6 +22,10 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuthStore();
 
+  useEffect(() => {
+    logger.info('LoginForm', 'Componente LoginForm montado');
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -29,15 +35,22 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    logger.info('LoginForm', 'Intento de login iniciado', { usuario: data.usuario });
     setLoading(true);
     setAuthError('');
-    
+
     try {
+      logger.debug('LoginForm', 'Llamando función login del store');
       const success = await login(data.usuario, data.clave);
-      if (!success) {
+
+      if (success) {
+        logger.info('LoginForm', 'Login exitoso');
+      } else {
+        logger.warn('LoginForm', 'Login fallido - credenciales incorrectas');
         setAuthError('Usuario o clave incorrectos');
       }
     } catch (error) {
+      logger.error('LoginForm', 'Error durante el login', error);
       setAuthError('Error al iniciar sesión');
     } finally {
       setLoading(false);
@@ -113,9 +126,9 @@ export function LoginForm() {
           <div className="text-sm text-gray-600">
             <p className="font-semibold mb-2">Usuarios de prueba:</p>
             <div className="space-y-1 text-xs">
-              <p><strong>Admin:</strong> Usuario: 1-9, Clave: admin</p>
-              <p><strong>Contratista:</strong> Usuario: 2-7, Clave: 1234</p>
-              <p><strong>Usuario:</strong> Usuario: 12345678-5, Clave: user123</p>
+              <p><strong>Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
+              <p><strong>Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
+              <p><strong>Usuario:</strong> Usuario: 12.345.678-5, Clave: user123</p>
             </div>
           </div>
         </div>
@@ -127,6 +140,7 @@ export function LoginForm() {
           </div>
         </div>
       </div>
+      <LogViewer />
     </div>
   );
 }
