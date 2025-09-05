@@ -219,14 +219,14 @@ export const mockSessions: Session[] = [
     seats: []
   },
 
-  // Gestión Ágil - 4 días
+  // Gestión Ágil - 4 días (PRESENCIAL = 30 butacas)
   {
     id: 'session-9',
     courseId: 'course-3',
     fecha: '2025-09-20',
     horaInicio: '09:00',
     horaFin: '13:00',
-    capacity: 25,
+    capacity: 30,
     seats: []
   },
   {
@@ -235,7 +235,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-23',
     horaInicio: '09:00',
     horaFin: '13:00',
-    capacity: 25,
+    capacity: 30,
     seats: []
   },
   {
@@ -244,7 +244,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-24',
     horaInicio: '09:00',
     horaFin: '13:00',
-    capacity: 25,
+    capacity: 30,
     seats: []
   },
   {
@@ -253,18 +253,18 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-25',
     horaInicio: '09:00',
     horaFin: '13:00',
-    capacity: 25,
+    capacity: 30,
     seats: []
   },
 
-  // Seguridad Informática - 2 días
+  // Seguridad Informática - 2 días (TEAMS = 200 butacas)
   {
     id: 'session-13',
     courseId: 'course-6',
     fecha: '2025-09-12',
     horaInicio: '15:00',
     horaFin: '19:00',
-    capacity: 150,
+    capacity: 200,
     seats: []
   },
   {
@@ -273,7 +273,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-13',
     horaInicio: '15:00',
     horaFin: '19:00',
-    capacity: 150,
+    capacity: 200,
     seats: []
   },
 
@@ -298,13 +298,14 @@ export const mockSessions: Session[] = [
   },
 
   // Marketing Digital - 5 días
+  // Marketing Digital - 5 días (TEAMS = 200 butacas)
   {
     id: 'session-17',
     courseId: 'course-8',
     fecha: '2025-09-22',
     horaInicio: '16:00',
     horaFin: '19:00',
-    capacity: 100,
+    capacity: 200,
     seats: []
   },
   {
@@ -313,7 +314,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-23',
     horaInicio: '16:00',
     horaFin: '19:00',
-    capacity: 100,
+    capacity: 200,
     seats: []
   },
   {
@@ -322,7 +323,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-24',
     horaInicio: '16:00',
     horaFin: '19:00',
-    capacity: 100,
+    capacity: 200,
     seats: []
   },
   {
@@ -331,7 +332,7 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-25',
     horaInicio: '16:00',
     horaFin: '19:00',
-    capacity: 100,
+    capacity: 200,
     seats: []
   },
   {
@@ -340,7 +341,103 @@ export const mockSessions: Session[] = [
     fecha: '2025-09-26',
     horaInicio: '16:00',
     horaFin: '19:00',
-    capacity: 100,
+    capacity: 200,
+    seats: []
+  },
+
+  // Análisis de Datos con Python - 5 días (TEAMS = 200 butacas)
+  {
+    id: 'session-22',
+    courseId: 'course-4',
+    fecha: '2025-10-01',
+    horaInicio: '14:00',
+    horaFin: '18:00',
+    capacity: 200,
+    seats: []
+  },
+  {
+    id: 'session-23',
+    courseId: 'course-4',
+    fecha: '2025-10-02',
+    horaInicio: '14:00',
+    horaFin: '18:00',
+    capacity: 200,
+    seats: []
+  },
+  {
+    id: 'session-24',
+    courseId: 'course-4',
+    fecha: '2025-10-03',
+    horaInicio: '14:00',
+    horaFin: '18:00',
+    capacity: 200,
+    seats: []
+  },
+  {
+    id: 'session-25',
+    courseId: 'course-4',
+    fecha: '2025-10-04',
+    horaInicio: '14:00',
+    horaFin: '18:00',
+    capacity: 200,
+    seats: []
+  },
+  {
+    id: 'session-26',
+    courseId: 'course-4',
+    fecha: '2025-10-05',
+    horaInicio: '14:00',
+    horaFin: '18:00',
+    capacity: 200,
+    seats: []
+  },
+
+  // Liderazgo y Comunicación - 3 días (PRESENCIAL = 30 butacas)
+  {
+    id: 'session-27',
+    courseId: 'course-5',
+    fecha: '2025-10-08',
+    horaInicio: '09:00',
+    horaFin: '13:00',
+    capacity: 30,
+    seats: []
+  },
+  {
+    id: 'session-28',
+    courseId: 'course-5',
+    fecha: '2025-10-09',
+    horaInicio: '09:00',
+    horaFin: '13:00',
+    capacity: 30,
+    seats: []
+  },
+  {
+    id: 'session-29',
+    courseId: 'course-5',
+    fecha: '2025-10-10',
+    horaInicio: '09:00',
+    horaFin: '13:00',
+    capacity: 30,
+    seats: []
+  },
+
+  // Técnicas de Presentación - 2 días (PRESENCIAL = 30 butacas)
+  {
+    id: 'session-30',
+    courseId: 'course-7',
+    fecha: '2025-09-18',
+    horaInicio: '14:00',
+    horaFin: '17:00',
+    capacity: 30,
+    seats: []
+  },
+  {
+    id: 'session-31',
+    courseId: 'course-7',
+    fecha: '2025-09-19',
+    horaInicio: '14:00',
+    horaFin: '17:00',
+    capacity: 30,
     seats: []
   }
 ];
