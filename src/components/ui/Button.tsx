@@ -1,5 +1,6 @@
 import React from 'react';
 import { clsx } from 'clsx';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'warning' | 'error' | 'ghost';
@@ -16,6 +17,7 @@ export function Button({
   disabled,
   ...props
 }: ButtonProps) {
+  const theme = useThemeAware();
   return (
     <button
       className={clsx(
@@ -45,8 +47,8 @@ export function Button({
           'bg-error-500 text-text-inverse border-error-500 hover:bg-error-600 hover:border-error-600 hover:-translate-y-0.5 hover:shadow-md':
             variant === 'error',
 
-          // Ghost - Sin fondo, solo texto
-          'bg-transparent text-text-primary border-transparent hover:bg-background-tertiary':
+          // Ghost - Sin fondo, solo texto (con soporte para temas)
+          [`bg-transparent border-transparent hover:${theme.bgSecondary} ${theme.text}`]:
             variant === 'ghost',
 
           // Tamaños con altura mínima uniforme

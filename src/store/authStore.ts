@@ -54,7 +54,25 @@ export const useAuthStore = create<AuthState>()(
       },
       
       logout: () => {
+        logger.info('AuthStore', 'Cerrando sesión de usuario');
+
+        // Limpiar estado de autenticación
         set({ user: null, isAuthenticated: false });
+
+        // Limpiar localStorage (Zustand persist lo maneja automáticamente)
+        // Pero podemos limpiar otros datos si es necesario
+        try {
+          // Limpiar cualquier otro dato de sesión si existe
+          localStorage.removeItem('theme-preference');
+          localStorage.removeItem('user-preferences');
+        } catch (error) {
+          logger.warn('AuthStore', 'Error limpiando localStorage', error);
+        }
+
+        // Forzar recarga de la página para asegurar estado limpio
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 100);
       }
     }),
     {

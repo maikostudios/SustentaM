@@ -8,6 +8,8 @@ import { Button } from '../ui/Button';
 import { EyeIcon, EyeSlashIcon, UserIcon } from '@heroicons/react/24/outline';
 import { logger } from '../../utils/logger';
 import { LogViewer } from '../debug/LogViewer';
+import { formatRUT } from '../../lib/validations';
+import { useThemeAware } from '../../hooks/useTheme';
 
 const loginSchema = z.object({
   usuario: z.string().min(1, 'Usuario requerido'),
@@ -21,6 +23,7 @@ export function LoginForm() {
   const [authError, setAuthError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuthStore();
+  const theme = useThemeAware();
 
   useEffect(() => {
     logger.info('LoginForm', 'Componente LoginForm montado');
@@ -29,10 +32,19 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue,
+    watch
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema)
   });
+
+  // Formateo automático de RUT
+  const handleRutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formatted = formatRUT(value);
+    setValue('usuario', formatted);
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     logger.info('LoginForm', 'Intento de login iniciado', { usuario: data.usuario });
@@ -58,15 +70,15 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background-primary py-12 px-4 sm:px-6 lg:px-8">
+    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${theme.bg}`}>
       <div className="max-w-md w-full space-y-8">
-        {/* Header con tipografía consistente y colores de la nueva paleta */}
+        {/* Header con tipografía consistente y sistema de temas */}
         <div className="text-center">
           <UserIcon className="mx-auto h-12 w-12 text-primary-500" />
-          <h1 className="mt-6 font-sans text-3xl font-bold text-text-primary">
+          <h1 className={`mt-6 font-sans text-3xl font-bold ${theme.text}`}>
             Iniciar Sesión
           </h1>
-          <p className="mt-2 font-sans text-base text-text-secondary">
+          <p className={`mt-2 font-sans text-base ${theme.textSecondary}`}>
             Plataforma de Gestión de Cursos
           </p>
         </div>
@@ -80,8 +92,10 @@ export function LoginForm() {
               autoComplete="username"
               required
               error={errors.usuario?.message}
-              placeholder="Ej: 12345678-5"
-              {...register('usuario')}
+              placeholder="Ej: 12.345.678-5"
+              {...register('usuario', {
+                onChange: handleRutChange
+              })}
             />
 
             <div className="relative">
@@ -108,10 +122,10 @@ export function LoginForm() {
             </div>
           </div>
 
-          {/* Mensaje de error con nueva paleta */}
+          {/* Mensaje de error con sistema de temas */}
           {authError && (
-            <div className="bg-error-50 border border-error-200 rounded p-4" role="alert">
-              <p className="font-sans text-sm text-error-700 font-medium">{authError}</p>
+            <div className="bg-error-50 border border-error-200 rounded p-4 dark:bg-error-900/20 dark:border-error-800" role="alert">
+              <p className="font-sans text-sm text-error-700 dark:text-error-400 font-medium">{authError}</p>
             </div>
           )}
 
@@ -126,16 +140,16 @@ export function LoginForm() {
           </Button>
         </form>
 
-        {/* Información de usuarios de prueba con tipografía consistente */}
+        {/* Información de usuarios de prueba con sistema de temas */}
         <div className="mt-8 text-center">
-          <div className="bg-background-tertiary border border-border-light rounded-lg p-4">
-            <p className="font-sans text-sm font-semibold text-text-primary mb-3">
+          <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4`}>
+            <p className={`font-sans text-sm font-semibold ${theme.text} mb-3`}>
               Usuarios de prueba:
             </p>
-            <div className="space-y-2 font-sans text-xs text-text-secondary">
-              <p><strong className="text-text-primary">Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
-              <p><strong className="text-text-primary">Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
-              <p><strong className="text-text-primary">Usuarios válidos para pruebas:</strong></p>
+            <div className={`space-y-2 font-sans text-xs ${theme.textSecondary}`}>
+              <p><strong className={theme.text}>Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
+              <p><strong className={theme.text}>Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
+              <p><strong className={theme.text}>Usuarios válidos para pruebas:</strong></p>
               <div className="ml-4 space-y-1">
                 <p>• Juan Carlos Pérez González - 12.345.678-5, Clave: user123</p>
                 <p>• María Elena Rodríguez Silva - 98.765.432-5, Clave: user123</p>
