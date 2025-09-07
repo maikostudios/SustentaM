@@ -150,53 +150,107 @@ export function FullCourseCalendar({ onCourseSelect, selectedCourse }: FullCours
       {/* FullCalendar */}
       <div className="p-4">
         <style>{`
+          /* FullCalendar con nueva paleta de colores y tipografía consistente */
           .fc {
-            font-family: inherit;
+            font-family: 'Inter', 'Roboto', system-ui, sans-serif;
           }
+
+          /* Botones con color primario (#0A3D62) */
           .fc-button {
-            background-color: #3B82F6;
-            border-color: #3B82F6;
-            color: white;
+            background-color: #0A3D62 !important;
+            border-color: #0A3D62 !important;
+            color: white !important;
+            font-weight: 600;
+            border-radius: 4px; /* Bordes redondeados de 4px */
+            padding: 12px 24px; /* Espaciado consistente */
+            min-height: 44px; /* Altura mínima uniforme */
+            transition: all 150ms ease-in-out;
+            font-size: 16px; /* Texto base */
           }
+
           .fc-button:hover {
-            background-color: #2563EB;
-            border-color: #2563EB;
+            background-color: #083049 !important;
+            border-color: #083049 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
           }
+
+          .fc-button:focus {
+            outline: 2px solid #0A3D62 !important;
+            outline-offset: 2px;
+          }
+
           .fc-button-primary:not(:disabled):active,
           .fc-button-primary:not(:disabled).fc-button-active {
-            background-color: #1D4ED8;
-            border-color: #1D4ED8;
+            background-color: #062338 !important;
+            border-color: #062338 !important;
           }
+
+          /* Botón "Hoy" con color muted */
           .fc-today-button {
-            background-color: #6B7280;
-            border-color: #6B7280;
+            background-color: #6B7280 !important;
+            border-color: #6B7280 !important;
           }
+
           .fc-today-button:hover {
-            background-color: #4B5563;
-            border-color: #4B5563;
+            background-color: #4B5563 !important;
+            border-color: #4B5563 !important;
           }
+
+          /* Eventos con bordes redondeados de 4px */
           .fc-daygrid-event {
-            border-radius: 6px;
+            border-radius: 4px;
             border-left-width: 4px;
+            font-size: 14px;
+            padding: 2px 4px;
           }
+
           .fc-event-title {
             font-weight: 500;
+            font-size: 14px;
           }
+
+          /* Cabeceras con color primario */
           .fc-col-header-cell {
-            background-color: #F9FAFB;
+            background-color: #0A3D62 !important;
+            color: white !important;
             font-weight: 600;
-            color: #374151;
+            padding: 12px !important;
+            border-color: #083049 !important;
           }
+
+          /* Números de días con tipografía consistente */
           .fc-daygrid-day-number {
             color: #111827;
             font-weight: 500;
+            padding: 8px;
+            font-size: 16px;
           }
+
+          /* Día actual con color primario suave */
           .fc-day-today {
-            background-color: #EFF6FF;
+            background-color: #f0f9ff !important;
           }
+
           .fc-day-today .fc-daygrid-day-number {
-            color: #2563EB;
+            color: #0A3D62;
             font-weight: 700;
+          }
+
+          /* Celdas uniformes y hover states */
+          .fc-daygrid-day {
+            min-height: 120px;
+            transition: background-color 150ms ease-in-out;
+          }
+
+          .fc-daygrid-day:hover {
+            background-color: #F3F4F6;
+          }
+
+          /* Bordes consistentes */
+          .fc-theme-standard td,
+          .fc-theme-standard th {
+            border-color: #E5E7EB;
           }
         `}</style>
         <FullCalendar

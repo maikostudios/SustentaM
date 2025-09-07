@@ -14,20 +14,36 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const helperId = `${inputId}-helper`;
 
     return (
-      <div className="space-y-1">
+      <div className="space-y-2">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+          <label
+            htmlFor={inputId}
+            className="block font-sans text-sm font-medium text-text-primary dark:text-dark-primary"
+          >
             {label}
-            {props.required && <span className="text-red-600 ml-1">*</span>}
+            {props.required && (
+              <span className="text-error-500 ml-1" aria-label="Campo requerido">*</span>
+            )}
           </label>
         )}
         <input
           ref={ref}
           id={inputId}
           className={clsx(
-            'block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sustenta-blue focus:border-sustenta-blue sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 dark:border-gray-600',
+            // Base styles - altura mínima uniforme, padding consistente, bordes redondeados 4px
+            'block w-full min-h-[2.75rem] px-4 py-3 font-sans text-base',
+            'border-2 rounded border-border-light',
+            'bg-background-secondary text-text-primary',
+            'placeholder-text-muted',
+            'transition-all duration-150 ease-in-out',
+            // Focus states accesibles
+            'focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20',
+            // Dark mode
+            'dark:bg-dark-secondary dark:text-dark-primary dark:border-dark-border',
+            'dark:placeholder-dark-muted dark:focus:border-primary-400',
             {
-              'border-red-500 focus:ring-red-500 focus:border-red-500': error
+              // Error state - borde rojo
+              'border-error-500 focus:border-error-500 focus:ring-error-500/20': error
             },
             className
           )}
@@ -39,12 +55,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <p id={errorId} className="text-sm text-red-600 dark:text-red-400 font-medium" role="alert">
+          <p
+            id={errorId}
+            className="font-sans text-sm text-error-500 dark:text-error-400 font-medium"
+            role="alert"
+            aria-live="polite"
+          >
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={helperId} className="text-sm text-gray-600 dark:text-gray-400">
+          <p
+            id={helperId}
+            className="font-sans text-sm text-text-muted dark:text-dark-muted"
+          >
             {helperText}
           </p>
         )}

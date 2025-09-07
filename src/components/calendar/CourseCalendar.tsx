@@ -13,6 +13,8 @@ import {
 import { MatrixCalendar } from './MatrixCalendar';
 import { CalendarViewSelector, CalendarViewType } from './CalendarViewSelector';
 import { logger } from '../../utils/logger';
+import { isHoliday, getHolidayName, isWeekend, isNonWorkingDay } from '../../utils/holidays';
+import { useMenuContext } from '../../contexts/MenuContext';
 
 interface CourseCalendarProps {
   onSelectSession: (session: Session, course: Course) => void;
@@ -22,6 +24,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewType, setViewType] = useState<CalendarViewType>('traditional');
   const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
+  const { isMenuCollapsed } = useMenuContext();
 
   useEffect(() => {
     logger.info('CourseCalendar', 'Componente CourseCalendar montado');
@@ -136,59 +139,76 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
           sessions={sessions}
           currentDate={currentDate}
           onSessionSelect={onSelectSession}
+          onNavigateMonth={navigateMonth}
         />
       ) : (
         <>
           <div className="grid grid-cols-7 gap-1 mb-4">
             {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
-              <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+              <div key={day} className="p-3 text-center text-sm font-medium text-gray-700 bg-gray-50 rounded-md">
                 {day}
               </div>
             ))}
           </div>
 
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-2">
         {days.map((date, index) => {
           if (!date) {
-            return <div key={index} className="p-2 h-24" />;
+            return <div key={index} className="p-3 min-h-[140px]" />;
           }
 
           const sessionsForDate = getSessionsForDate(date);
           const isToday = isSameDay(date, new Date());
+          const holidayName = getHolidayName(date);
+          const isNonWorking = isNonWorkingDay(date);
 
           return (
             <div
               key={date.toISOString()}
-              className={`p-2 h-24 border border-gray-200 ${
-                isToday ? 'bg-blue-50 border-blue-300' : 'hover:bg-gray-50'
+              className={`p-3 min-h-[140px] border-2 rounded-lg transition-all duration-200 ${
+                isNonWorking
+                  ? 'bg-red-50 border-red-200'
+                  : isToday
+                    ? 'bg-blue-50 border-blue-300 ring-2 ring-blue-200'
+                    : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
               }`}
+              title={holidayName || undefined}
             >
-              <div className={`text-sm font-medium mb-1 ${
-                isToday ? 'text-blue-600' : 'text-gray-900'
+              <div className={`text-sm font-semibold mb-3 ${
+                isNonWorking
+                  ? 'text-red-700'
+                  : isToday
+                    ? 'text-blue-700'
+                    : 'text-gray-900'
               }`}>
                 {date.getDate()}
+                {holidayName && (
+                  <div className="text-xs text-red-600 font-normal mt-1">
+                    {holidayName}
+                  </div>
+                )}
               </div>
-              
-              <div className="space-y-1">
+
+              <div className="space-y-2">
                 {sessionsForDate.slice(0, 2).map(session => {
                   const course = getCourseForSession(session);
                   if (!course) return null;
-                  
+
                   return (
                     <button
                       key={session.id}
                       onClick={() => onSelectSession(session, course)}
-                      className={`w-full text-xs p-1 rounded text-white text-left truncate transition-colors ${getModalityColor(course.modalidad)}`}
+                      className={`w-full text-xs p-2 rounded-md text-white text-left transition-all duration-200 hover:scale-105 hover:shadow-md ${getModalityColor(course.modalidad)}`}
                       title={`${course.nombre} - ${course.modalidad}`}
                       aria-label={`Seleccionar sesión ${course.nombre} del ${session.fecha}`}
                     >
-                      <div className="truncate">{course.codigo}</div>
-                      <div className="text-xs opacity-75 truncate">{course.nombre}</div>
+                      <div className="font-medium truncate">{course.codigo}</div>
+                      <div className="text-xs opacity-90 truncate mt-1">{course.nombre}</div>
                     </button>
                   );
                 })}
                 {sessionsForDate.length > 2 && (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 text-center py-1 bg-gray-50 rounded">
                     +{sessionsForDate.length - 2} más
                   </div>
                 )}

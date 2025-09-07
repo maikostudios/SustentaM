@@ -1,210 +1,594 @@
-/* 
- * SUSTENTA - Paleta de Colores Oficial
- * Basada en la identidad visual corporativa
+/*
+ * SUSTENTA - Design System Tokens
+ * Basado en las directrices de UI/UX y paleta de colores actualizada
+ * Cumple con WCAG 2.2 AA para accesibilidad
  */
 
 :root {
-  /* Colores principales SUSTENTA */
-  --sustenta-blue: #007fd1;
-  --sustenta-purple: #443f9a;
-  --sustenta-gray: #f1f2f2;
-  --sustenta-light-blue: #b7ddff;
-  --sustenta-dark-blue: #005a9c;
-  --sustenta-light-purple: #6b5bb3;
-  
-  /* Variables de tema principal */
-  --color-primary: var(--sustenta-blue);
-  --color-secondary: var(--sustenta-purple);
-  --color-accent: var(--sustenta-light-blue);
-  --color-background: #ffffff;
-  --color-surface: var(--sustenta-gray);
-  --color-text: #1a1a1a;
-  --color-text-secondary: #666666;
-  --color-border: #e0e0e0;
-  
-  /* Estados interactivos */
-  --color-hover: var(--sustenta-dark-blue);
-  --color-focus: var(--sustenta-light-purple);
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  
-  /* Sombras con colores SUSTENTA */
-  --shadow-primary: 0 4px 6px -1px rgba(0, 127, 209, 0.1);
-  --shadow-secondary: 0 4px 6px -1px rgba(68, 63, 154, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 127, 209, 0.1);
+  /* === PALETA DE COLORES PRINCIPAL === */
+
+  /* Primario - Azul oscuro para navegación y botones principales */
+  --color-primary: #0A3D62;
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0A3D62;
+  --color-primary-600: #083049;
+  --color-primary-700: #062338;
+  --color-primary-800: #041829;
+  --color-primary-900: #020f1a;
+
+  /* Secundario - Verde para éxito y aprobados */
+  --color-secondary: #4CAF50;
+  --color-secondary-50: #f0fdf4;
+  --color-secondary-100: #dcfce7;
+  --color-secondary-200: #bbf7d0;
+  --color-secondary-300: #86efac;
+  --color-secondary-400: #4ade80;
+  --color-secondary-500: #4CAF50;
+  --color-secondary-600: #3d8b40;
+  --color-secondary-700: #2e6930;
+  --color-secondary-800: #1f4922;
+  --color-secondary-900: #123016;
+
+  /* Advertencia - Naranja para alertas y capacidad */
+  --color-warning: #F57C00;
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #F57C00;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* Error - Rojo para validaciones y errores */
+  --color-error: #D32F2F;
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #D32F2F;
+  --color-error-600: #b91c1c;
+  --color-error-700: #991b1b;
+  --color-error-800: #7f1d1d;
+  --color-error-900: #6b1d1d;
+
+  /* === FONDOS Y SUPERFICIES === */
+  --color-background-primary: #F9FAFB;   /* Fondo principal */
+  --color-background-secondary: #FFFFFF; /* Cards y modales */
+  --color-background-tertiary: #F3F4F6;  /* Fondo alternativo */
+
+  /* === TEXTOS CON JERARQUÍA === */
+  --color-text-primary: #111827;   /* Texto principal */
+  --color-text-secondary: #6B7280; /* Texto secundario */
+  --color-text-muted: #9CA3AF;     /* Texto deshabilitado */
+  --color-text-inverse: #FFFFFF;   /* Texto sobre fondos oscuros */
+
+  /* === BORDES === */
+  --color-border-light: #E5E7EB;
+  --color-border: #D1D5DB;
+  --color-border-dark: #9CA3AF;
+
+  /* === TIPOGRAFÍA === */
+  --font-family-sans: 'Inter', 'Roboto', system-ui, sans-serif;
+
+  /* Escala de tamaños según directrices */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px - texto base */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px - h3 */
+  --font-size-2xl: 1.5rem;    /* 24px - h2 */
+  --font-size-3xl: 2rem;      /* 32px - h1 */
+
+  /* Pesos de fuente */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === ESPACIADO (escala de 4px) === */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-12: 3rem;     /* 48px */
+
+  /* === BORDES REDONDEADOS === */
+  --border-radius-sm: 0.125rem;  /* 2px */
+  --border-radius: 0.25rem;      /* 4px - estándar */
+  --border-radius-md: 0.375rem;  /* 6px */
+  --border-radius-lg: 0.5rem;    /* 8px */
+  --border-radius-xl: 0.75rem;   /* 12px */
+  --border-radius-2xl: 1rem;     /* 16px */
+
+  /* === SOMBRAS SUTILES (niveles 1-3) === */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* === TRANSICIONES === */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
 }
 
-/* Tema oscuro con adaptación SUSTENTA */
+/* === MODO OSCURO === */
 .dark {
-  --color-primary: var(--sustenta-light-blue);
-  --color-secondary: var(--sustenta-light-purple);
-  --color-accent: var(--sustenta-blue);
-  --color-background: #0f172a;
-  --color-surface: #1e293b;
-  --color-text: #f8fafc;
+  --color-primary: #38bdf8;
+  --color-secondary: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+
+  --color-background-primary: #0f172a;
+  --color-background-secondary: #1e293b;
+  --color-background-tertiary: #334155;
+
+  --color-text-primary: #f8fafc;
   --color-text-secondary: #e2e8f0;
-  --color-border: #334155;
-  
-  --color-hover: var(--sustenta-blue);
-  --color-focus: var(--sustenta-purple);
+  --color-text-muted: #94a3b8;
+  --color-text-inverse: #111827;
+
+  --color-border-light: #334155;
+  --color-border: #475569;
+  --color-border-dark: #64748b;
 }
 
-/* Clases utilitarias SUSTENTA */
-.bg-sustenta-primary {
-  background-color: var(--sustenta-blue);
+/* === CLASES UTILITARIAS === */
+
+/* Fondos */
+.bg-primary {
+  background-color: var(--color-primary);
 }
 
-.bg-sustenta-secondary {
-  background-color: var(--sustenta-purple);
+.bg-secondary {
+  background-color: var(--color-secondary);
 }
 
-.bg-sustenta-surface {
-  background-color: var(--sustenta-gray);
+.bg-warning {
+  background-color: var(--color-warning);
 }
 
-.text-sustenta-primary {
-  color: var(--sustenta-blue);
+.bg-error {
+  background-color: var(--color-error);
 }
 
-.text-sustenta-secondary {
-  color: var(--sustenta-purple);
+.bg-surface {
+  background-color: var(--color-background-secondary);
 }
 
-.border-sustenta-primary {
-  border-color: var(--sustenta-blue);
+/* Textos */
+.text-primary {
+  color: var(--color-primary);
 }
 
-.border-sustenta-secondary {
-  border-color: var(--sustenta-purple);
+.text-secondary {
+  color: var(--color-secondary);
 }
 
-/* Gradientes corporativos */
-.bg-gradient-sustenta {
-  background: linear-gradient(135deg, var(--sustenta-blue) 0%, var(--sustenta-purple) 100%);
+.text-warning {
+  color: var(--color-warning);
 }
 
-.bg-gradient-sustenta-light {
-  background: linear-gradient(135deg, var(--sustenta-light-blue) 0%, var(--sustenta-light-purple) 100%);
+.text-error {
+  color: var(--color-error);
 }
 
-/* Botones con estilo SUSTENTA */
-.btn-sustenta-primary {
-  background-color: var(--sustenta-blue);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
+.text-muted {
+  color: var(--color-text-muted);
 }
 
-.btn-sustenta-primary:hover {
-  background-color: var(--sustenta-dark-blue);
+/* Bordes */
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
+}
+
+.border-light {
+  border-color: var(--color-border-light);
+}
+
+/* === COMPONENTES DE BOTONES === */
+
+/* Botón primario */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: 2px solid var(--color-primary);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  min-height: 2.75rem; /* 44px - altura mínima uniforme */
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-600);
+  border-color: var(--color-primary-600);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
 }
 
-.btn-sustenta-secondary {
-  background-color: var(--sustenta-purple);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.btn-sustenta-secondary:hover {
-  background-color: var(--sustenta-light-purple);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-secondary);
-}
-
-.btn-sustenta-outline {
-  background-color: transparent;
-  color: var(--sustenta-blue);
-  border: 2px solid var(--sustenta-blue);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.btn-sustenta-outline:hover {
-  background-color: var(--sustenta-blue);
-  color: white;
-}
-
-/* Cards con estilo SUSTENTA */
-.card-sustenta {
-  background: white;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-primary);
-  border: 1px solid var(--sustenta-gray);
-  transition: all 0.3s ease;
-}
-
-.card-sustenta:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.dark .card-sustenta {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-/* Headers con gradiente SUSTENTA */
-.header-sustenta {
-  background: var(--sustenta-blue);
-  color: white;
-  padding: 2rem;
-  border-radius: 1rem 1rem 0 0;
-}
-
-.header-sustenta-gradient {
-  background: linear-gradient(135deg, var(--sustenta-blue) 0%, var(--sustenta-purple) 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 1rem 1rem 0 0;
-}
-
-/* Animaciones suaves */
-.transition-sustenta {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Focus states accesibles */
-.focus-sustenta:focus {
-  outline: 2px solid var(--sustenta-blue);
+.btn-primary:focus {
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* Hexágono decorativo (inspirado en el logo) */
-.hexagon-sustenta {
-  width: 60px;
-  height: 52px;
-  background: var(--sustenta-blue);
-  position: relative;
-  margin: 26px 0;
+.btn-primary:disabled {
+  background-color: var(--color-text-muted);
+  border-color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.hexagon-sustenta:before,
-.hexagon-sustenta:after {
-  content: "";
+/* Botón secundario */
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text-inverse);
+  border: 2px solid var(--color-secondary);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  min-height: 2.75rem;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-600);
+  border-color: var(--color-secondary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Botón outline */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  min-height: 2.75rem;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Botón de advertencia */
+.btn-warning {
+  background-color: var(--color-warning);
+  color: var(--color-text-inverse);
+  border: 2px solid var(--color-warning);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  min-height: 2.75rem;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.btn-warning:hover {
+  background-color: var(--color-warning-600);
+  border-color: var(--color-warning-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Botón de error */
+.btn-error {
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
+  border: 2px solid var(--color-error);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  min-height: 2.75rem;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.btn-error:hover {
+  background-color: var(--color-error-600);
+  border-color: var(--color-error-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* === COMPONENTES DE CARDS === */
+
+.card {
+  background-color: var(--color-background-secondary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-6);
+  transition: var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  margin: calc(-1 * var(--spacing-6)) calc(-1 * var(--spacing-6)) var(--spacing-6) calc(-1 * var(--spacing-6));
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3 {
+  margin: 0;
+  color: inherit;
+}
+
+/* === COMPONENTES DE FORMULARIOS === */
+
+.form-group {
+  margin-bottom: var(--spacing-4);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.form-input {
+  width: 100%;
+  min-height: 2.75rem; /* 44px - altura uniforme */
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  transition: var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.1);
+}
+
+.form-input:invalid {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  display: block;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin-top: var(--spacing-1);
+}
+
+.form-help {
+  display: block;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-1);
+}
+
+/* === COMPONENTES DE TABLAS === */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  background-color: var(--color-background-secondary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table th {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+  padding: var(--spacing-4) var(--spacing-6);
+  border-bottom: 2px solid var(--color-primary-600);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th.text-right {
+  text-align: right;
+}
+
+.table td {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-bottom: 1px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.table td.text-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Zebra striping */
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-background-primary);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-primary-50);
+}
+
+/* === TIPOGRAFÍA === */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+h1 {
+  font-size: var(--font-size-3xl); /* 32px */
+}
+
+h2 {
+  font-size: var(--font-size-2xl); /* 24px */
+}
+
+h3 {
+  font-size: var(--font-size-xl); /* 20px */
+}
+
+p, body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base); /* 16px */
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.text-small {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* === ESTADOS Y ALERTAS === */
+
+.alert {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--border-radius);
+  border: 1px solid;
+  margin-bottom: var(--spacing-4);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+}
+
+.alert-success {
+  background-color: var(--color-secondary-50);
+  border-color: var(--color-secondary-200);
+  color: var(--color-secondary-800);
+}
+
+.alert-warning {
+  background-color: var(--color-warning-50);
+  border-color: var(--color-warning-200);
+  color: var(--color-warning-800);
+}
+
+.alert-error {
+  background-color: var(--color-error-50);
+  border-color: var(--color-error-200);
+  color: var(--color-error-800);
+}
+
+/* === UTILIDADES DE ACCESIBILIDAD === */
+
+.sr-only {
   position: absolute;
-  width: 0;
-  border-left: 30px solid transparent;
-  border-right: 30px solid transparent;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.hexagon-sustenta:before {
-  bottom: 100%;
-  border-bottom: 26px solid var(--sustenta-blue);
+.focus-visible:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
-.hexagon-sustenta:after {
-  top: 100%;
-  border-top: 26px solid var(--sustenta-blue);
+/* === RESPONSIVE === */
+
+@media (max-width: 768px) {
+  .table {
+    font-size: var(--font-size-sm);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  h2 {
+    font-size: var(--font-size-xl);
+  }
+
+  .card {
+    padding: var(--spacing-4);
+  }
 }

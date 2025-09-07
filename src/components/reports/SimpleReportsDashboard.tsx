@@ -230,30 +230,34 @@ export function SimpleReportsDashboard() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <ChartBarIcon className="w-8 h-8 mr-3" />
-            Dashboard de Reportes
-          </h2>
-          <p className="text-gray-600 mt-1">Análisis y estadísticas de cursos y participantes</p>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          <Button variant="secondary" size="sm">
-            <FunnelIcon className="w-4 h-4 mr-2" />
-            Filtros
-          </Button>
-          <Button onClick={() => exportReport('excel')} variant="secondary" size="sm">
-            <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
-            Excel
-          </Button>
-          <Button onClick={() => exportReport('pdf')} variant="primary" size="sm">
-            <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
-            PDF
-          </Button>
+    <div className="space-y-8">
+      {/* Header con tipografía consistente y nueva paleta */}
+      <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="font-sans text-3xl font-bold text-text-primary flex items-center">
+              <ChartBarIcon className="w-8 h-8 mr-3 text-primary-500" />
+              Dashboard de Reportes
+            </h1>
+            <p className="font-sans text-base text-text-secondary mt-2">
+              Análisis y estadísticas de cursos y participantes
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <Button variant="outline" size="sm">
+              <FunnelIcon className="w-4 h-4 mr-2" />
+              Filtros
+            </Button>
+            <Button onClick={() => exportReport('excel')} variant="secondary" size="sm">
+              <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
+              Excel
+            </Button>
+            <Button onClick={() => exportReport('pdf')} variant="primary" size="sm">
+              <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
+              PDF
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -274,38 +278,47 @@ export function SimpleReportsDashboard() {
 
       {/* Gráficos y tablas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Estadísticas por curso */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Rendimiento por Curso</h3>
-          <div className="space-y-4">
+        {/* Estadísticas por curso con nueva paleta */}
+        <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
+          <h3 className="font-sans text-xl font-bold text-text-primary mb-6">Rendimiento por Curso</h3>
+          <div className="space-y-6">
             {reportData.cursoStats.map((curso, index) => (
-              <div key={index} className="border-b border-gray-100 pb-4 last:border-b-0">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-gray-900">{curso.curso}</h4>
-                  <span className="text-sm text-gray-500">{curso.participantes} participantes</span>
+              <div key={index} className="border-b border-border-light pb-6 last:border-b-0">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-sans text-base font-semibold text-text-primary">{curso.curso}</h4>
+                  <span className="font-sans text-sm text-text-muted bg-background-tertiary px-3 py-1 rounded">
+                    {curso.participantes} participantes
+                  </span>
                 </div>
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-3 gap-6 text-sm">
                   <div>
-                    <span className="text-gray-600">Aprobados:</span>
-                    <span className="ml-1 font-medium text-green-600">
+                    <span className="font-sans text-text-secondary">Aprobados:</span>
+                    <span className="ml-2 font-sans font-semibold text-secondary-600">
                       {curso.aprobados}/{curso.participantes}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-600">Promedio:</span>
-                    <span className="ml-1 font-medium">{curso.promedio}</span>
+                    <span className="font-sans text-text-secondary">Promedio:</span>
+                    <span className="ml-2 font-sans font-semibold text-text-primary">{curso.promedio}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">Asistencia:</span>
-                    <span className="ml-1 font-medium">{curso.asistencia}%</span>
+                    <span className="font-sans text-text-secondary">Asistencia:</span>
+                    <span className="ml-2 font-sans font-semibold text-text-primary">{curso.asistencia}%</span>
                   </div>
                 </div>
-                <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full" 
+                <div className="mt-4">
+                  <div className="w-full bg-background-tertiary rounded-full h-3">
+                    <div
+                      className="bg-secondary-500 h-3 rounded-full transition-all duration-300"
                       style={{ width: `${(curso.aprobados / curso.participantes) * 100}%` }}
                     ></div>
+                  </div>
+                  <div className="flex justify-between mt-2 text-xs text-text-muted">
+                    <span>0%</span>
+                    <span className="font-semibold text-secondary-600">
+                      {Math.round((curso.aprobados / curso.participantes) * 100)}% aprobación
+                    </span>
+                    <span>100%</span>
                   </div>
                 </div>
               </div>
@@ -313,36 +326,47 @@ export function SimpleReportsDashboard() {
           </div>
         </div>
 
-        {/* Estadísticas por contratista */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Rendimiento por Contratista</h3>
-          <div className="space-y-4">
+        {/* Estadísticas por contratista con nueva paleta */}
+        <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
+          <h3 className="font-sans text-xl font-bold text-text-primary mb-6">Rendimiento por Contratista</h3>
+          <div className="space-y-6">
             {reportData.contratistaStats.map((contratista, index) => (
-              <div key={index} className="border-b border-gray-100 pb-4 last:border-b-0">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-gray-900">{contratista.nombre}</h4>
-                  <span className={`text-sm font-medium px-2 py-1 rounded ${
-                    contratista.tasa >= 85 ? 'bg-green-100 text-green-800' : 
-                    contratista.tasa >= 70 ? 'bg-yellow-100 text-yellow-800' : 
-                    'bg-red-100 text-red-800'
+              <div key={index} className="border-b border-border-light pb-6 last:border-b-0">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-sans text-base font-semibold text-text-primary">{contratista.nombre}</h4>
+                  <span className={`font-sans text-sm font-semibold px-3 py-1 rounded ${
+                    contratista.tasa >= 85 ? 'bg-secondary-100 text-secondary-800' :
+                    contratista.tasa >= 70 ? 'bg-warning-100 text-warning-800' :
+                    'bg-error-100 text-error-800'
                   }`}>
                     {contratista.tasa}%
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between font-sans text-sm text-text-secondary mb-3">
                   <span>{contratista.participantes} participantes</span>
                   <span>{contratista.aprobados} aprobados</span>
                 </div>
-                <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full ${
-                        contratista.tasa >= 85 ? 'bg-green-500' : 
-                        contratista.tasa >= 70 ? 'bg-yellow-500' : 
-                        'bg-red-500'
+                <div className="mt-4">
+                  <div className="w-full bg-background-tertiary rounded-full h-3">
+                    <div
+                      className={`h-3 rounded-full transition-all duration-300 ${
+                        contratista.tasa >= 85 ? 'bg-secondary-500' :
+                        contratista.tasa >= 70 ? 'bg-warning-500' :
+                        'bg-error-500'
                       }`}
                       style={{ width: `${contratista.tasa}%` }}
                     ></div>
+                  </div>
+                  <div className="flex justify-between mt-2 text-xs text-text-muted">
+                    <span>0%</span>
+                    <span className={`font-semibold ${
+                      contratista.tasa >= 85 ? 'text-secondary-600' :
+                      contratista.tasa >= 70 ? 'text-warning-600' :
+                      'text-error-600'
+                    }`}>
+                      {contratista.tasa}% aprobación
+                    </span>
+                    <span>100%</span>
                   </div>
                 </div>
               </div>

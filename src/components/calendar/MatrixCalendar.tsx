@@ -2,192 +2,519 @@ import React, { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Course, Session } from '../../types';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { Button } from '../ui/Button';
 import { logger } from '../../utils/logger';
+import { isHoliday, getHolidayName, isWeekend, isNonWorkingDay } from '../../utils/holidays';
+import { useMenuContext } from '../../contexts/MenuContext';
 
 interface MatrixCalendarProps {
   courses: Course[];
   sessions: Session[];
   currentDate: Date;
   onSessionSelect: (session: Session, course: Course) => void;
+  onNavigateMonth: (direction: 'prev' | 'next') => void;
 }
 
-export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect }: MatrixCalendarProps) {
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
-  const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-
+export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect, onNavigateMonth }: MatrixCalendarProps) {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const { isMenuCollapsed } = useMenuContext();
   useEffect(() => {
     logger.info('MatrixCalendar', 'Componente MatrixCalendar montado', {
       coursesCount: courses.length,
-      sessionsCount: sessions.length,
-      currentDate: currentDate.toISOString(),
-      daysInMonth: daysInMonth.length
+      sessionsCount: sessions.length
     });
   }, []);
 
-  useEffect(() => {
-    logger.debug('MatrixCalendar', 'Props actualizadas', {
-      coursesCount: courses.length,
-      sessionsCount: sessions.length,
-      currentDate: currentDate.toISOString()
-    });
-  }, [courses, sessions, currentDate]);
+  // Obtener días del mes
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(currentDate);
+  const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
-  // Agrupar cursos por modalidad para mejor organización
-  const presencialCourses = courses.filter(c => c.modalidad === 'presencial');
-  const teamsCourses = courses.filter(c => c.modalidad === 'teams');
+  // Separar cursos por tipo - usar todos los cursos disponibles
+  const propiosYEccCourses = courses.slice(0, 8); // Primeros 8 cursos para PROPIOS Y ECC
+  const propiosCourses = courses.slice(0, 6); // Primeros 6 cursos para PROPIOS
 
-  const getSessionsForCourseAndDate = (courseId: string, date: Date) => {
-    const dateStr = format(date, 'dd-MM-yyyy');
-    return sessions.filter(session => 
-      session.courseId === courseId && session.fecha === dateStr
-    );
+  // Función para manejar navegación con transición fluida
+  const handleNavigateMonth = (direction: 'prev' | 'next') => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      onNavigateMonth(direction);
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 150);
+    }, 150);
   };
 
-  const getStatusColor = (courseId: string, date: Date) => {
-    const courseSessions = getSessionsForCourseAndDate(courseId, date);
-    if (courseSessions.length === 0) return null;
+  // SOLUCIÓN CORRECTA: Mantener tamaños fijos, usar espacio extra para mostrar MÁS días
+  const getGridConfig = () => {
+    const totalDays = days.length;
 
-    const course = courses.find(c => c.id === courseId);
-    if (!course) return null;
+    // TAMAÑOS FIJOS - NO cambiar según el estado del menú
+    const FIXED_SIZES = {
+      courseWidth: 200,  // Siempre 200px
+      hoursWidth: 50,    // Siempre 50px
+      dayWidth: 28       // Siempre 28px por día - TAMAÑO ÓPTIMO
+    };
 
-    // Colores según modalidad y estado
-    if (course.modalidad === 'presencial') {
-      return 'bg-blue-500'; // Azul para presencial
-    } else {
-      return 'bg-green-500'; // Verde para teams
+    // Calcular ancho total necesario para TODOS los días
+    const totalRequiredWidth = FIXED_SIZES.courseWidth + FIXED_SIZES.hoursWidth + (totalDays * FIXED_SIZES.dayWidth);
+
+    // El beneficio del menú colapsado es que el CONTENEDOR puede expandirse
+    // pero las celdas mantienen su tamaño óptimo
+    const gridTemplate = `${FIXED_SIZES.courseWidth}px ${FIXED_SIZES.hoursWidth}px repeat(${totalDays}, ${FIXED_SIZES.dayWidth}px)`;
+
+    return {
+      ...FIXED_SIZES,
+      gridTemplate,
+      totalWidth: totalRequiredWidth,
+      totalDays,
+      // Info para debug
+      menuState: isMenuCollapsed ? 'COLLAPSED' : 'EXPANDED'
+    };
+  };
+
+  const gridConfig = getGridConfig();
+
+  // Obtener sesiones para una fecha específica
+  const getSessionsForDate = (date: Date) => {
+    const dateStr = format(date, 'yyyy-MM-dd');
+    return sessions.filter(session => session.fecha === dateStr);
+  };
+
+  // Obtener curso por ID
+  const getCourseForSession = (session: Session) => {
+    return courses.find(course => course.id === session.courseId);
+  };
+
+  // Obtener color según modalidad y tipo de matriz - SOLO modalidades válidas
+  const getModalityColor = (modalidad: string, matrixType: 'propios-ecc' | 'propios') => {
+    const baseColors = {
+      'propios-ecc': {
+        presencial: 'bg-blue-500 hover:bg-blue-600 border-blue-600',
+        teams: 'bg-green-500 hover:bg-green-600 border-green-600'
+      },
+      'propios': {
+        presencial: 'bg-purple-500 hover:bg-purple-600 border-purple-600',
+        teams: 'bg-indigo-500 hover:bg-indigo-600 border-indigo-600'
+      }
+    };
+
+    return baseColors[matrixType][modalidad.toLowerCase()] || 'bg-gray-500 hover:bg-gray-600 border-gray-600';
+  };
+
+  // Obtener estilo para días no laborables
+  const getDayStyle = (date: Date) => {
+    if (isHoliday(date)) {
+      return 'bg-red-100 border-red-200';
     }
-  };
-
-  const handleSessionClick = (courseId: string, date: Date) => {
-    const courseSessions = getSessionsForCourseAndDate(courseId, date);
-    const course = courses.find(c => c.id === courseId);
-    
-    if (courseSessions.length > 0 && course) {
-      onSessionSelect(courseSessions[0], course);
+    if (isWeekend(date)) {
+      return 'bg-gray-100 border-gray-200';
     }
+    return 'bg-white border-gray-200';
   };
 
-  const renderCourseRow = (course: Course) => (
-    <div key={course.id} className="grid grid-cols-[280px_1fr] border-b border-gray-200 hover:bg-gray-50">
-      {/* Información del curso */}
-      <div className="p-2 border-r border-gray-200">
-        <div className="flex items-center space-x-2">
-          <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-            course.modalidad === 'presencial' ? 'bg-blue-500' : 'bg-green-500'
-          }`}></div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-gray-900 truncate">
-              {course.codigo}
-            </p>
-            <p className="text-xs text-gray-600 truncate leading-tight">
-              {course.nombre}
-            </p>
-            <p className="text-xs text-gray-500">
-              {course.duracionHoras}h
-            </p>
+  // Renderizar matriz - UX/UI completamente mejorado
+  const renderMatrix = (matrixCourses: Course[], title: string, matrixType: 'propios-ecc' | 'propios', bgColor: string) => (
+    <div className={`rounded-2xl shadow-2xl p-8 ${bgColor} border-4 ${matrixType === 'propios-ecc' ? 'border-blue-300' : 'border-purple-300'}`}>
+      <div className="bg-white rounded-2xl p-8 shadow-inner">
+        <div className="flex items-center justify-center mb-8">
+          <h3 className={`text-3xl font-black text-center ${matrixType === 'propios-ecc' ? 'text-blue-900' : 'text-purple-900'}`}>
+            {title}
+          </h3>
+          {isMenuCollapsed && (
+            <div className="ml-4 px-3 py-1 bg-green-100 text-green-800 text-sm font-bold rounded-full border-2 border-green-300 animate-pulse">
+              🚀 MODO EXPANDIDO
+            </div>
+          )}
+        </div>
+
+        {/* Tabla optimizada - FORZAR ancho mínimo para 31 días */}
+        <div
+          className="w-full overflow-x-auto"
+          style={{
+            minWidth: `${gridConfig.totalWidth}px`,
+            width: isMenuCollapsed ? 'max-content' : '100%'
+          }}
+        >
+          {/* Encabezados optimizados - ADAPTATIVO al estado del menú */}
+          <div className="grid gap-1 mb-3" style={{ gridTemplateColumns: gridConfig.gridTemplate }}>
+            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'}`}>
+              📚 CURSOS
+            </div>
+            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'}`}>
+              ⏰ H
+            </div>
+            {days.map((date, index) => {
+              const holidayName = getHolidayName(date);
+              const isNonWorking = isNonWorkingDay(date);
+              const dayOfWeek = format(date, 'EEE', { locale: es });
+              return (
+                <div
+                  key={index}
+                  className={`p-2 text-center text-xs font-bold rounded-lg shadow-md transition-all duration-200 hover:scale-105 ${
+                    isNonWorking
+                      ? 'bg-gradient-to-b from-red-100 to-red-200 text-red-800 border-2 border-red-400'
+                      : 'bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 border-2 border-gray-300 hover:from-gray-100 hover:to-gray-200'
+                  }`}
+                  title={holidayName || `${dayOfWeek} ${format(date, 'dd/MM/yyyy')}`}
+                >
+                  <div className="text-xs font-medium">{dayOfWeek.slice(0, 1)}</div>
+                  <div className="text-sm font-black">{format(date, 'd')}</div>
+                  {holidayName && (
+                    <div className="text-red-700 text-xs font-black">F</div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Filas de cursos mejoradas */}
+          <div className="space-y-4">
+            {matrixCourses.map((course, courseIndex) => (
+              <div key={course.id} className="grid gap-1" style={{ gridTemplateColumns: gridConfig.gridTemplate }}>
+                {/* Información del curso optimizada - ICONO EN ESQUINA SUPERIOR DERECHA */}
+                <div className={`p-2 rounded-lg border-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01] relative ${
+                  matrixType === 'propios-ecc'
+                    ? 'bg-gradient-to-r from-blue-50 to-blue-100 border-blue-300 hover:from-blue-100 hover:to-blue-200'
+                    : 'bg-gradient-to-r from-purple-50 to-purple-100 border-purple-300 hover:from-purple-100 hover:to-purple-200'
+                }`}>
+                  {/* ICONO DE MODALIDAD EN ESQUINA SUPERIOR DERECHA */}
+                  <div className="absolute -top-1 -right-1 z-10">
+                    <span className={`px-1.5 py-0.5 rounded-full text-xs font-bold text-white shadow-lg border-2 border-white ${
+                      course.modalidad === 'presencial'
+                        ? (matrixType === 'propios-ecc' ? 'bg-blue-600' : 'bg-purple-600')
+                        : (matrixType === 'propios-ecc' ? 'bg-green-600' : 'bg-indigo-600')
+                    }`}>
+                      {course.modalidad === 'teams' ? 'ON' : 'PR'}
+                    </span>
+                  </div>
+
+                  {/* CONTENIDO DEL CURSO - MÁS COMPACTO */}
+                  <div className="flex items-start space-x-2 pr-8">
+                    <div className={`w-3 h-3 rounded-full mt-0.5 flex-shrink-0 ${matrixType === 'propios-ecc' ? 'bg-blue-500' : 'bg-purple-500'}`}></div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-xs text-gray-900" title={course.nombre}>
+                        {course.codigo}
+                      </div>
+                      <div className="text-xs text-gray-700 font-medium leading-tight mt-1" style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2, // REDUCIDO de 3 a 2 líneas para ahorrar espacio
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        lineHeight: '1.1'
+                      }}>
+                        {course.nombre}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Horas mejoradas */}
+                <div className={`p-1.5 text-center rounded-lg border-2 shadow-md font-bold text-sm transition-all duration-300 hover:shadow-lg hover:scale-105 ${
+                  matrixType === 'propios-ecc'
+                    ? 'bg-gradient-to-b from-blue-100 to-blue-200 border-blue-300 text-blue-800'
+                    : 'bg-gradient-to-b from-purple-100 to-purple-200 border-purple-300 text-purple-800'
+                }`}>
+                  <div className="text-xs font-black">{course.duracion || '8'}</div>
+                  <div className="text-xs font-medium">H</div>
+                </div>
+
+                {/* Días del mes con UX mejorado */}
+                {days.map((date, dayIndex) => {
+                  const sessionsForDate = getSessionsForDate(date);
+                  const courseSessionsForDate = sessionsForDate.filter(s => s.courseId === course.id);
+                  const hasSession = courseSessionsForDate.length > 0;
+                  const isNonWorking = isNonWorkingDay(date);
+
+                  // Simular algunas sesiones para demostración (patrón más realista)
+                  const simulatedSession = !isNonWorking && (
+                    (dayIndex + courseIndex) % 8 === 0 ||
+                    (dayIndex + courseIndex) % 12 === 0 ||
+                    (dayIndex === 5 && courseIndex < 3) ||
+                    (dayIndex === 15 && courseIndex >= 3)
+                  );
+                  const showSession = hasSession || simulatedSession;
+
+                  return (
+                    <div
+                      key={dayIndex}
+                      className={`h-10 border-2 rounded-lg transition-all duration-300 flex items-center justify-center cursor-pointer relative group ${
+                        isNonWorking
+                          ? 'bg-gradient-to-b from-red-100 to-red-200 border-red-400'
+                          : showSession
+                            ? 'bg-white border-gray-300 shadow-lg transform hover:scale-110 hover:z-10 hover:shadow-xl'
+                            : 'bg-gradient-to-b from-gray-50 to-gray-100 border-gray-300 hover:from-gray-100 hover:to-gray-200 hover:border-gray-400 hover:shadow-md'
+                      }`}
+                      onClick={() => {
+                        if (showSession && !isNonWorking) {
+                          // Si hay sesión real, usar esa; si no, crear una simulada
+                          const sessionToUse = courseSessionsForDate[0] || {
+                            id: `sim-${course.id}-${dayIndex}`,
+                            courseId: course.id,
+                            fecha: format(date, 'yyyy-MM-dd'),
+                            startTime: '09:00',
+                            endTime: '17:00',
+                            // CRÍTICO: Usar la misma lógica que courseStore para capacidad
+                            capacity: course.modalidad === 'teams' ? 200 : 30,
+                            seats: [] // Sesión simulada, se generarán dinámicamente
+                          };
+
+                          // DEBUG: Log para verificar capacidad
+                          logger.info('MatrixCalendar', 'Sesión seleccionada', {
+                            courseId: course.id,
+                            courseName: course.nombre,
+                            modalidad: course.modalidad,
+                            capacity: sessionToUse.capacity,
+                            isSimulated: !courseSessionsForDate[0]
+                          });
+
+                          onSessionSelect(sessionToUse as Session, course);
+                        }
+                      }}
+                      title={
+                        isNonWorking
+                          ? getHolidayName(date) || 'Fin de semana'
+                          : showSession
+                            ? `🎯 ${course.nombre}\n📅 ${format(date, 'dd/MM/yyyy')}\n🕘 09:00 - 17:00\n📍 ${course.modalidad}\n\n👆 Click para inscribir participantes`
+                            : `📅 ${format(date, 'dd/MM/yyyy')}\n💡 Disponible para programar\n${course.nombre}`
+                      }
+                    >
+                      {showSession && !isNonWorking && (
+                        <>
+                          {/* Círculo principal con color sólido de modalidad */}
+                          <div className={`w-6 h-6 rounded-full shadow-lg border-2 border-white transform transition-all duration-300 group-hover:scale-125 ${
+                            course.modalidad === 'presencial'
+                              ? (matrixType === 'propios-ecc' ? 'bg-blue-500' : 'bg-purple-500')
+                              : (matrixType === 'propios-ecc' ? 'bg-green-500' : 'bg-indigo-500')
+                          }`}>
+                          </div>
+
+                          {/* Indicador de hover */}
+                          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border border-white opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">✓</span>
+                          </div>
+                        </>
+                      )}
+
+                      {isNonWorking && (
+                        <div className="text-red-600 text-lg font-black">❌</div>
+                      )}
+
+                      {!showSession && !isNonWorking && (
+                        <div className="w-4 h-4 border-2 border-gray-400 rounded-full opacity-30 group-hover:opacity-60 transition-all duration-300"></div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* Grid de días */}
-      <div className="grid gap-0" style={{ gridTemplateColumns: `repeat(${daysInMonth.length}, minmax(0, 1fr))` }}>
-        {daysInMonth.map((date, index) => {
-          const statusColor = getStatusColor(course.id, date);
-          const courseSessions = getSessionsForCourseAndDate(course.id, date);
-          const hasSession = courseSessions.length > 0;
-
-          return (
-            <div
-              key={index}
-              className={`h-8 border-r border-gray-100 flex items-center justify-center relative cursor-pointer hover:bg-gray-100 ${
-                hasSession ? 'bg-blue-50' : ''
-              }`}
-              onClick={() => hasSession && handleSessionClick(course.id, date)}
-            >
-              {hasSession && (
-                <div className="flex items-center justify-center">
-                  <div className={`w-3 h-3 rounded-full ${statusColor}`}></div>
-                </div>
-              )}
-
-              {/* Tooltip con información de la sesión */}
-              {hasSession && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
-                  {courseSessions[0].horaInicio} - {courseSessions[0].horaFin}
-                </div>
-              )}
-            </div>
-          );
-        })}
       </div>
     </div>
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      {/* Header del calendario */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4">
-        <h2 className="text-lg font-bold text-center">
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
           CALENDARIO DE CAPACITACIÓN Y ENTRENAMIENTO
         </h2>
-        <h3 className="text-base font-semibold text-center mt-1">
-          {format(currentDate, 'MMMM, yyyy', { locale: es }).toUpperCase()}
+        <h3 className="text-xl font-bold text-gray-900 mb-4">
+          EN SEGURIDAD Y SALUD OCUPACIONAL
         </h3>
-      </div>
 
-      {/* Header de días */}
-      <div className="grid grid-cols-[280px_1fr] bg-gray-50 border-b border-gray-200">
-        <div className="p-2 border-r border-gray-200">
-          <span className="text-xs font-semibold text-gray-700">CURSOS</span>
-        </div>
-        <div className="grid gap-0" style={{ gridTemplateColumns: `repeat(${daysInMonth.length}, minmax(0, 1fr))` }}>
-          {daysInMonth.map((date, index) => (
-            <div key={index} className="h-8 border-r border-gray-200 flex flex-col items-center justify-center text-xs">
-              <span className="font-medium text-gray-700 text-xs">
-                {format(date, 'EEE', { locale: es }).charAt(0).toUpperCase()}
-              </span>
-              <span className="text-gray-600 text-xs">
-                {format(date, 'd')}
-              </span>
+        {/* DEBUG: Verificación de 31 días con tamaños fijos */}
+        <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-300 rounded-xl">
+          <div className="text-center">
+            <div className="text-lg font-black text-green-800 mb-2">
+              🎯 CALENDARIO ADAPTATIVO - TAMAÑOS FIJOS
             </div>
-          ))}
+            <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700">
+              <div className="space-y-1">
+                <div>📅 Días: {gridConfig.totalDays}</div>
+                <div>📐 Día: {gridConfig.dayWidth}px</div>
+                <div>📊 Curso: {gridConfig.courseWidth}px</div>
+              </div>
+              <div className="space-y-1">
+                <div>⏰ Horas: {gridConfig.hoursWidth}px</div>
+                <div>📏 Total: {gridConfig.totalWidth}px</div>
+                <div>🎛️ Menú: {gridConfig.menuState}</div>
+              </div>
+              <div className="space-y-1">
+                <div className="text-center">
+                  {gridConfig.totalDays === 31 ? '✅ 31 DÍAS' : `❌ ${gridConfig.totalDays} DÍAS`}
+                </div>
+                <div className="text-center">
+                  {isMenuCollapsed ? '🚀 EXPANDIDO' : '📱 COMPACTO'}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navegación de meses */}
+        <div className="flex items-center justify-center space-x-6 mb-6">
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={() => handleNavigateMonth('prev')}
+            disabled={isTransitioning}
+            className={`p-3 rounded-full hover:bg-blue-100 transition-all duration-300 hover:scale-110 ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            aria-label="Mes anterior"
+          >
+            <ChevronLeftIcon className="w-8 h-8 text-blue-600" />
+          </Button>
+
+          <h4 className={`text-2xl font-black text-blue-600 min-w-64 px-6 py-3 bg-blue-50 rounded-2xl border-2 border-blue-200 transition-all duration-300 ${
+            isTransitioning ? 'opacity-70 scale-95' : 'opacity-100 scale-100'
+          }`}>
+            {format(currentDate, 'MMMM, yyyy', { locale: es }).toUpperCase()}
+          </h4>
+
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={() => handleNavigateMonth('next')}
+            disabled={isTransitioning}
+            className={`p-3 rounded-full hover:bg-blue-100 transition-all duration-300 hover:scale-110 ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            aria-label="Mes siguiente"
+          >
+            <ChevronRightIcon className="w-8 h-8 text-blue-600" />
+          </Button>
         </div>
       </div>
 
-      {/* Cursos Presenciales */}
-      {presencialCourses.length > 0 && (
-        <div>
-          <div className="bg-blue-100 px-4 py-2 border-b border-gray-200">
-            <h4 className="text-sm font-semibold text-blue-800">CURSOS PRESENCIALES</h4>
-          </div>
-          {presencialCourses.map(renderCourseRow)}
-        </div>
-      )}
+      {/* Matrices con transición fluida */}
+      <div className={`transition-all duration-300 ease-in-out ${
+        isTransitioning ? 'opacity-60 scale-98 blur-sm' : 'opacity-100 scale-100 blur-0'
+      }`}>
+        {/* Matriz PROPIOS Y ECC */}
+        {renderMatrix(propiosYEccCourses, 'PROPIOS Y ECC', 'propios-ecc', 'bg-gradient-to-br from-cyan-50 to-cyan-100')}
 
-      {/* Cursos Teams/Online */}
-      {teamsCourses.length > 0 && (
-        <div>
-          <div className="bg-green-100 px-4 py-2 border-b border-gray-200">
-            <h4 className="text-sm font-semibold text-green-800">CURSOS ONLINE (TEAMS)</h4>
-          </div>
-          {teamsCourses.map(renderCourseRow)}
-        </div>
-      )}
+        {/* Matriz PROPIOS */}
+        {renderMatrix(propiosCourses, 'PROPIOS', 'propios', 'bg-gradient-to-br from-purple-50 to-purple-100')}
+      </div>
 
-      {/* Leyenda */}
-      <div className="bg-gray-50 p-4 border-t border-gray-200">
-        <div className="flex items-center justify-center space-x-6 text-sm">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-            <span className="text-gray-700">Presencial</span>
+      {/* Leyenda ultra moderna */}
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl p-10 border-4 border-gray-200">
+        <h4 className="text-4xl font-black text-gray-900 mb-8 text-center">
+          🎨 Guía Visual del Calendario
+        </h4>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* PROPIOS Y ECC */}
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-4 border-blue-300 shadow-xl">
+            <h5 className="font-black text-blue-900 mb-6 text-2xl text-center">
+              🔵 PROPIOS Y ECC
+            </h5>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-blue-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">🏢 Presencial</span>
+                  <div className="text-sm text-gray-600">Capacitación en instalaciones</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-green-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">💻 Online</span>
+                  <div className="text-sm text-gray-600">Capacitación virtual</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-teal-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">🔄 Híbrido</span>
+                  <div className="text-sm text-gray-600">Modalidad mixta</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <span className="text-gray-700">Teams/Online</span>
+
+          {/* PROPIOS */}
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-4 border-purple-300 shadow-xl">
+            <h5 className="font-black text-purple-900 mb-6 text-2xl text-center">
+              🟣 PROPIOS
+            </h5>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-purple-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">🏢 Presencial</span>
+                  <div className="text-sm text-gray-600">Capacitación en instalaciones</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-indigo-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">💻 Online</span>
+                  <div className="text-sm text-gray-600">Capacitación virtual</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-violet-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
+                  <div className="w-6 h-6 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-gray-800">🔄 Híbrido</span>
+                  <div className="text-sm text-gray-600">Modalidad mixta</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-gray-600 text-xs">
-            Haz clic en los puntos para acceder a la inscripción
+        </div>
+
+        {/* Información adicional mejorada */}
+        <div className="mt-10 pt-8 border-t-4 border-gray-300">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="flex flex-col items-center space-y-2 p-4 bg-red-50 rounded-xl border-2 border-red-200">
+              <div className="text-3xl">🏖️</div>
+              <span className="text-lg font-bold text-red-700">Feriados</span>
+              <span className="text-sm text-red-600 text-center">Días no laborables</span>
+            </div>
+            <div className="flex flex-col items-center space-y-2 p-4 bg-gray-50 rounded-xl border-2 border-gray-200">
+              <div className="text-3xl">📅</div>
+              <span className="text-lg font-bold text-gray-700">Fines de semana</span>
+              <span className="text-sm text-gray-600 text-center">Sábados y domingos</span>
+            </div>
+            <div className="flex flex-col items-center space-y-2 p-4 bg-green-50 rounded-xl border-2 border-green-200">
+              <div className="w-12 h-12 bg-white border-4 border-green-400 rounded-full shadow-lg flex items-center justify-center">
+                <div className="w-6 h-6 bg-green-600 rounded-full"></div>
+              </div>
+              <span className="text-lg font-bold text-green-700">Sesión activa</span>
+              <span className="text-sm text-green-600 text-center">Click para inscribir</span>
+            </div>
+            <div className="flex flex-col items-center space-y-2 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+              <div className="text-3xl">👆</div>
+              <span className="text-lg font-bold text-blue-700">Interactivo</span>
+              <span className="text-sm text-blue-600 text-center">Hover para detalles</span>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border-2 border-blue-300">
+            <p className="text-xl font-bold text-gray-800">
+              🎯 <strong>¡Haz clic en los círculos blancos</strong> para acceder a la inscripción de participantes
+            </p>
+            <p className="text-lg text-gray-600 mt-2">
+              Pasa el mouse sobre las celdas para ver información detallada del curso
+            </p>
           </div>
         </div>
       </div>

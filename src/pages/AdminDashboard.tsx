@@ -285,24 +285,74 @@ export function AdminDashboard() {
     switch (activeSection) {
       case 'dashboard':
         return (
-          <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Bienvenido al Panel de Administración</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-blue-900">Total Cursos</h3>
-                    <p className="text-3xl font-bold text-blue-600">{courses.length}</p>
+          <div className="space-y-8">
+            {/* Header con tipografía consistente */}
+            <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm overflow-hidden">
+              <div className="p-8">
+                <h1 className="font-sans text-3xl font-bold text-text-primary mb-2">
+                  Bienvenido al Panel de Administración
+                </h1>
+                <p className="font-sans text-base text-text-secondary">
+                  Gestiona cursos, participantes y certificados desde este panel centralizado
+                </p>
+              </div>
+            </div>
+
+            {/* Métricas principales con nueva paleta de colores */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Total Cursos - Color primario */}
+              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                      Total Cursos
+                    </h3>
+                    <p className="font-sans text-3xl font-bold text-primary-500 mt-2">
+                      {courses.length}
+                    </p>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-green-900">Participantes</h3>
-                    <p className="text-3xl font-bold text-green-600">{participants.length}</p>
+                  <div className="bg-primary-50 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-primary-500 rounded"></div>
                   </div>
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-purple-900">Aprobados</h3>
-                    <p className="text-3xl font-bold text-purple-600">
+                </div>
+              </div>
+
+              {/* Participantes - Color secundario (verde) */}
+              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                      Participantes
+                    </h3>
+                    <p className="font-sans text-3xl font-bold text-secondary-500 mt-2">
+                      {participants.length}
+                    </p>
+                  </div>
+                  <div className="bg-secondary-50 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-secondary-500 rounded"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Aprobados - Color secundario (verde) */}
+              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                      Aprobados
+                    </h3>
+                    <p className="font-sans text-3xl font-bold text-secondary-500 mt-2">
                       {participants.filter(p => p.estado === 'aprobado').length}
                     </p>
+                    <p className="font-sans text-sm text-text-muted mt-1">
+                      {participants.length > 0
+                        ? `${Math.round((participants.filter(p => p.estado === 'aprobado').length / participants.length) * 100)}% del total`
+                        : 'Sin datos'
+                      }
+                    </p>
+                  </div>
+                  <div className="bg-secondary-50 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-secondary-500 rounded"></div>
                   </div>
                 </div>
               </div>

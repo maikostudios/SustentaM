@@ -1,6 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import { User, Course, Session, Seat, Participant, Certificate } from '../types';
 import { mockUsers, mockCourses, mockSessions, mockParticipants } from './mockData';
+import { logger } from '../utils/logger';
 
 export class AppDB extends Dexie {
   users!: Table<User, string>;
@@ -53,9 +54,25 @@ export async function initializeData() {
       db.participants.count()
     ]);
 
-    // Si ya hay datos, no inicializar
-    if (userCount > 0 || courseCount > 0 || sessionCount > 0 || participantCount > 0) {
-      console.log('Database already contains data, skipping initialization');
+    logger.info('Database', 'Verificando estado de la base de datos', { userCount, courseCount, sessionCount, participantCount });
+    console.log('Database counts:', { userCount, courseCount, sessionCount, participantCount });
+
+    // FORZAR REINICIALIZACIÓN DE USUARIOS para debug
+    if (userCount < mockUsers.length) {
+      logger.warn('Database', 'Reinicializando usuarios - count insuficiente', {
+        currentCount: userCount,
+        expectedCount: mockUsers.length
+      });
+      console.log('Reinicializando usuarios - count insuficiente');
+      await db.users.clear();
+      await db.users.bulkAdd(mockUsers);
+      logger.info('Database', 'Usuarios reinicializados correctamente', { count: mockUsers.length });
+      console.log('Users reinitialized with', mockUsers.length, 'users');
+    }
+
+    // Si ya hay datos suficientes, no inicializar el resto
+    if (courseCount > 0 && sessionCount > 0 && participantCount > 0) {
+      console.log('Database already contains sufficient data, skipping course initialization');
       return;
     }
 

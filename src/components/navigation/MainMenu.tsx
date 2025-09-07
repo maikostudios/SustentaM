@@ -32,9 +32,10 @@ interface MainMenuProps {
   onItemClick: (itemId: string) => void;
   userRole: 'administrador' | 'contratista' | 'usuario';
   className?: string;
+  isCollapsed?: boolean;
 }
 
-export function MainMenu({ activeItem, onItemClick, userRole, className = '' }: MainMenuProps) {
+export function MainMenu({ activeItem, onItemClick, userRole, className = '', isCollapsed = false }: MainMenuProps) {
   
   const getMenuItems = (): MenuItem[] => {
     switch (userRole) {
@@ -201,52 +202,55 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '' }: 
             key={item.id}
             onClick={() => !item.disabled && onItemClick(item.id)}
             disabled={item.disabled}
+            title={isCollapsed ? item.label : undefined}
             className={`
-              w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200
-              ${isActive 
-                ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500' 
+              w-full flex items-center ${isCollapsed ? 'justify-center px-2 py-3' : 'px-4 py-3'} text-left rounded-lg transition-all duration-200
+              ${isActive
+                ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500'
                 : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
               }
-              ${item.disabled 
-                ? 'opacity-50 cursor-not-allowed' 
+              ${item.disabled
+                ? 'opacity-50 cursor-not-allowed'
                 : 'cursor-pointer'
               }
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
             `}
           >
-            <IconComponent 
-              className={`w-5 h-5 mr-3 ${
+            <IconComponent
+              className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'} ${
                 isActive ? 'text-blue-600' : 'text-gray-400'
-              }`} 
+              }`}
             />
-            
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between">
-                <span className={`text-sm font-medium ${
-                  isActive ? 'text-blue-700' : 'text-gray-900'
-                }`}>
-                  {item.label}
-                </span>
-                
-                {item.badge && (
-                  <span className={`ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                    isActive 
-                      ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-gray-100 text-gray-800'
+
+            {!isCollapsed && (
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm font-medium ${
+                    isActive ? 'text-blue-700' : 'text-gray-900'
                   }`}>
-                    {item.badge}
+                    {item.label}
                   </span>
+
+                  {item.badge && (
+                    <span className={`ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      isActive
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+
+                {item.description && (
+                  <p className={`text-xs mt-1 ${
+                    isActive ? 'text-blue-600' : 'text-gray-500'
+                  }`}>
+                    {item.description}
+                  </p>
                 )}
               </div>
-              
-              {item.description && (
-                <p className={`text-xs mt-1 ${
-                  isActive ? 'text-blue-600' : 'text-gray-500'
-                }`}>
-                  {item.description}
-                </p>
-              )}
-            </div>
+            )}
           </button>
         );
       })}

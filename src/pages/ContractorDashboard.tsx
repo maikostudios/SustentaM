@@ -8,7 +8,9 @@ import { ParticipantsList } from '../components/enrollment/ParticipantsList';
 import { ManualEnrollmentForm } from '../components/enrollment/ManualEnrollmentForm';
 import { BulkUploadDialog } from '../components/enrollment/BulkUploadDialog';
 import { LazyCalendar, CalendarSkeleton, LazyReports, ReportsSkeleton } from '../components/lazy/LazyComponents';
+import { CourseCalendar } from '../components/calendar/CourseCalendar';
 import { useAuthStore } from '../store/authStore';
+import { logger } from '../utils/logger';
 import { Modal } from '../components/ui/Modal';
 import { Button } from '../components/ui/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -19,6 +21,14 @@ export function ContractorDashboard() {
   const [showManualForm, setShowManualForm] = useState(false);
   const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    logger.info('ContractorDashboard', 'Componente ContractorDashboard montado', { activeSection });
+  }, []);
+
+  useEffect(() => {
+    logger.debug('ContractorDashboard', 'Sección activa cambiada', { activeSection });
+  }, [activeSection]);
 
   const { user } = useAuthStore();
   const {
@@ -38,7 +48,13 @@ export function ContractorDashboard() {
     fetchParticipants();
   }, [fetchCourses, fetchSessions, fetchParticipants]);
 
-  const handleSelectSession = (course: Course, session: Session) => {
+  const handleSelectSession = (session: Session, course: Course) => {
+    logger.info('ContractorDashboard', 'Sesión seleccionada', {
+      courseId: course.id,
+      courseName: course.nombre,
+      sessionId: session.id,
+      sessionDate: session.fecha
+    });
     setSelectedSession({ session, course });
     fetchParticipantsBySession(session.id);
   };
@@ -132,17 +148,15 @@ export function ContractorDashboard() {
   };
 
   const renderCalendarView = () => {
+    logger.debug('ContractorDashboard', 'Renderizando vista de calendario', { hasSelectedSession: !!selectedSession });
+
     if (selectedSession) {
       return renderEnrollmentView();
     }
 
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">Calendario de Cursos</h2>
-        <LazyCalendar
-          onCourseSelect={handleSelectSession}
-          selectedCourse={selectedSession?.course}
-        />
+        <CourseCalendar onSelectSession={handleSelectSession} />
       </div>
     );
   };

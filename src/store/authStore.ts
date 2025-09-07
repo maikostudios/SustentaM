@@ -26,7 +26,15 @@ export const useAuthStore = create<AuthState>()(
 
           logger.debug('AuthStore', 'Obteniendo usuarios de la base de datos');
           const mockUsers = await db.users.toArray();
-          logger.debug('AuthStore', 'Usuarios encontrados en BD', { count: mockUsers.length, users: mockUsers.map(u => ({ rut: u.rut, rol: u.rol })) });
+          logger.debug('AuthStore', 'Usuarios encontrados en BD', {
+            count: mockUsers.length,
+            users: mockUsers.map(u => ({ rut: u.rut, rol: u.rol, nombre: u.nombre }))
+          });
+
+          // Log detallado de todos los usuarios para debug
+          mockUsers.forEach(user => {
+            logger.debug('AuthStore', `Usuario en BD: ${user.rut} (${user.rol}) - ${user.nombre}`);
+          });
 
           logger.debug('AuthStore', 'Buscando usuario con credenciales', { usuario, clave });
           const user = mockUsers.find(u => u.rut === usuario && u.clave === clave);

@@ -58,20 +58,22 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background-primary py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        {/* Header con tipografía consistente y colores de la nueva paleta */}
         <div className="text-center">
-          <UserIcon className="mx-auto h-12 w-12 text-blue-900" />
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <UserIcon className="mx-auto h-12 w-12 text-primary-500" />
+          <h1 className="mt-6 font-sans text-3xl font-bold text-text-primary">
             Iniciar Sesión
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          </h1>
+          <p className="mt-2 font-sans text-base text-text-secondary">
             Plataforma de Gestión de Cursos
           </p>
         </div>
         
+        {/* Formulario con espaciado consistente */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
+          <div className="space-y-6">
             <Input
               label="Usuario (RUT)"
               type="text"
@@ -93,7 +95,7 @@ export function LoginForm() {
               />
               <button
                 type="button"
-                className="absolute right-3 top-8 text-gray-400 hover:text-gray-600"
+                className="absolute right-4 top-12 text-text-muted hover:text-text-secondary transition-colors"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? 'Ocultar clave' : 'Mostrar clave'}
               >
@@ -106,29 +108,34 @@ export function LoginForm() {
             </div>
           </div>
 
+          {/* Mensaje de error con nueva paleta */}
           {authError && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-3" role="alert">
-              <p className="text-sm text-red-600">{authError}</p>
+            <div className="bg-error-50 border border-error-200 rounded p-4" role="alert">
+              <p className="font-sans text-sm text-error-700 font-medium">{authError}</p>
             </div>
           )}
 
           <Button
             type="submit"
+            variant="primary"
+            size="lg"
             className="w-full"
             loading={loading}
-            size="lg"
           >
             Ingresar
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
-          <div className="text-sm text-gray-600">
-            <p className="font-semibold mb-2">Usuarios de prueba:</p>
-            <div className="space-y-1 text-xs">
-              <p><strong>Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
-              <p><strong>Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
-              <p><strong>Usuario:</strong> Usuario: 12.345.678-5, Clave: user123</p>
+        {/* Información de usuarios de prueba con tipografía consistente */}
+        <div className="mt-8 text-center">
+          <div className="bg-background-tertiary border border-border-light rounded-lg p-4">
+            <p className="font-sans text-sm font-semibold text-text-primary mb-3">
+              Usuarios de prueba:
+            </p>
+            <div className="space-y-2 font-sans text-xs text-text-secondary">
+              <p><strong className="text-text-primary">Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
+              <p><strong className="text-text-primary">Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
+              <p><strong className="text-text-primary">Usuario:</strong> Usuario: 12.345.678-5, Clave: user123</p>
             </div>
           </div>
         </div>
