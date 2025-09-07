@@ -9,8 +9,8 @@ import { Button } from '../ui/Button';
 // Datos hardcodeados para simulación de validación nombre-RUT
 const VALID_NAME_RUT_COMBINATIONS = [
   { nombre: 'Juan Carlos Pérez González', rut: '12.345.678-5' },
-  { nombre: 'María Elena Rodríguez Silva', rut: '98.765.432-1' },
-  { nombre: 'Carlos Alberto Muñoz Torres', rut: '15.678.234-9' },
+  { nombre: 'María Elena Rodríguez Silva', rut: '98.765.432-5' },
+  { nombre: 'Carlos Alberto Muñoz Torres', rut: '15.678.234-3' },
   { nombre: 'Ana Patricia López Herrera', rut: '22.456.789-3' },
   { nombre: 'Roberto Francisco Díaz Morales', rut: '18.234.567-8' }
 ];

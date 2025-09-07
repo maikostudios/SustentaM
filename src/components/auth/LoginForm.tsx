@@ -138,8 +138,8 @@ export function LoginForm() {
               <p><strong className="text-text-primary">Usuarios válidos para pruebas:</strong></p>
               <div className="ml-4 space-y-1">
                 <p>• Juan Carlos Pérez González - 12.345.678-5, Clave: user123</p>
-                <p>• María Elena Rodríguez Silva - 98.765.432-1, Clave: user123</p>
-                <p>• Carlos Alberto Muñoz Torres - 15.678.234-9, Clave: user123</p>
+                <p>• María Elena Rodríguez Silva - 98.765.432-5, Clave: user123</p>
+                <p>• Carlos Alberto Muñoz Torres - 15.678.234-3, Clave: user123</p>
               </div>
             </div>
           </div>
