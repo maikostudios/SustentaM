@@ -15,6 +15,7 @@ import { CalendarViewSelector, CalendarViewType } from './CalendarViewSelector';
 import { logger } from '../../utils/logger';
 import { isHoliday, getHolidayName, isWeekend, isNonWorkingDay } from '../../utils/holidays';
 import { useMenuContext } from '../../contexts/MenuContext';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface CourseCalendarProps {
   onSelectSession: (session: Session, course: Course) => void;
@@ -25,6 +26,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const [viewType, setViewType] = useState<CalendarViewType>('traditional');
   const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
   const { isMenuCollapsed } = useMenuContext();
+  const theme = useThemeAware();
 
   useEffect(() => {
     logger.info('CourseCalendar', 'Componente CourseCalendar montado');
@@ -94,7 +96,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const days = getDaysInMonth();
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-6`}>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-red-600">
           Calendario de Cursos
@@ -117,7 +119,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
             >
               <ChevronLeftIcon className="w-5 h-5" />
             </Button>
-            <span className="text-lg font-medium min-w-48 text-center">
+            <span className={`text-lg font-medium min-w-48 text-center ${theme.text}`}>
               {format(currentDate, 'MMMM yyyy', { locale: es })}
             </span>
             <Button
@@ -145,7 +147,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         <>
           <div className="grid grid-cols-7 gap-1 mb-4">
             {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
-              <div key={day} className="p-3 text-center text-sm font-medium text-gray-700 bg-gray-50 rounded-md">
+              <div key={day} className={`p-3 text-center text-sm font-medium ${theme.textSecondary} ${theme.bgSecondary} rounded-md`}>
                 {day}
               </div>
             ))}
@@ -167,23 +169,23 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
               key={date.toISOString()}
               className={`p-3 min-h-[140px] border-2 rounded-lg transition-all duration-200 ${
                 isNonWorking
-                  ? 'bg-red-50 border-red-200'
+                  ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
                   : isToday
-                    ? 'bg-blue-50 border-blue-300 ring-2 ring-blue-200'
-                    : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
+                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 ring-2 ring-blue-200 dark:ring-blue-800'
+                    : `${theme.bg} border ${theme.border} hover:${theme.borderLight} hover:shadow-md`
               }`}
               title={holidayName || undefined}
             >
               <div className={`text-sm font-semibold mb-3 ${
                 isNonWorking
-                  ? 'text-red-700'
+                  ? 'text-red-700 dark:text-red-400'
                   : isToday
-                    ? 'text-blue-700'
-                    : 'text-gray-900'
+                    ? 'text-blue-700 dark:text-blue-400'
+                    : theme.text
               }`}>
                 {date.getDate()}
                 {holidayName && (
-                  <div className="text-xs text-red-600 font-normal mt-1">
+                  <div className="text-xs text-red-600 dark:text-red-400 font-normal mt-1">
                     {holidayName}
                   </div>
                 )}
@@ -208,7 +210,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
                   );
                 })}
                 {sessionsForDate.length > 2 && (
-                  <div className="text-xs text-gray-500 text-center py-1 bg-gray-50 rounded">
+                  <div className={`text-xs ${theme.textMuted} text-center py-1 ${theme.bgSecondary} rounded`}>
                     +{sessionsForDate.length - 2} más
                   </div>
                 )}
@@ -218,7 +220,7 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         })}
       </div>
 
-          <div className="mt-6 flex items-center justify-center space-x-6 text-sm">
+          <div className={`mt-6 flex items-center justify-center space-x-6 text-sm ${theme.textSecondary}`}>
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 bg-blue-500 rounded"></div>
               <span>Presencial</span>

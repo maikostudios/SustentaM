@@ -1,4 +1,5 @@
 import React from 'react';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface StatsCardProps {
   title: string;
@@ -12,26 +13,27 @@ interface StatsCardProps {
   };
 }
 
-export function StatsCard({ 
-  title, 
-  value, 
-  subtitle, 
-  icon, 
+export function StatsCard({
+  title,
+  value,
+  subtitle,
+  icon,
   color = 'blue',
-  trend 
+  trend
 }: StatsCardProps) {
+  const theme = useThemeAware();
   const getColorClasses = () => {
     switch (color) {
       case 'blue':
-        return 'bg-blue-50 border-blue-200 text-blue-600';
+        return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400';
       case 'green':
-        return 'bg-green-50 border-green-200 text-green-600';
+        return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400';
       case 'red':
-        return 'bg-red-50 border-red-200 text-red-600';
+        return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400';
       case 'orange':
-        return 'bg-orange-50 border-orange-200 text-orange-600';
+        return 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-600 dark:text-orange-400';
       case 'gray':
-        return 'bg-gray-50 border-gray-200 text-gray-600';
+        return `${theme.bgSecondary} border ${theme.border} ${theme.textSecondary}`;
     }
   };
 
@@ -41,15 +43,15 @@ export function StatsCard({
         <div className="flex-1">
           <div className="flex items-center space-x-3 mb-2">
             {icon && <div className="flex-shrink-0">{icon}</div>}
-            <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+            <h3 className={`text-sm font-medium ${theme.textSecondary}`}>{title}</h3>
           </div>
-          
-          <div className="text-3xl font-bold text-gray-900 mb-1">
+
+          <div className={`text-3xl font-bold ${theme.text} mb-1`}>
             {value}
           </div>
-          
+
           {subtitle && (
-            <p className="text-sm text-gray-500">{subtitle}</p>
+            <p className={`text-sm ${theme.textMuted}`}>{subtitle}</p>
           )}
           
           {trend && (
