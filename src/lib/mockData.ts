@@ -43,15 +43,22 @@ export const mockUsers: User[] = [
   },
   {
     id: 'user-1',
-    nombre: 'Juan Pérez González',
+    nombre: 'Juan Carlos Pérez González',
     rut: '12.345.678-5',
     rol: 'usuario',
     clave: 'user123'
   },
   {
     id: 'user-2',
-    nombre: 'María Silva Rodríguez',
+    nombre: 'María Elena Rodríguez Silva',
     rut: '98.765.432-1',
+    rol: 'usuario',
+    clave: 'user123'
+  },
+  {
+    id: 'user-3',
+    nombre: 'Carlos Alberto Muñoz Torres',
+    rut: '15.678.234-9',
     rol: 'usuario',
     clave: 'user123'
   }
@@ -458,7 +465,7 @@ export const mockParticipants: Participant[] = [
   {
     id: 'participant-2',
     sessionId: 'session-1',
-    nombre: 'María Elena González Silva',
+    nombre: 'María Elena Rodríguez Silva',
     rut: '98.765.432-1',
     contractor: 'Constructora XYZ S.A.',
     asistencia: 88,
@@ -468,7 +475,7 @@ export const mockParticipants: Participant[] = [
   {
     id: 'participant-3',
     sessionId: 'session-1',
-    nombre: 'Carlos Alberto Rodríguez López',
+    nombre: 'Carlos Alberto Muñoz Torres',
     rut: '15.678.234-9',
     contractor: 'Empresa ABC Ltda.',
     asistencia: 92,

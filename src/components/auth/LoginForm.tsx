@@ -135,7 +135,12 @@ export function LoginForm() {
             <div className="space-y-2 font-sans text-xs text-text-secondary">
               <p><strong className="text-text-primary">Admin:</strong> Usuario: 11.111.111-1, Clave: admin</p>
               <p><strong className="text-text-primary">Contratista:</strong> Usuario: 22.222.222-2, Clave: 1234</p>
-              <p><strong className="text-text-primary">Usuario:</strong> Usuario: 12.345.678-5, Clave: user123</p>
+              <p><strong className="text-text-primary">Usuarios válidos para pruebas:</strong></p>
+              <div className="ml-4 space-y-1">
+                <p>• Juan Carlos Pérez González - 12.345.678-5, Clave: user123</p>
+                <p>• María Elena Rodríguez Silva - 98.765.432-1, Clave: user123</p>
+                <p>• Carlos Alberto Muñoz Torres - 15.678.234-9, Clave: user123</p>
+              </div>
             </div>
           </div>
         </div>
