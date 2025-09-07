@@ -3,6 +3,7 @@ import { Session, Participant } from '../../types';
 import { Button } from '../ui/Button';
 import { SeatIcon } from '../ui/SeatIcon';
 import { UserPlusIcon, DocumentArrowUpIcon } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface SeatMapProps {
   session: Session;
@@ -13,11 +14,13 @@ interface SeatMapProps {
 }
 
 export function SeatMap({ session, participants, onManualEnrollment, onBulkUpload, showActions = false }: SeatMapProps) {
+  const theme = useThemeAware();
+
   // Validaciones robustas
   if (!session) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="text-center text-gray-500">
+      <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-6`}>
+        <div className={`text-center ${theme.textMuted}`}>
           <p>No se pudo cargar la información de la sesión</p>
         </div>
       </div>
@@ -38,7 +41,7 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
   const renderSeats = () => {
     if (safeCapacity <= 0) {
       return (
-        <div className="text-center text-gray-500 py-8">
+        <div className={`text-center ${theme.textMuted} py-8`}>
           <p>No hay información de capacidad disponible</p>
         </div>
       );
@@ -86,42 +89,42 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 h-full">
+    <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-6 h-full`}>
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className={`text-lg font-semibold ${theme.text} mb-4`}>
           Mapa de Butacas
         </h3>
         
         <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 text-center">
+          <div className={`${theme.bgSecondary} p-3 rounded-lg border ${theme.border} text-center`}>
             <div className="flex items-center justify-center space-x-2 mb-1">
-              <div className="text-2xl font-bold text-gray-900">{safeCapacity}</div>
+              <div className={`text-2xl font-bold ${theme.text}`}>{safeCapacity}</div>
               <SeatIcon status="total" size="sm" showNumber={false} />
             </div>
-            <div className="text-xs text-gray-700 font-medium">Total</div>
+            <div className={`text-xs ${theme.textSecondary} font-medium`}>Total</div>
           </div>
-          <div className="bg-red-50 p-3 rounded-lg border border-red-200 text-center">
+          <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800 text-center">
             <div className="flex items-center justify-center space-x-2 mb-1">
-              <div className="text-2xl font-bold text-red-600">{occupiedSeats}</div>
+              <div className="text-2xl font-bold text-red-600 dark:text-red-400">{occupiedSeats}</div>
               <SeatIcon status="occupied" size="sm" showNumber={false} />
             </div>
-            <div className="text-xs text-gray-700 font-medium">Ocupados</div>
+            <div className={`text-xs ${theme.textSecondary} font-medium`}>Ocupados</div>
           </div>
-          <div className="bg-green-50 p-3 rounded-lg border border-green-200 text-center">
+          <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800 text-center">
             <div className="flex items-center justify-center space-x-2 mb-1">
-              <div className="text-2xl font-bold text-green-600">{availableSeats}</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">{availableSeats}</div>
               <SeatIcon status="available" size="sm" showNumber={false} />
             </div>
-            <div className="text-xs text-gray-700 font-medium">Disponibles</div>
+            <div className={`text-xs ${theme.textSecondary} font-medium`}>Disponibles</div>
           </div>
         </div>
 
         <div className="mb-6">
-          <div className="flex justify-between text-sm text-gray-800 font-medium mb-2">
+          <div className={`flex justify-between text-sm ${theme.text} font-medium mb-2`}>
             <span>Ocupación</span>
             <span>{occupancyPercentage.toFixed(1)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className={`w-full ${theme.bgSecondary} rounded-full h-2`}>
             <div
               className={`h-2 rounded-full transition-all ${
                 occupancyPercentage > 90 ? 'bg-red-500' :
@@ -156,19 +159,19 @@ export function SeatMap({ session, participants, onManualEnrollment, onBulkUploa
         </div>
       )}
 
-      <div className="border-t pt-6">
+      <div className={`border-t ${theme.border} pt-6`}>
         <div className="flex items-center justify-center space-x-4 text-sm mb-4">
           <div className="flex items-center space-x-1">
             <SeatIcon status="available" size="sm" showNumber={false} />
-            <span className="text-gray-700 text-xs">Disponible</span>
+            <span className={`${theme.textSecondary} text-xs`}>Disponible</span>
           </div>
           <div className="flex items-center space-x-1">
             <SeatIcon status="occupied" size="sm" showNumber={false} />
-            <span className="text-gray-700 text-xs">Ocupado</span>
+            <span className={`${theme.textSecondary} text-xs`}>Ocupado</span>
           </div>
         </div>
-        
-        <div className="bg-gray-50 p-4 rounded-lg">
+
+        <div className={`${theme.bgSecondary} p-4 rounded-lg`}>
           <div
             className={`flex flex-col items-center ${
               safeCapacity > 100
