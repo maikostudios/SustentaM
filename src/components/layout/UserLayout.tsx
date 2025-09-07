@@ -11,6 +11,7 @@ import {
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ interface UserLayoutProps {
 export function UserLayout({ children, activeSection = 'dashboard', onSectionChange }: UserLayoutProps) {
   const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const theme = useThemeAware();
 
   const navigation = [
     { id: 'dashboard', name: 'Inicio', icon: HomeIcon },

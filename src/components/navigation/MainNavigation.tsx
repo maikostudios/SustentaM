@@ -11,6 +11,7 @@ import {
 import { Button } from '../ui/Button';
 import { useAuthStore } from '../../store/authStore';
 import { ThemeSelector } from '../theme/ThemeSelector';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface BreadcrumbItem {
   label: string;
@@ -38,6 +39,7 @@ export function MainNavigation({
   children
 }: MainNavigationProps) {
   const { user, logout } = useAuthStore();
+  const theme = useThemeAware();
 
   const handleHomeClick = () => {
     if (onHomeClick) {
@@ -88,7 +90,7 @@ export function MainNavigation({
             {/* Mobile menu button */}
             <button
               type="button"
-              className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`md:hidden p-2 rounded-md ${theme.textMuted} hover:${theme.textSecondary} hover:${theme.bgSecondary} focus:outline-none focus:ring-2 focus:ring-blue-500`}
               onClick={onToggleMobileMenu}
             >
               {showMobileMenu ? (
@@ -103,7 +105,7 @@ export function MainNavigation({
               variant="ghost"
               size="sm"
               onClick={handleHomeClick}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+              className={`flex items-center space-x-2 ${theme.textSecondary} hover:${theme.text}`}
             >
               <HomeIcon className="w-5 h-5" />
               <span className="hidden sm:inline">Inicio</span>
@@ -112,7 +114,7 @@ export function MainNavigation({
             {/* Title */}
             {title && (
               <div className="hidden md:block">
-                <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+                <h1 className={`text-xl font-semibold ${theme.text}`}>{title}</h1>
               </div>
             )}
           </div>

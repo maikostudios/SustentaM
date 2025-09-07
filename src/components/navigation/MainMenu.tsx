@@ -17,6 +17,7 @@ import {
   ShieldExclamationIcon,
   BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface MenuItem {
   id: string;
@@ -36,6 +37,7 @@ interface MainMenuProps {
 }
 
 export function MainMenu({ activeItem, onItemClick, userRole, className = '', isCollapsed = false }: MainMenuProps) {
+  const theme = useThemeAware();
   
   const getMenuItems = (): MenuItem[] => {
     switch (userRole) {
@@ -206,8 +208,8 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
             className={`
               w-full flex items-center ${isCollapsed ? 'justify-center px-2 py-3' : 'px-4 py-3'} text-left rounded-lg transition-all duration-200
               ${isActive
-                ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500'
-                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                ? `bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-l-4 border-blue-500`
+                : `${theme.textSecondary} hover:${theme.bgSecondary} hover:${theme.text}`
               }
               ${item.disabled
                 ? 'opacity-50 cursor-not-allowed'
@@ -218,7 +220,7 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
           >
             <IconComponent
               className={`w-5 h-5 ${isCollapsed ? '' : 'mr-3'} ${
-                isActive ? 'text-blue-600' : 'text-gray-400'
+                isActive ? 'text-blue-600 dark:text-blue-400' : theme.textMuted
               }`}
             />
 

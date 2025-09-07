@@ -9,10 +9,12 @@ import { UserDashboard } from './pages/UserDashboard';
 import { ToastProvider } from './contexts/ToastContext';
 import { logger } from './utils/logger';
 import { LogViewer } from './components/debug/LogViewer';
+import { useThemeAware } from './hooks/useTheme';
 
 function App() {
   const { user, isAuthenticated } = useAuthStore();
   const initializeRef = useRef(false);
+  const theme = useThemeAware();
 
   useEffect(() => {
     logger.info('App', 'Aplicación iniciada');
@@ -60,7 +62,7 @@ function App() {
 
   return (
     <ToastProvider defaultPosition="bottom-right" maxToasts={5}>
-      <div className="min-h-screen bg-gray-50">
+      <div className={`min-h-screen ${theme.bg}`}>
         {renderDashboard()}
       </div>
       <LogViewer />
