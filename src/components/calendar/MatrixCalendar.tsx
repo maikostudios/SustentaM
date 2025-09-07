@@ -7,6 +7,7 @@ import { Button } from '../ui/Button';
 import { logger } from '../../utils/logger';
 import { isHoliday, getHolidayName, isWeekend, isNonWorkingDay } from '../../utils/holidays';
 import { useMenuContext } from '../../contexts/MenuContext';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface MatrixCalendarProps {
   courses: Course[];
@@ -19,6 +20,7 @@ interface MatrixCalendarProps {
 export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect, onNavigateMonth }: MatrixCalendarProps) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { isMenuCollapsed } = useMenuContext();
+  const theme = useThemeAware();
   useEffect(() => {
     logger.info('MatrixCalendar', 'Componente MatrixCalendar montado', {
       coursesCount: courses.length,
@@ -106,24 +108,24 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
   // Obtener estilo para días no laborables
   const getDayStyle = (date: Date) => {
     if (isHoliday(date)) {
-      return 'bg-red-100 border-red-200';
+      return 'bg-red-100 dark:bg-red-900/20 border-red-200 dark:border-red-800';
     }
     if (isWeekend(date)) {
-      return 'bg-gray-100 border-gray-200';
+      return `${theme.bgSecondary} border ${theme.border}`;
     }
-    return 'bg-white border-gray-200';
+    return `${theme.bg} border ${theme.border}`;
   };
 
   // Renderizar matriz - UX/UI completamente mejorado
   const renderMatrix = (matrixCourses: Course[], title: string, matrixType: 'propios-ecc' | 'propios', bgColor: string) => (
-    <div className={`rounded-2xl shadow-2xl p-8 ${bgColor} border-4 ${matrixType === 'propios-ecc' ? 'border-blue-300' : 'border-purple-300'}`}>
-      <div className="bg-white rounded-2xl p-8 shadow-inner">
+    <div className={`rounded-2xl shadow-2xl p-8 ${bgColor} border-4 ${matrixType === 'propios-ecc' ? 'border-blue-300 dark:border-blue-700' : 'border-purple-300 dark:border-purple-700'}`}>
+      <div className={`${theme.bg} rounded-2xl p-8 shadow-inner`}>
         <div className="flex items-center justify-center mb-8">
-          <h3 className={`text-3xl font-black text-center ${matrixType === 'propios-ecc' ? 'text-blue-900' : 'text-purple-900'}`}>
+          <h3 className={`text-3xl font-black text-center ${matrixType === 'propios-ecc' ? 'text-blue-900 dark:text-blue-400' : 'text-purple-900 dark:text-purple-400'}`}>
             {title}
           </h3>
           {isMenuCollapsed && (
-            <div className="ml-4 px-3 py-1 bg-green-100 text-green-800 text-sm font-bold rounded-full border-2 border-green-300 animate-pulse">
+            <div className="ml-4 px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-sm font-bold rounded-full border-2 border-green-300 dark:border-green-700 animate-pulse">
               🚀 MODO EXPANDIDO
             </div>
           )}
@@ -139,10 +141,10 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
         >
           {/* Encabezados optimizados - ADAPTATIVO al estado del menú */}
           <div className="grid gap-1 mb-3" style={{ gridTemplateColumns: gridConfig.gridTemplate }}>
-            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'}`}>
+            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800' : 'bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-700 dark:to-purple-800'}`}>
               📚 CURSOS
             </div>
-            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'}`}>
+            <div className={`p-3 text-center text-sm font-black text-white rounded-lg shadow-lg ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800' : 'bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-700 dark:to-purple-800'}`}>
               ⏰ H
             </div>
             {days.map((date, index) => {
@@ -154,15 +156,15 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                   key={index}
                   className={`p-2 text-center text-xs font-bold rounded-lg shadow-md transition-all duration-200 hover:scale-105 ${
                     isNonWorking
-                      ? 'bg-gradient-to-b from-red-100 to-red-200 text-red-800 border-2 border-red-400'
-                      : 'bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 border-2 border-gray-300 hover:from-gray-100 hover:to-gray-200'
+                      ? 'bg-gradient-to-b from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-900/50 text-red-800 dark:text-red-400 border-2 border-red-400 dark:border-red-700'
+                      : `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 ${theme.textSecondary} border-2 ${theme.border} hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-700 dark:hover:to-gray-600`
                   }`}
                   title={holidayName || `${dayOfWeek} ${format(date, 'dd/MM/yyyy')}`}
                 >
                   <div className="text-xs font-medium">{dayOfWeek.slice(0, 1)}</div>
                   <div className="text-sm font-black">{format(date, 'd')}</div>
                   {holidayName && (
-                    <div className="text-red-700 text-xs font-black">F</div>
+                    <div className="text-red-700 dark:text-red-400 text-xs font-black">F</div>
                   )}
                 </div>
               );
@@ -176,8 +178,8 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                 {/* Información del curso optimizada - ICONO EN ESQUINA SUPERIOR DERECHA */}
                 <div className={`p-2 rounded-lg border-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01] relative ${
                   matrixType === 'propios-ecc'
-                    ? 'bg-gradient-to-r from-blue-50 to-blue-100 border-blue-300 hover:from-blue-100 hover:to-blue-200'
-                    : 'bg-gradient-to-r from-purple-50 to-purple-100 border-purple-300 hover:from-purple-100 hover:to-purple-200'
+                    ? 'bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/30 border-blue-300 dark:border-blue-700 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-900/30 dark:hover:to-blue-900/40'
+                    : 'bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/30 border-purple-300 dark:border-purple-700 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-900/30 dark:hover:to-purple-900/40'
                 }`}>
                   {/* ICONO DE MODALIDAD EN ESQUINA SUPERIOR DERECHA */}
                   <div className="absolute -top-1 -right-1 z-10">
@@ -194,10 +196,10 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                   <div className="flex items-start space-x-2 pr-8">
                     <div className={`w-3 h-3 rounded-full mt-0.5 flex-shrink-0 ${matrixType === 'propios-ecc' ? 'bg-blue-500' : 'bg-purple-500'}`}></div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-bold text-xs text-gray-900" title={course.nombre}>
+                      <div className={`font-bold text-xs ${theme.text}`} title={course.nombre}>
                         {course.codigo}
                       </div>
-                      <div className="text-xs text-gray-700 font-medium leading-tight mt-1" style={{
+                      <div className={`text-xs ${theme.textSecondary} font-medium leading-tight mt-1`} style={{
                         display: '-webkit-box',
                         WebkitLineClamp: 2, // REDUCIDO de 3 a 2 líneas para ahorrar espacio
                         WebkitBoxOrient: 'vertical',
@@ -213,8 +215,8 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                 {/* Horas mejoradas */}
                 <div className={`p-1.5 text-center rounded-lg border-2 shadow-md font-bold text-sm transition-all duration-300 hover:shadow-lg hover:scale-105 ${
                   matrixType === 'propios-ecc'
-                    ? 'bg-gradient-to-b from-blue-100 to-blue-200 border-blue-300 text-blue-800'
-                    : 'bg-gradient-to-b from-purple-100 to-purple-200 border-purple-300 text-purple-800'
+                    ? 'bg-gradient-to-b from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-900/50 border-blue-300 dark:border-blue-700 text-blue-800 dark:text-blue-400'
+                    : 'bg-gradient-to-b from-purple-100 to-purple-200 dark:from-purple-900/30 dark:to-purple-900/50 border-purple-300 dark:border-purple-700 text-purple-800 dark:text-purple-400'
                 }`}>
                   <div className="text-xs font-black">{course.duracion || '8'}</div>
                   <div className="text-xs font-medium">H</div>
@@ -241,10 +243,10 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                       key={dayIndex}
                       className={`h-10 border-2 rounded-lg transition-all duration-300 flex items-center justify-center cursor-pointer relative group ${
                         isNonWorking
-                          ? 'bg-gradient-to-b from-red-100 to-red-200 border-red-400'
+                          ? 'bg-gradient-to-b from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-900/50 border-red-400 dark:border-red-700'
                           : showSession
-                            ? 'bg-white border-gray-300 shadow-lg transform hover:scale-110 hover:z-10 hover:shadow-xl'
-                            : 'bg-gradient-to-b from-gray-50 to-gray-100 border-gray-300 hover:from-gray-100 hover:to-gray-200 hover:border-gray-400 hover:shadow-md'
+                            ? `${theme.bg} border ${theme.border} shadow-lg transform hover:scale-110 hover:z-10 hover:shadow-xl`
+                            : `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border ${theme.border} hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:${theme.borderLight} hover:shadow-md`
                       }`}
                       onClick={() => {
                         if (showSession && !isNonWorking) {
@@ -298,11 +300,11 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                       )}
 
                       {isNonWorking && (
-                        <div className="text-red-600 text-lg font-black">❌</div>
+                        <div className="text-red-600 dark:text-red-400 text-lg font-black">❌</div>
                       )}
 
                       {!showSession && !isNonWorking && (
-                        <div className="w-4 h-4 border-2 border-gray-400 rounded-full opacity-30 group-hover:opacity-60 transition-all duration-300"></div>
+                        <div className={`w-4 h-4 border-2 ${theme.border} rounded-full opacity-30 group-hover:opacity-60 transition-all duration-300`}></div>
                       )}
                     </div>
                   );
@@ -318,20 +320,20 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className={`text-2xl font-bold ${theme.text} mb-2`}>
           CALENDARIO DE CAPACITACIÓN Y ENTRENAMIENTO
         </h2>
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <h3 className={`text-xl font-bold ${theme.text} mb-4`}>
           EN SEGURIDAD Y SALUD OCUPACIONAL
         </h3>
 
         {/* DEBUG: Verificación de 31 días con tamaños fijos */}
-        <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-300 rounded-xl">
+        <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/30 border-2 border-green-300 dark:border-green-700 rounded-xl">
           <div className="text-center">
-            <div className="text-lg font-black text-green-800 mb-2">
+            <div className="text-lg font-black text-green-800 dark:text-green-400 mb-2">
               🎯 CALENDARIO ADAPTATIVO - TAMAÑOS FIJOS
             </div>
-            <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700">
+            <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700 dark:text-green-400">
               <div className="space-y-1">
                 <div>📅 Días: {gridConfig.totalDays}</div>
                 <div>📐 Día: {gridConfig.dayWidth}px</div>
@@ -361,15 +363,15 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             size="lg"
             onClick={() => handleNavigateMonth('prev')}
             disabled={isTransitioning}
-            className={`p-3 rounded-full hover:bg-blue-100 transition-all duration-300 hover:scale-110 ${
+            className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
               isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             aria-label="Mes anterior"
           >
-            <ChevronLeftIcon className="w-8 h-8 text-blue-600" />
+            <ChevronLeftIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
           </Button>
 
-          <h4 className={`text-2xl font-black text-blue-600 min-w-64 px-6 py-3 bg-blue-50 rounded-2xl border-2 border-blue-200 transition-all duration-300 ${
+          <h4 className={`text-2xl font-black text-blue-600 dark:text-blue-400 min-w-64 px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border-2 border-blue-200 dark:border-blue-700 transition-all duration-300 ${
             isTransitioning ? 'opacity-70 scale-95' : 'opacity-100 scale-100'
           }`}>
             {format(currentDate, 'MMMM, yyyy', { locale: es }).toUpperCase()}
@@ -380,12 +382,12 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             size="lg"
             onClick={() => handleNavigateMonth('next')}
             disabled={isTransitioning}
-            className={`p-3 rounded-full hover:bg-blue-100 transition-all duration-300 hover:scale-110 ${
+            className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
               isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             aria-label="Mes siguiente"
           >
-            <ChevronRightIcon className="w-8 h-8 text-blue-600" />
+            <ChevronRightIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
           </Button>
         </div>
       </div>
@@ -395,41 +397,41 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
         isTransitioning ? 'opacity-60 scale-98 blur-sm' : 'opacity-100 scale-100 blur-0'
       }`}>
         {/* Matriz PROPIOS Y ECC */}
-        {renderMatrix(propiosYEccCourses, 'PROPIOS Y ECC', 'propios-ecc', 'bg-gradient-to-br from-cyan-50 to-cyan-100')}
+        {renderMatrix(propiosYEccCourses, 'PROPIOS Y ECC', 'propios-ecc', 'bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-900/30')}
 
         {/* Matriz PROPIOS */}
-        {renderMatrix(propiosCourses, 'PROPIOS', 'propios', 'bg-gradient-to-br from-purple-50 to-purple-100')}
+        {renderMatrix(propiosCourses, 'PROPIOS', 'propios', 'bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/30')}
       </div>
 
       {/* Leyenda ultra moderna */}
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl p-10 border-4 border-gray-200">
-        <h4 className="text-4xl font-black text-gray-900 mb-8 text-center">
+      <div className={`bg-gradient-to-br ${theme.bg} to-gray-50 dark:to-gray-800 rounded-3xl shadow-2xl p-10 border-4 ${theme.border}`}>
+        <h4 className={`text-4xl font-black ${theme.text} mb-8 text-center`}>
           🎨 Guía Visual del Calendario
         </h4>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* PROPIOS Y ECC */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-4 border-blue-300 shadow-xl">
-            <h5 className="font-black text-blue-900 mb-6 text-2xl text-center">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/30 rounded-2xl p-8 border-4 border-blue-300 dark:border-blue-700 shadow-xl">
+            <h5 className="font-black text-blue-900 dark:text-blue-400 mb-6 text-2xl text-center">
               🔵 PROPIOS Y ECC
             </h5>
             <div className="space-y-4">
-              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+              <div className={`flex items-center space-x-4 p-3 ${theme.bg} rounded-xl shadow-md`}>
                 <div className="w-12 h-12 rounded-xl bg-blue-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
                   <div className="w-6 h-6 bg-white rounded-full"></div>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-gray-800">🏢 Presencial</span>
-                  <div className="text-sm text-gray-600">Capacitación en instalaciones</div>
+                  <span className={`text-lg font-bold ${theme.text}`}>🏢 Presencial</span>
+                  <div className={`text-sm ${theme.textSecondary}`}>Capacitación en instalaciones</div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+              <div className={`flex items-center space-x-4 p-3 ${theme.bg} rounded-xl shadow-md`}>
                 <div className="w-12 h-12 rounded-xl bg-green-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
                   <div className="w-6 h-6 bg-white rounded-full"></div>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-gray-800">💻 Online</span>
-                  <div className="text-sm text-gray-600">Capacitación virtual</div>
+                  <span className={`text-lg font-bold ${theme.text}`}>💻 Online</span>
+                  <div className={`text-sm ${theme.textSecondary}`}>Capacitación virtual</div>
                 </div>
               </div>
               <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
@@ -445,27 +447,27 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
           </div>
 
           {/* PROPIOS */}
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-4 border-purple-300 shadow-xl">
-            <h5 className="font-black text-purple-900 mb-6 text-2xl text-center">
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/30 rounded-2xl p-8 border-4 border-purple-300 dark:border-purple-700 shadow-xl">
+            <h5 className="font-black text-purple-900 dark:text-purple-400 mb-6 text-2xl text-center">
               🟣 PROPIOS
             </h5>
             <div className="space-y-4">
-              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+              <div className={`flex items-center space-x-4 p-3 ${theme.bg} rounded-xl shadow-md`}>
                 <div className="w-12 h-12 rounded-xl bg-purple-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
                   <div className="w-6 h-6 bg-white rounded-full"></div>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-gray-800">🏢 Presencial</span>
-                  <div className="text-sm text-gray-600">Capacitación en instalaciones</div>
+                  <span className={`text-lg font-bold ${theme.text}`}>🏢 Presencial</span>
+                  <div className={`text-sm ${theme.textSecondary}`}>Capacitación en instalaciones</div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
+              <div className={`flex items-center space-x-4 p-3 ${theme.bg} rounded-xl shadow-md`}>
                 <div className="w-12 h-12 rounded-xl bg-indigo-500 shadow-lg flex items-center justify-center transform hover:scale-110 transition-all duration-300">
                   <div className="w-6 h-6 bg-white rounded-full"></div>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-gray-800">💻 Online</span>
-                  <div className="text-sm text-gray-600">Capacitación virtual</div>
+                  <span className={`text-lg font-bold ${theme.text}`}>💻 Online</span>
+                  <div className={`text-sm ${theme.textSecondary}`}>Capacitación virtual</div>
                 </div>
               </div>
               <div className="flex items-center space-x-4 p-3 bg-white rounded-xl shadow-md">
@@ -482,7 +484,7 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
         </div>
 
         {/* Información adicional mejorada */}
-        <div className="mt-10 pt-8 border-t-4 border-gray-300">
+        <div className={`mt-10 pt-8 border-t-4 ${theme.border}`}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="flex flex-col items-center space-y-2 p-4 bg-red-50 rounded-xl border-2 border-red-200">
               <div className="text-3xl">🏖️</div>
@@ -508,11 +510,11 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             </div>
           </div>
 
-          <div className="mt-8 text-center p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border-2 border-blue-300">
-            <p className="text-xl font-bold text-gray-800">
+          <div className="mt-8 text-center p-6 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl border-2 border-blue-300 dark:border-blue-700">
+            <p className={`text-xl font-bold ${theme.text}`}>
               🎯 <strong>¡Haz clic en los círculos blancos</strong> para acceder a la inscripción de participantes
             </p>
-            <p className="text-lg text-gray-600 mt-2">
+            <p className={`text-lg ${theme.textSecondary} mt-2`}>
               Pasa el mouse sobre las celdas para ver información detallada del curso
             </p>
           </div>
