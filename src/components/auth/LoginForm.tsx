@@ -124,15 +124,28 @@ export function LoginForm() {
       {/* Selector de Tema Oculto para evitar problemas de elementos perdidos */}
 
       <div className="max-w-md w-full space-y-8">
-        {/* Header con tipografía consistente y sistema de temas */}
+        {/* Header con logo SUSTENTA y tipografía consistente */}
         <div className="text-center">
-          <UserIcon className="mx-auto h-12 w-12 text-primary-500" />
-          <h1 className={`mt-6 font-sans text-3xl font-bold ${theme.text}`}>
+          {/* Logo SUSTENTA cuadrado con efectos modernos */}
+          <div className="mx-auto w-24 h-24 mb-8 relative">
+            <div className={`absolute inset-0 rounded-2xl ${theme.bgSecondary} shadow-lg`}></div>
+            <div className="relative p-3">
+              <img
+                src="/img/logo/logo_sustenta_cuadrado.png"
+                alt="SUSTENTA Logo"
+                className="w-full h-full object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+          <h1 className={`font-sans text-3xl font-bold ${theme.text} mb-2`}>
             Iniciar Sesión
           </h1>
-          <p className={`mt-2 font-sans text-base ${theme.textSecondary}`}>
+          <p className={`font-sans text-base ${theme.textSecondary}`}>
             Plataforma de Gestión de Cursos
           </p>
+          <div className={`mt-1 text-sm font-medium ${theme.text} opacity-80`}>
+            SUSTENTA
+          </div>
         </div>
         
         {/* Formulario con espaciado consistente */}
