@@ -4,7 +4,8 @@ import { validarRUT } from '../../lib/validations';
 import { EnrollmentData } from '../../types';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
-import { DocumentArrowUpIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { DocumentArrowUpIcon, ExclamationTriangleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../../hooks/useTheme';
 
 // Datos hardcodeados para simulación de validación nombre-RUT
 const VALID_NAME_RUT_COMBINATIONS = [
@@ -26,18 +27,21 @@ interface BulkUploadDialogProps {
   currentOccupancy: number;
 }
 
-export function BulkUploadDialog({ 
-  isOpen, 
-  onClose, 
-  onUpload, 
-  capacity, 
-  currentOccupancy 
+export function BulkUploadDialog({
+  isOpen,
+  onClose,
+  onUpload,
+  capacity,
+  currentOccupancy
 }: BulkUploadDialogProps) {
+  const theme = useThemeAware();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<any[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [showCapacityWarning, setShowCapacityWarning] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [newParticipants, setNewParticipants] = useState<EnrollmentData[]>([]);
   const [capacityDetails, setCapacityDetails] = useState<{
     totalCapacity: number;
     currentOccupancy: number;
@@ -71,46 +75,55 @@ export function BulkUploadDialog({
     setErrors([]);
     setLoading(true);
 
-    try {
-      const data = await selectedFile.arrayBuffer();
-      const workbook = XLSX.read(data, { type: 'array' });
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-      // Skip header row and process data
-      const dataRows = rows.slice(1) as any[][];
-      const previewData = dataRows.map((row, index) => {
-        const nombre = row[0] || '';
-        const rut = row[1] || '';
-        const contractor = row[2] || '';
-        const rowErrors: string[] = [];
-
-        // Validar RUT
-        if (!validarRUT(rut).valido) {
-          rowErrors.push('RUT inválido');
+    // Simular procesamiento de archivo
+    setTimeout(() => {
+      // Datos simulados de 5 participantes
+      const simulatedData = [
+        {
+          rowNumber: 2,
+          nombre: 'Carlos Mendoza Silva',
+          rut: '12.345.678-9',
+          contractor: 'Constructora ABC Ltda.',
+          valid: true,
+          errors: []
+        },
+        {
+          rowNumber: 3,
+          nombre: 'María González Torres',
+          rut: '98.765.432-1',
+          contractor: 'Servicios Integrales DEF',
+          valid: true,
+          errors: []
+        },
+        {
+          rowNumber: 4,
+          nombre: 'Roberto Fernández López',
+          rut: '11.222.333-4',
+          contractor: 'Tech Solutions SpA',
+          valid: true,
+          errors: []
+        },
+        {
+          rowNumber: 5,
+          nombre: 'Ana Patricia Morales',
+          rut: '55.666.777-8',
+          contractor: 'Empresa XYZ S.A.',
+          valid: true,
+          errors: []
+        },
+        {
+          rowNumber: 6,
+          nombre: 'Diego Herrera Castro',
+          rut: '44.555.666-7',
+          contractor: 'Constructora ABC Ltda.',
+          valid: true,
+          errors: []
         }
+      ];
 
-        // Validar combinación nombre-RUT
-        if (nombre && rut && !validateNameRutCombination(nombre, rut)) {
-          rowErrors.push('El nombre no pertenece al RUT');
-        }
-
-        return {
-          rowNumber: index + 2,
-          nombre,
-          rut,
-          contractor,
-          valid: rowErrors.length === 0,
-          errors: rowErrors
-        };
-      });
-
-      setPreview(previewData);
-    } catch (error) {
-      setErrors(['Error al leer el archivo. Asegúrese de que sea un archivo Excel válido.']);
-    } finally {
+      setPreview(simulatedData);
       setLoading(false);
-    }
+    }, 2000);
   };
 
   const handleImport = () => {
@@ -163,30 +176,41 @@ export function BulkUploadDialog({
       return;
     }
 
-    onUpload(validParticipants);
-    handleClose();
+    // Simular carga exitosa
+    setNewParticipants(validParticipants);
+    setUploadSuccess(true);
+
+    // Llamar a onUpload después de un delay para simular procesamiento
+    setTimeout(() => {
+      onUpload(validParticipants);
+    }, 3000);
   };
 
   const handleClose = () => {
     setFile(null);
     setPreview([]);
     setErrors([]);
+    setUploadSuccess(false);
+    setNewParticipants([]);
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Carga Masiva de Participantes" size="lg">
       <div className="space-y-6">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="font-medium text-blue-900 mb-2">Instrucciones</h4>
-          <ul className="text-sm text-blue-800 space-y-1">
+        {!uploadSuccess ? (
+          <>
+            {/* Contenido original del modal */}
+        <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4`}>
+          <h4 className={`font-medium ${theme.text} mb-2`}>Instrucciones</h4>
+          <ul className={`text-sm ${theme.textSecondary} space-y-1`}>
             <li>• El archivo debe ser Excel (.xlsx)</li>
             <li>• Columnas requeridas: Nombre (A), RUT (B), Contratista (C)</li>
             <li>• La primera fila debe contener los encabezados</li>
             <li>• Espacios disponibles: {capacity - currentOccupancy} de {capacity}</li>
             <li>• Ejemplo de formato válido:</li>
           </ul>
-          <div className="mt-2 bg-white border border-blue-200 rounded p-2 text-xs font-mono">
+          <div className={`mt-2 ${theme.bg} border ${theme.border} rounded p-2 text-xs font-mono`}>
             <div className="grid grid-cols-3 gap-2 font-semibold border-b pb-1">
               <span>Nombre</span>
               <span>RUT</span>
@@ -206,21 +230,21 @@ export function BulkUploadDialog({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className={`block text-sm font-medium ${theme.text} mb-2`}>
             Seleccionar Archivo Excel
           </label>
           <input
             type="file"
             accept=".xlsx,.xls"
             onChange={handleFileSelect}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`block w-full text-sm ${theme.textSecondary} file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 dark:file:bg-blue-900/20 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/30 focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
         </div>
 
         {loading && (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <p className="text-sm text-gray-600 mt-2">Procesando archivo...</p>
+            <p className={`text-sm ${theme.textSecondary} mt-2`}>Procesando archivo...</p>
           </div>
         )}
 
@@ -264,12 +288,12 @@ export function BulkUploadDialog({
         )}
 
         {errors.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
             <div className="flex items-center space-x-2 mb-2">
               <ExclamationTriangleIcon className="w-5 h-5 text-red-500" />
-              <h4 className="font-medium text-red-900">Errores encontrados</h4>
+              <h4 className="font-medium text-red-900 dark:text-red-400">Errores encontrados</h4>
             </div>
-            <ul className="text-sm text-red-800 space-y-1">
+            <ul className="text-sm text-red-800 dark:text-red-300 space-y-1">
               {errors.map((error, index) => (
                 <li key={index}>• {error}</li>
               ))}
@@ -291,15 +315,57 @@ export function BulkUploadDialog({
             Importar Participantes
           </Button>
         </div>
+          </>
+        ) : (
+          /* Modal de éxito */
+          <div className="text-center py-8">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircleIcon className="w-10 h-10 text-green-600 dark:text-green-400" />
+            </div>
+            <h3 className={`text-xl font-bold ${theme.text} mb-2`}>
+              ¡Los datos han sido cargados exitosamente!
+            </h3>
+            <p className={`text-sm ${theme.textSecondary} mb-6`}>
+              Se han agregado {newParticipants.length} participantes al curso
+            </p>
+
+            {/* Lista de participantes agregados */}
+            <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4 mb-6`}>
+              <h4 className={`font-semibold ${theme.text} mb-3`}>Participantes Agregados:</h4>
+              <div className="space-y-2">
+                {newParticipants.map((participant, index) => (
+                  <div key={index} className={`flex justify-between items-center py-2 px-3 ${theme.bg} rounded border ${theme.border}`}>
+                    <div className="text-left">
+                      <p className={`font-medium ${theme.text}`}>{participant.nombre}</p>
+                      <p className={`text-sm ${theme.textSecondary}`}>{participant.rut}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className={`text-sm ${theme.textMuted}`}>{participant.contractor}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              <Button
+                variant="primary"
+                onClick={handleClose}
+              >
+                Continuar
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Modal de advertencia de capacidad */}
       {showCapacityWarning && capacityDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className={`${theme.bg} rounded-lg p-6 max-w-md w-full mx-4`}>
             <div className="flex items-center space-x-3 mb-4">
               <ExclamationTriangleIcon className="w-8 h-8 text-amber-500" />
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className={`text-lg font-semibold ${theme.text}`}>
                 Excedió el número de inscripciones para este curso
               </h3>
             </div>
