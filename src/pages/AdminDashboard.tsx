@@ -373,7 +373,7 @@ export function AdminDashboard() {
         );
       case 'courses':
         return (
-          <div className="space-y-6">
+          <div className="w-full space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Cursos</h2>
               <Button onClick={handleCreateCourse} className="flex items-center space-x-2">
@@ -382,11 +382,13 @@ export function AdminDashboard() {
               </Button>
             </div>
 
-            <CourseTable
-              courses={courses}
-              onEdit={handleEditCourse}
-              onDelete={handleDeleteCourse}
-            />
+            <div className="w-full">
+              <CourseTable
+                courses={courses}
+                onEdit={handleEditCourse}
+                onDelete={handleDeleteCourse}
+              />
+            </div>
           </div>
         );
         

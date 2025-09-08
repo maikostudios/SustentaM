@@ -99,10 +99,10 @@ export function AdminLayout({
         <div className="flex flex-col flex-1 overflow-hidden">
           <main className={`flex-1 relative overflow-y-auto focus:outline-none ${theme.bg}`}>
             <div className="py-6">
-              <div className={`mx-auto px-4 sm:px-6 md:px-8 transition-all duration-300 ${
+              <div className={`w-full px-4 sm:px-6 md:px-8 transition-all duration-300 ${
                 isMenuCollapsed
                   ? 'max-w-none' // Sin límite cuando está colapsado - usa todo el espacio
-                  : 'max-w-7xl'  // Límite normal cuando está expandido
+                  : 'max-w-none'  // También sin límite cuando está expandido para usar todo el ancho
               }`}>
                 {/* Proveer el estado del menú a través del contexto */}
                 <MenuProvider isMenuCollapsed={isMenuCollapsed}>

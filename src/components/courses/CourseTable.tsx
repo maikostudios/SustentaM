@@ -85,13 +85,13 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
     columnHelper.accessor('nombre', {
       header: 'Nombre del Curso',
       cell: info => (
-        <div className="max-w-xs truncate" title={info.getValue()}>
+        <div className="max-w-sm break-words leading-tight py-1">
           {info.getValue()}
         </div>
       ),
-      size: 200,
-      minSize: 150,
-      maxSize: 300
+      size: 250,
+      minSize: 200,
+      maxSize: 400
     }),
     columnHelper.accessor('duracionHoras', {
       header: 'Duración',
@@ -156,7 +156,7 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="w-full space-y-4">
       {/* Buscador y Filtros */}
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         {/* Buscador principal */}
@@ -266,9 +266,9 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
       </div>
 
       {/* Tabla */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+      <div className="w-full bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" role="table" style={{ minWidth: '800px' }}>
+          <table className="w-full table-auto divide-y divide-gray-200 dark:divide-gray-700" role="table">
         <caption className="sr-only">
           Lista de cursos disponibles con opciones de edición y eliminación
         </caption>
@@ -279,7 +279,10 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
                 <th
                   key={header.id}
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider ${
+                    header.id === 'nombre' ? 'w-1/3' :
+                    header.id === 'actions' ? 'w-24' : 'w-auto'
+                  }`}
                 >
                   {header.isPlaceholder
                     ? null
@@ -298,8 +301,13 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
               key={row.id}
               className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+              {row.getVisibleCells().map((cell, index) => (
+                <td
+                  key={cell.id}
+                  className={`px-6 py-4 text-sm text-gray-900 dark:text-gray-100 ${
+                    cell.column.id === 'nombre' ? '' : 'whitespace-nowrap'
+                  }`}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
