@@ -65,12 +65,13 @@ export function ToastProvider({
       message, 
       ...options 
     }),
-    error: (title, message, options) => addToastWithLimit({ 
-      type: 'error', 
-      title, 
-      message, 
-      persistent: true, // Los errores son persistentes por defecto
-      ...options 
+    error: (title, message, options) => addToastWithLimit({
+      type: 'error',
+      title,
+      message,
+      duration: 3000, // Auto-ocultar errores después de 3 segundos
+      persistent: false,
+      ...options
     }),
     warning: (title, message, options) => addToastWithLimit({ 
       type: 'warning', 

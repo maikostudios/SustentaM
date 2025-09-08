@@ -7,6 +7,7 @@ import {
   InformationCircleIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../../hooks/useTheme';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 export type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
@@ -39,6 +40,7 @@ export function Toast({
 }: ToastProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const theme = useThemeAware();
 
   useEffect(() => {
     // Entrada con delay para animación
@@ -67,22 +69,22 @@ export function Toast({
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircleIcon className="w-5 h-5 text-green-500" />;
+        return <CheckCircleIcon className="w-5 h-5 text-green-500 dark:text-green-400" />;
       case 'error':
-        return <XCircleIcon className="w-5 h-5 text-red-500" />;
+        return <XCircleIcon className="w-5 h-5 text-red-500 dark:text-red-400" />;
       case 'warning':
-        return <ExclamationTriangleIcon className="w-5 h-5 text-orange-500" />;
+        return <ExclamationTriangleIcon className="w-5 h-5 text-orange-500 dark:text-orange-400" />;
       case 'info':
-        return <InformationCircleIcon className="w-5 h-5 text-blue-500" />;
+        return <InformationCircleIcon className="w-5 h-5 text-blue-500 dark:text-blue-400" />;
     }
   };
 
   const getStyles = () => {
     const baseStyles = {
-      success: 'bg-green-50 border-green-200 text-green-800',
-      error: 'bg-red-50 border-red-200 text-red-800',
-      warning: 'bg-orange-50 border-orange-200 text-orange-800',
-      info: 'bg-blue-50 border-blue-200 text-blue-800'
+      success: `${theme.bg} border-green-200 dark:border-green-700 ${theme.text} shadow-lg`,
+      error: `${theme.bg} border-red-200 dark:border-red-700 ${theme.text} shadow-lg`,
+      warning: `${theme.bg} border-orange-200 dark:border-orange-700 ${theme.text} shadow-lg`,
+      info: `${theme.bg} border-blue-200 dark:border-blue-700 ${theme.text} shadow-lg`
     };
     return baseStyles[type];
   };
@@ -150,7 +152,7 @@ export function Toast({
           {!persistent && (
             <button
               onClick={handleClose}
-              className="flex-shrink-0 text-current opacity-60 hover:opacity-100 transition-opacity"
+              className={`flex-shrink-0 ${theme.textMuted} hover:${theme.text} transition-colors`}
               aria-label="Cerrar notificación"
             >
               <XMarkIcon className="w-4 h-4" />
@@ -160,9 +162,9 @@ export function Toast({
 
         {/* Progress bar para toasts con duración */}
         {!persistent && duration > 0 && (
-          <div className="mt-3 h-1 bg-black bg-opacity-10 rounded-full overflow-hidden">
+          <div className={`mt-3 h-1 ${theme.bgSecondary} rounded-full overflow-hidden`}>
             <div
-              className="h-full bg-current opacity-60 transition-all ease-linear"
+              className={`h-full ${theme.textMuted} opacity-60 transition-all ease-linear`}
               style={{
                 width: isVisible ? '0%' : '100%',
                 transitionDuration: `${duration}ms`

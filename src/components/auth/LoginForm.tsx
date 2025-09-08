@@ -121,17 +121,7 @@ export function LoginForm() {
 
   return (
     <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${theme.bg}`}>
-      {/* Selector de Tema - Esquina superior derecha */}
-      <div className="fixed top-4 right-4 z-50">
-        <button
-          onClick={cycleTheme}
-          className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${theme.bgSecondary} ${theme.border} border hover:shadow-md transition-all duration-200`}
-          title={`Tema actual: ${getThemeLabel()}. Click para cambiar`}
-        >
-          {getThemeIcon()}
-          <span className={`text-sm font-medium ${theme.text}`}>{getThemeLabel()}</span>
-        </button>
-      </div>
+      {/* Selector de Tema Oculto para evitar problemas de elementos perdidos */}
 
       <div className="max-w-md w-full space-y-8">
         {/* Header con tipografía consistente y sistema de temas */}

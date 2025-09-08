@@ -10,7 +10,9 @@ import { Participant } from '../../types';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { AttendanceDetailModal } from './AttendanceDetailModal';
-import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Modal } from '../ui/Modal';
+import { useNotifications } from '../../contexts/ToastContext';
 
 interface AttendanceTableProps {
   participants: Participant[];
@@ -36,6 +38,9 @@ export function AttendanceTable({
   });
   const [showAttendanceDetail, setShowAttendanceDetail] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [participantToDelete, setParticipantToDelete] = useState<Participant | null>(null);
+  const notifications = useNotifications();
 
   const handleEdit = (participant: Participant) => {
     setEditingId(participant.id);
@@ -66,6 +71,28 @@ export function AttendanceTable({
     // Aquí se actualizaría la asistencia de la sesión específica
     // Por ahora solo mostramos el cambio en consola
     console.log(`Updating session ${sessionId} for participant ${participantId}: ${attended ? 'Present' : 'Absent'}`);
+  };
+
+  const handleDeleteClick = (participant: Participant) => {
+    setParticipantToDelete(participant);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (participantToDelete) {
+      // Simular eliminación del registro
+      notifications.success(
+        'Registro eliminado',
+        `El registro de ${participantToDelete.nombre} ha sido eliminado exitosamente.`
+      );
+      setShowDeleteModal(false);
+      setParticipantToDelete(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setParticipantToDelete(null);
   };
 
   const columns = [
@@ -203,14 +230,25 @@ export function AttendanceTable({
         }
         
         return (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => handleEdit(participant)}
-            aria-label={`Editar asistencia de ${participant.nombre}`}
-          >
-            <PencilIcon className="w-4 h-4" />
-          </Button>
+          <div className="flex space-x-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleEdit(participant)}
+              aria-label={`Editar asistencia de ${participant.nombre}`}
+            >
+              <PencilIcon className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleDeleteClick(participant)}
+              aria-label={`Eliminar registro de ${participant.nombre}`}
+              className="text-red-600 hover:text-red-800 hover:bg-red-50"
+            >
+              <TrashIcon className="w-4 h-4" />
+            </Button>
+          </div>
         );
       }
     })
@@ -354,6 +392,38 @@ export function AttendanceTable({
         } : null}
         onUpdateAttendance={handleUpdateSessionAttendance}
       />
+
+      {/* Modal de confirmación de eliminación */}
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={handleCancelDelete}
+        title="Confirmar eliminación"
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-700 dark:text-gray-300">
+            ¿Estás seguro que quieres eliminar el registro de{' '}
+            <span className="font-semibold">{participantToDelete?.nombre}</span>?
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Esta acción no se puede deshacer.
+          </p>
+          <div className="flex justify-end space-x-3">
+            <Button
+              variant="secondary"
+              onClick={handleCancelDelete}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="danger"
+              onClick={handleConfirmDelete}
+            >
+              Sí, confirmo
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

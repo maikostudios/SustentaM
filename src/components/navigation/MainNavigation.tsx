@@ -119,10 +119,9 @@ export function MainNavigation({
             )}
           </div>
 
-          {/* Right side - Theme selector, User info and logout */}
+          {/* Right side - User info and logout */}
           <div className="flex items-center space-x-4">
-            {/* Theme selector */}
-            <ThemeSelector variant="toggle" showLabel={false} />
+            {/* Theme selector oculto para evitar problemas de elementos perdidos */}
 
             {/* User indicator */}
             <div className="flex items-center space-x-3">

@@ -29,15 +29,13 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
   const [showFilters, setShowFilters] = useState(false);
 
   // Obtener valores únicos para los filtros
-  const uniqueContractors = useMemo(() => {
-    const contractors = courses.map(course => course.contratista).filter(Boolean);
-    return [...new Set(contractors)];
+  const uniqueCourseNames = useMemo(() => {
+    const names = courses.map(course => course.nombre).filter(Boolean);
+    return [...new Set(names)];
   }, [courses]);
 
-  const uniqueTypes = useMemo(() => {
-    const types = courses.map(course => course.tipo).filter(Boolean);
-    return [...new Set(types)];
-  }, [courses]);
+  // Tipos de curso fijos
+  const courseTypes = ['Online', 'Presencial'];
 
   // Filtrar cursos
   const filteredCourses = useMemo(() => {
@@ -49,11 +47,13 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
         course.contratista?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.descripcion?.toLowerCase().includes(searchTerm.toLowerCase());
 
-      // Filtro por contratista
-      const matchesContractor = !contractorFilter || course.contratista === contractorFilter;
+      // Filtro por nombre de curso (antes era contratista)
+      const matchesCourse = !contractorFilter || course.nombre === contractorFilter;
 
-      // Filtro por tipo
-      const matchesType = !typeFilter || course.tipo === typeFilter;
+      // Filtro por tipo (Online/Presencial basado en modalidad)
+      const matchesType = !typeFilter ||
+        (typeFilter === 'Online' && course.modalidad === 'teams') ||
+        (typeFilter === 'Presencial' && course.modalidad === 'presencial');
 
       // Filtro por fechas
       const courseDate = new Date(course.fechaInicio);
@@ -63,7 +63,7 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
       const matchesDateFrom = !fromDate || courseDate >= fromDate;
       const matchesDateTo = !toDate || courseDate <= toDate;
 
-      return matchesSearch && matchesContractor && matchesType && matchesDateFrom && matchesDateTo;
+      return matchesSearch && matchesCourse && matchesType && matchesDateFrom && matchesDateTo;
     });
   }, [courses, searchTerm, contractorFilter, typeFilter, dateFromFilter, dateToFilter]);
 
@@ -77,27 +77,49 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
   const columns = [
     columnHelper.accessor('codigo', {
       header: 'Código',
-      cell: info => info.getValue()
+      cell: info => info.getValue(),
+      size: 120,
+      minSize: 100,
+      maxSize: 150
     }),
     columnHelper.accessor('nombre', {
       header: 'Nombre del Curso',
-      cell: info => info.getValue()
+      cell: info => (
+        <div className="max-w-xs truncate" title={info.getValue()}>
+          {info.getValue()}
+        </div>
+      ),
+      size: 200,
+      minSize: 150,
+      maxSize: 300
     }),
     columnHelper.accessor('duracionHoras', {
       header: 'Duración',
-      cell: info => `${info.getValue()} horas`
+      cell: info => `${info.getValue()} horas`,
+      size: 100,
+      minSize: 80,
+      maxSize: 120
     }),
     columnHelper.accessor('modalidad', {
       header: 'Modalidad',
-      cell: info => info.getValue() === 'teams' ? 'Virtual (Teams)' : 'Presencial'
+      cell: info => info.getValue() === 'teams' ? 'Virtual (Teams)' : 'Presencial',
+      size: 130,
+      minSize: 110,
+      maxSize: 150
     }),
     columnHelper.accessor('fechaInicio', {
       header: 'Fecha Inicio',
-      cell: info => info.getValue()
+      cell: info => info.getValue(),
+      size: 120,
+      minSize: 100,
+      maxSize: 140
     }),
     columnHelper.accessor('fechaFin', {
       header: 'Fecha Fin',
-      cell: info => info.getValue()
+      cell: info => info.getValue(),
+      size: 120,
+      minSize: 100,
+      maxSize: 140
     }),
     columnHelper.display({
       id: 'actions',
@@ -174,17 +196,17 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Contratista
+                Nombre del Curso
               </label>
               <select
                 value={contractorFilter}
                 onChange={(e) => setContractorFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="">Todos los contratistas</option>
-                {uniqueContractors.map(contractor => (
-                  <option key={contractor} value={contractor}>
-                    {contractor}
+                <option value="">Todos los cursos</option>
+                {uniqueCourseNames.map(courseName => (
+                  <option key={courseName} value={courseName}>
+                    {courseName}
                   </option>
                 ))}
               </select>
@@ -200,7 +222,7 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Todos los tipos</option>
-                {uniqueTypes.map(type => (
+                {courseTypes.map(type => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -245,7 +267,8 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
 
       {/* Tabla */}
       <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" role="table">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" role="table" style={{ minWidth: '800px' }}>
         <caption className="sr-only">
           Lista de cursos disponibles con opciones de edición y eliminación
         </caption>
@@ -283,13 +306,14 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
             </tr>
           ))}
         </tbody>
-      </table>
+          </table>
 
-      {courses.length === 0 && (
-        <div className="text-center py-12">
-          <p className="font-sans text-gray-500 dark:text-gray-400">No hay cursos registrados</p>
+          {courses.length === 0 && (
+            <div className="text-center py-12">
+              <p className="font-sans text-gray-500 dark:text-gray-400">No hay cursos registrados</p>
+            </div>
+          )}
         </div>
-      )}
       </div>
     </div>
   );
