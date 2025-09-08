@@ -19,6 +19,7 @@ interface MatrixCalendarProps {
 
 export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect, onNavigateMonth }: MatrixCalendarProps) {
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const { isMenuCollapsed } = useMenuContext();
   const theme = useThemeAware();
   useEffect(() => {
@@ -27,6 +28,22 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
       sessionsCount: sessions.length
     });
   }, []);
+
+  // Detectar ancho disponible del contenedor
+  useEffect(() => {
+    const updateWidth = () => {
+      // Calcular ancho disponible considerando el estado del menú
+      const viewportWidth = window.innerWidth;
+      const sidebarWidth = isMenuCollapsed ? 80 : 280; // Ancho del sidebar
+      const padding = 64; // Padding del contenedor (32px * 2)
+      const availableWidth = viewportWidth - sidebarWidth - padding;
+      setContainerWidth(availableWidth);
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, [isMenuCollapsed]);
 
   // Obtener días del mes
   const monthStart = startOfMonth(currentDate);
@@ -48,29 +65,44 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
     }, 150);
   };
 
-  // SOLUCIÓN CORRECTA: Mantener tamaños fijos, usar espacio extra para mostrar MÁS días
+  // SOLUCIÓN MEJORADA: Ajuste automático según resolución y zoom
   const getGridConfig = () => {
     const totalDays = days.length;
 
-    // TAMAÑOS FIJOS - NO cambiar según el estado del menú
-    const FIXED_SIZES = {
-      courseWidth: 200,  // Siempre 200px
-      hoursWidth: 50,    // Siempre 50px
-      dayWidth: 28       // Siempre 28px por día - TAMAÑO ÓPTIMO
+    // Si no tenemos el ancho del contenedor aún, usar valores por defecto
+    if (containerWidth === 0) {
+      return {
+        courseWidth: 200,
+        hoursWidth: 50,
+        dayWidth: 28,
+        gridTemplate: `200px 50px repeat(${totalDays}, 28px)`,
+        totalWidth: 200 + 50 + (totalDays * 28),
+        totalDays,
+        containerWidth: 0,
+        menuState: isMenuCollapsed ? 'COLLAPSED' : 'EXPANDED'
+      };
+    }
+
+    // Tamaños base adaptativos
+    const BASE_SIZES = {
+      courseWidth: Math.max(180, Math.min(250, containerWidth * 0.2)), // 20% del ancho disponible, min 180px, max 250px
+      hoursWidth: 50, // Fijo para horas
     };
 
-    // Calcular ancho total necesario para TODOS los días
-    const totalRequiredWidth = FIXED_SIZES.courseWidth + FIXED_SIZES.hoursWidth + (totalDays * FIXED_SIZES.dayWidth);
+    // Calcular ancho disponible para días
+    const availableForDays = containerWidth - BASE_SIZES.courseWidth - BASE_SIZES.hoursWidth;
+    const dayWidth = Math.max(24, Math.floor(availableForDays / totalDays)); // Mínimo 24px por día
 
-    // El beneficio del menú colapsado es que el CONTENEDOR puede expandirse
-    // pero las celdas mantienen su tamaño óptimo
-    const gridTemplate = `${FIXED_SIZES.courseWidth}px ${FIXED_SIZES.hoursWidth}px repeat(${totalDays}, ${FIXED_SIZES.dayWidth}px)`;
+    const gridTemplate = `${BASE_SIZES.courseWidth}px ${BASE_SIZES.hoursWidth}px repeat(${totalDays}, ${dayWidth}px)`;
 
     return {
-      ...FIXED_SIZES,
+      courseWidth: BASE_SIZES.courseWidth,
+      hoursWidth: BASE_SIZES.hoursWidth,
+      dayWidth,
       gridTemplate,
-      totalWidth: totalRequiredWidth,
+      totalWidth: BASE_SIZES.courseWidth + BASE_SIZES.hoursWidth + (totalDays * dayWidth),
       totalDays,
+      containerWidth,
       // Info para debug
       menuState: isMenuCollapsed ? 'COLLAPSED' : 'EXPANDED'
     };
@@ -131,12 +163,12 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
           )}
         </div>
 
-        {/* Tabla optimizada - FORZAR ancho mínimo para 31 días */}
+        {/* Tabla optimizada - AJUSTE AUTOMÁTICO */}
         <div
           className="w-full overflow-x-auto"
           style={{
-            minWidth: `${gridConfig.totalWidth}px`,
-            width: isMenuCollapsed ? 'max-content' : '100%'
+            width: '100%',
+            maxWidth: `${gridConfig.totalWidth}px`
           }}
         >
           {/* Encabezados optimizados - ADAPTATIVO al estado del menú */}
@@ -327,14 +359,14 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
           EN SEGURIDAD Y SALUD OCUPACIONAL
         </h3>
 
-        {/* DEBUG: Verificación de 31 días con tamaños fijos - OCULTO */}
-        {false && (
+        {/* DEBUG: Verificación de ajuste automático - VISIBLE TEMPORALMENTE */}
+        {true && (
           <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/30 border-2 border-green-300 dark:border-green-700 rounded-xl">
             <div className="text-center">
               <div className="text-lg font-black text-green-800 dark:text-green-400 mb-2">
-                🎯 CALENDARIO ADAPTATIVO - TAMAÑOS FIJOS
+                🎯 CALENDARIO ADAPTATIVO - AJUSTE AUTOMÁTICO
               </div>
-              <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700 dark:text-green-400">
+              <div className="grid grid-cols-4 gap-4 text-sm font-bold text-green-700 dark:text-green-400">
                 <div className="space-y-1">
                   <div>📅 Días: {gridConfig.totalDays}</div>
                   <div>📐 Día: {gridConfig.dayWidth}px</div>
@@ -342,6 +374,15 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                 </div>
                 <div className="space-y-1">
                   <div>⏰ Horas: {gridConfig.hoursWidth}px</div>
+                  <div>📏 Contenedor: {gridConfig.containerWidth}px</div>
+                  <div>📐 Total: {gridConfig.totalWidth}px</div>
+                </div>
+                <div className="space-y-1">
+                  <div>🖥️ Viewport: {window.innerWidth}px</div>
+                  <div>📱 Menú: {gridConfig.menuState}</div>
+                  <div>🔍 Zoom: {Math.round(window.devicePixelRatio * 100)}%</div>
+                </div>
+                <div className="space-y-1">
                   <div>📏 Total: {gridConfig.totalWidth}px</div>
                   <div>🎛️ Menú: {gridConfig.menuState}</div>
                 </div>
