@@ -5,6 +5,7 @@ import { usePagination } from '../../hooks/usePerformanceOptimization';
 import { AdvancedFilters, QuickFilters } from './AdvancedFilters';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { useThemeAware } from '../../hooks/useTheme';
 import { 
   MagnifyingGlassIcon,
   ArrowUpIcon,
@@ -66,6 +67,7 @@ export function AdvancedTable<T extends { id: string }>({
   title,
   description
 }: AdvancedTableProps<T>) {
+  const theme = useThemeAware();
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [showSettings, setShowSettings] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<Set<keyof T>>(
@@ -157,28 +159,28 @@ export function AdvancedTable<T extends { id: string }>({
 
   if (loading) {
     return (
-      <div className={`bg-white shadow rounded-lg ${className}`}>
+      <div className={`${theme.bg} shadow rounded-lg ${theme.border} border ${className}`}>
         <div className="p-8 text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Cargando datos...</p>
+          <p className={`mt-4 ${theme.textSecondary}`}>Cargando datos...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`bg-white shadow rounded-lg ${className}`}>
+    <div className={`${theme.bg} shadow rounded-lg ${theme.border} border ${className}`}>
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className={`px-6 py-4 border-b ${theme.border}`}>
         <div className="flex flex-col space-y-4">
           {/* Título y descripción */}
           {(title || description) && (
             <div>
               {title && (
-                <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+                <h2 className={`text-lg font-semibold ${theme.text}`}>{title}</h2>
               )}
               {description && (
-                <p className="text-sm text-gray-600 mt-1">{description}</p>
+                <p className={`text-sm ${theme.textSecondary} mt-1`}>{description}</p>
               )}
             </div>
           )}
@@ -188,14 +190,14 @@ export function AdvancedTable<T extends { id: string }>({
             <div className="flex-1 max-w-lg">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                  <MagnifyingGlassIcon className={`h-5 w-5 ${theme.textSecondary}`} />
                 </div>
                 <input
                   type="text"
                   placeholder="Buscar..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`block w-full pl-10 pr-3 py-2 border ${theme.border} rounded-md leading-5 ${theme.bg} ${theme.placeholder} focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${theme.text}`}
                 />
               </div>
             </div>
@@ -209,8 +211,8 @@ export function AdvancedTable<T extends { id: string }>({
                   className={clsx(
                     'px-3 py-2 text-sm font-medium border rounded-l-md',
                     viewMode === 'table'
-                      ? 'bg-blue-50 border-blue-500 text-blue-700'
-                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-400'
+                      : `${theme.bg} ${theme.border} ${theme.text} hover:${theme.bgHover}`
                   )}
                 >
                   <Bars3Icon className="h-4 w-4" />
@@ -220,8 +222,8 @@ export function AdvancedTable<T extends { id: string }>({
                   className={clsx(
                     'px-3 py-2 text-sm font-medium border-t border-r border-b rounded-r-md',
                     viewMode === 'grid'
-                      ? 'bg-blue-50 border-blue-500 text-blue-700'
-                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-700 dark:text-blue-400'
+                      : `${theme.bg} ${theme.border} ${theme.text} hover:${theme.bgHover}`
                   )}
                 >
                   <Squares2X2Icon className="h-4 w-4" />
@@ -327,12 +329,12 @@ export function AdvancedTable<T extends { id: string }>({
       {/* Contenido principal */}
       {processedData.length === 0 ? (
         <div className="px-6 py-12 text-center">
-          <MagnifyingGlassIcon className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
+          <MagnifyingGlassIcon className={`mx-auto h-12 w-12 ${theme.textSecondary}`} />
+          <h3 className={`mt-2 text-sm font-medium ${theme.text}`}>
             {stats.hasSearch || stats.activeFilters > 0 ? 'No se encontraron resultados' : emptyMessage}
           </h3>
           {(stats.hasSearch || stats.activeFilters > 0) && (
-            <p className="mt-1 text-sm text-gray-500">
+            <p className={`mt-1 text-sm ${theme.textSecondary}`}>
               Intenta ajustar los filtros o términos de búsqueda
             </p>
           )}
@@ -340,16 +342,16 @@ export function AdvancedTable<T extends { id: string }>({
       ) : viewMode === 'table' ? (
         /* Vista de tabla */
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className={`min-w-full divide-y ${theme.border}`}>
+            <thead className={`${theme.bgSecondary}`}>
               <tr>
                 {selectable && (
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className={`px-6 py-3 text-left text-xs font-medium ${theme.textSecondary} uppercase tracking-wider`}>
                     <input
                       type="checkbox"
                       checked={currentPageData.length > 0 && currentPageData.every(item => isSelected(item.id))}
                       onChange={handleSelectAll}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className={`h-4 w-4 text-blue-600 focus:ring-blue-500 ${theme.border} rounded`}
                     />
                   </th>
                 )}
@@ -357,10 +359,10 @@ export function AdvancedTable<T extends { id: string }>({
                   <th
                     key={String(column.key)}
                     className={clsx(
-                      'px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider',
+                      `px-6 py-3 text-xs font-medium ${theme.textSecondary} uppercase tracking-wider`,
                       column.align === 'center' && 'text-center',
                       column.align === 'right' && 'text-right',
-                      column.sortable && 'cursor-pointer hover:bg-gray-100'
+                      column.sortable && `cursor-pointer hover:${theme.bgHover}`
                     )}
                     style={{ width: column.width }}
                     onClick={() => column.sortable && toggleSort(column.key)}
@@ -383,13 +385,13 @@ export function AdvancedTable<T extends { id: string }>({
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className={`${theme.bg} divide-y ${theme.border}`}>
               {currentPageData.map(item => (
                 <tr
                   key={item.id}
                   className={clsx(
-                    'hover:bg-gray-50 cursor-pointer',
-                    isSelected(item.id) && 'bg-blue-50'
+                    `hover:${theme.bgHover} cursor-pointer`,
+                    isSelected(item.id) && 'bg-blue-50 dark:bg-blue-900/30'
                   )}
                   onClick={() => onRowClick?.(item)}
                 >
@@ -399,7 +401,7 @@ export function AdvancedTable<T extends { id: string }>({
                         type="checkbox"
                         checked={isSelected(item.id)}
                         onChange={() => selectItem(item.id)}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className={`h-4 w-4 text-blue-600 focus:ring-blue-500 ${theme.border} rounded`}
                       />
                     </td>
                   )}
@@ -407,7 +409,7 @@ export function AdvancedTable<T extends { id: string }>({
                     <td
                       key={String(column.key)}
                       className={clsx(
-                        'px-6 py-4 whitespace-nowrap text-sm text-gray-900',
+                        `px-6 py-4 whitespace-nowrap text-sm ${theme.text}`,
                         column.align === 'center' && 'text-center',
                         column.align === 'right' && 'text-right'
                       )}
@@ -428,8 +430,8 @@ export function AdvancedTable<T extends { id: string }>({
               <div
                 key={item.id}
                 className={clsx(
-                  'p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer',
-                  isSelected(item.id) && 'border-blue-500 bg-blue-50'
+                  `p-4 border ${theme.border} rounded-lg hover:shadow-md transition-shadow cursor-pointer ${theme.bg}`,
+                  isSelected(item.id) && 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
                 )}
                 onClick={() => onRowClick?.(item)}
               >
@@ -439,17 +441,17 @@ export function AdvancedTable<T extends { id: string }>({
                       type="checkbox"
                       checked={isSelected(item.id)}
                       onChange={() => selectItem(item.id)}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className={`h-4 w-4 text-blue-600 focus:ring-blue-500 ${theme.border} rounded`}
                     />
                   </div>
                 )}
                 <div className="space-y-2">
                   {visibleColumnsArray.slice(0, 3).map(column => (
                     <div key={String(column.key)}>
-                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      <div className={`text-xs font-medium ${theme.textSecondary} uppercase tracking-wide`}>
                         {column.label}
                       </div>
-                      <div className="text-sm text-gray-900">
+                      <div className={`text-sm ${theme.text}`}>
                         {renderCell(item, column)}
                       </div>
                     </div>
@@ -463,9 +465,9 @@ export function AdvancedTable<T extends { id: string }>({
 
       {/* Paginación */}
       {pagination.totalPages > 1 && (
-        <div className="px-6 py-3 border-t border-gray-200">
+        <div className={`px-6 py-3 border-t ${theme.border}`}>
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+            <div className={`text-sm ${theme.text}`}>
               Mostrando {pagination.startIndex + 1} a {pagination.endIndex} de {processedData.length} resultados
             </div>
             

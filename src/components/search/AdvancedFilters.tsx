@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { FilterConfig } from '../../hooks/useAdvancedSearch';
 import { Button } from '../ui/Button';
 import { EnhancedInput } from '../ui/EnhancedInput';
+import { useThemeAware } from '../../hooks/useTheme';
 import { 
   FunnelIcon, 
   XMarkIcon, 
@@ -27,6 +28,7 @@ export function AdvancedFilters<T>({
   onClearFilters,
   className = ''
 }: AdvancedFiltersProps<T>) {
+  const theme = useThemeAware();
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'advanced'>('basic');
 
@@ -168,15 +170,15 @@ export function AdvancedFilters<T>({
   };
 
   return (
-    <div className={`bg-white border border-gray-200 rounded-lg ${className}`}>
+    <div className={`${theme.bg} border ${theme.border} rounded-lg ${className}`}>
       {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-200">
+      <div className={`px-4 py-3 border-b ${theme.border}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <FunnelIcon className="h-5 w-5 text-gray-500" />
-            <h3 className="text-sm font-medium text-gray-900">Filtros</h3>
+            <FunnelIcon className={`h-5 w-5 ${theme.textSecondary}`} />
+            <h3 className={`text-sm font-medium ${theme.text}`}>Filtros</h3>
             {activeFiltersCount > 0 && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
                 {activeFiltersCount}
               </span>
             )}
@@ -213,14 +215,14 @@ export function AdvancedFilters<T>({
 
       {/* Filtros activos */}
       {activeFiltersCount > 0 && (
-        <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
+        <div className={`px-4 py-3 border-b ${theme.border} ${theme.bgSecondary}`}>
           <div className="flex flex-wrap gap-2">
             {Object.entries(filters).map(([key, value]) => {
               if (value === undefined || value === null || value === '') return null;
-              
+
               const config = filterConfigs.find(c => String(c.key) === key);
               if (!config) return null;
-              
+
               let displayValue = String(value);
               if (config.type === 'range' && typeof value === 'object') {
                 displayValue = `${value.min || 'Min'} - ${value.max || 'Max'}`;
@@ -228,17 +230,17 @@ export function AdvancedFilters<T>({
                 const option = config.options.find(opt => opt.value === value);
                 displayValue = option?.label || displayValue;
               }
-              
+
               return (
                 <div
                   key={key}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
                 >
                   <span className="font-medium">{config.label}:</span>
                   <span className="ml-1">{displayValue}</span>
                   <button
                     onClick={() => onRemoveFilter(key)}
-                    className="ml-2 text-blue-600 hover:text-blue-800"
+                    className="ml-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                   >
                     <XMarkIcon className="h-3 w-3" />
                   </button>
@@ -254,14 +256,14 @@ export function AdvancedFilters<T>({
         <div className="p-4">
           {/* Tabs */}
           {advancedFilters.length > 0 && (
-            <div className="flex space-x-1 mb-4 bg-gray-100 p-1 rounded-lg">
+            <div className={`flex space-x-1 mb-4 ${theme.bgSecondary} p-1 rounded-lg`}>
               <button
                 onClick={() => setActiveTab('basic')}
                 className={clsx(
                   'flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
                   activeTab === 'basic'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? `${theme.bg} ${theme.text} shadow-sm`
+                    : `${theme.textSecondary} hover:${theme.text}`
                 )}
               >
                 Básicos
@@ -271,8 +273,8 @@ export function AdvancedFilters<T>({
                 className={clsx(
                   'flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
                   activeTab === 'advanced'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? `${theme.bg} ${theme.text} shadow-sm`
+                    : `${theme.textSecondary} hover:${theme.text}`
                 )}
               >
                 Avanzados
@@ -313,7 +315,8 @@ export function QuickFilters<T>({
   onFilterChange,
   className = ''
 }: QuickFiltersProps<T>) {
-  const quickFilters = filterConfigs.filter(config => 
+  const theme = useThemeAware();
+  const quickFilters = filterConfigs.filter(config =>
     config.type === 'select' && config.options && config.options.length <= 5
   );
 
@@ -324,18 +327,18 @@ export function QuickFilters<T>({
       {quickFilters.map(config => {
         const key = String(config.key);
         const value = filters[key];
-        
+
         return (
           <div key={key} className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">{config.label}:</span>
+            <span className={`text-sm ${theme.textSecondary}`}>{config.label}:</span>
             <div className="flex space-x-1">
               <button
                 onClick={() => onFilterChange(key, '')}
                 className={clsx(
                   'px-3 py-1 text-xs font-medium rounded-full transition-colors',
                   !value
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400'
+                    : `${theme.bgSecondary} ${theme.textSecondary} hover:${theme.bgHover}`
                 )}
               >
                 Todos
@@ -347,8 +350,8 @@ export function QuickFilters<T>({
                   className={clsx(
                     'px-3 py-1 text-xs font-medium rounded-full transition-colors',
                     value === option.value
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400'
+                      : `${theme.bgSecondary} ${theme.textSecondary} hover:${theme.bgHover}`
                   )}
                 >
                   {option.label}
