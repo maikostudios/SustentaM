@@ -25,6 +25,7 @@ import { ValidationDemo } from '../components/demo/ValidationDemo';
 import { SearchDemo } from '../components/demo/SearchDemo';
 import { AccessibilityDemo } from '../components/demo/AccessibilityDemo';
 import { ThemeDemo } from '../components/demo/ThemeDemo';
+import { useThemeAware } from '../hooks/useTheme';
 import { ErrorHandlingDemo } from '../components/demo/ErrorHandlingDemo';
 import { ContractorManagement } from '../components/contractors/ContractorManagement';
 import { SeatIconDemo } from '../components/demo/SeatIconDemo';
@@ -48,6 +49,9 @@ export function AdminDashboard() {
 
   // Notifications
   const notifications = useNotifications();
+
+  // Theme
+  const theme = useThemeAware();
 
   const {
     courses,
@@ -310,61 +314,61 @@ export function AdminDashboard() {
               </div>
             </div>
 
-            {/* Métricas principales con nueva paleta de colores */}
+            {/* Métricas principales con temas adaptativos */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Total Cursos - Color primario */}
-              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+              {/* Total Cursos - Color azul */}
+              <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                    <h3 className={`font-sans text-sm font-medium ${theme.textSecondary} uppercase tracking-wide`}>
                       Total Cursos
                     </h3>
-                    <p className="font-sans text-3xl font-bold text-primary-500 mt-2">
+                    <p className="font-sans text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">
                       {courses.length}
                     </p>
                   </div>
-                  <div className="bg-primary-50 p-3 rounded-lg">
-                    <div className="w-6 h-6 bg-primary-500 rounded"></div>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-blue-500 dark:bg-blue-400 rounded"></div>
                   </div>
                 </div>
               </div>
 
-              {/* Participantes - Color secundario (verde) */}
-              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+              {/* Participantes - Color verde */}
+              <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                    <h3 className={`font-sans text-sm font-medium ${theme.textSecondary} uppercase tracking-wide`}>
                       Participantes
                     </h3>
-                    <p className="font-sans text-3xl font-bold text-secondary-500 mt-2">
+                    <p className="font-sans text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
                       {participants.length}
                     </p>
                   </div>
-                  <div className="bg-secondary-50 p-3 rounded-lg">
-                    <div className="w-6 h-6 bg-secondary-500 rounded"></div>
+                  <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-green-500 dark:bg-green-400 rounded"></div>
                   </div>
                 </div>
               </div>
 
-              {/* Aprobados - Color secundario (verde) */}
-              <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+              {/* Aprobados - Color naranja */}
+              <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-sans text-sm font-medium text-text-secondary uppercase tracking-wide">
+                    <h3 className={`font-sans text-sm font-medium ${theme.textSecondary} uppercase tracking-wide`}>
                       Aprobados
                     </h3>
-                    <p className="font-sans text-3xl font-bold text-secondary-500 mt-2">
+                    <p className="font-sans text-3xl font-bold text-orange-600 dark:text-orange-400 mt-2">
                       {participants.filter(p => p.estado === 'aprobado').length}
                     </p>
-                    <p className="font-sans text-sm text-text-muted mt-1">
+                    <p className={`font-sans text-sm ${theme.textMuted} mt-1`}>
                       {participants.length > 0
                         ? `${Math.round((participants.filter(p => p.estado === 'aprobado').length / participants.length) * 100)}% del total`
                         : 'Sin datos'
                       }
                     </p>
                   </div>
-                  <div className="bg-secondary-50 p-3 rounded-lg">
-                    <div className="w-6 h-6 bg-secondary-500 rounded"></div>
+                  <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+                    <div className="w-6 h-6 bg-orange-500 dark:bg-orange-400 rounded"></div>
                   </div>
                 </div>
               </div>
