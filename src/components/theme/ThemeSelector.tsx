@@ -17,11 +17,17 @@ interface ThemeSelectorProps {
   className?: string;
 }
 
-export function ThemeSelector({ 
-  variant = 'dropdown', 
-  showLabel = true, 
-  className = '' 
+export function ThemeSelector({
+  variant = 'dropdown',
+  showLabel = true,
+  className = ''
 }: ThemeSelectorProps) {
+  // SELECTOR DE TEMAS DESACTIVADO - Solo modo oscuro
+  // Retornar null para ocultar completamente el selector
+  return null;
+
+  // Código original comentado para referencia futura
+  /*
   const {
     theme,
     effectiveTheme,
@@ -39,14 +45,16 @@ export function ThemeSelector({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleThemeChange = async (newTheme: Theme) => {
-    await setTheme(newTheme);
-    announce(`Tema cambiado a ${newTheme === 'auto' ? 'automático' : newTheme}`, 'polite');
-    setIsOpen(false);
+    // Desactivado - solo modo oscuro
+    // await setTheme(newTheme);
+    // announce(`Tema cambiado a ${newTheme === 'auto' ? 'automático' : newTheme}`, 'polite');
+    // setIsOpen(false);
   };
 
   const handleToggle = async () => {
-    await toggleTheme();
-    announce(`Tema cambiado a ${effectiveTheme === 'dark' ? 'claro' : 'oscuro'}`, 'polite');
+    // Desactivado - solo modo oscuro
+    // await toggleTheme();
+    // announce(`Tema cambiado a ${effectiveTheme === 'dark' ? 'claro' : 'oscuro'}`, 'polite');
   };
 
   const getThemeIcon = (themeType: Theme | 'effective') => {
@@ -333,4 +341,5 @@ export function ThemeSelector({
       </div>
     </div>
   );
+  */
 }

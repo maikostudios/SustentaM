@@ -15,9 +15,9 @@ const THEME_TRANSITION_DURATION = 300;
 
 export function useTheme() {
   const [config, setConfig] = useState<ThemeConfig>({
-    theme: 'auto',
-    systemPreference: 'light',
-    effectiveTheme: 'light',
+    theme: 'dark',
+    systemPreference: 'dark',
+    effectiveTheme: 'dark',
     transitions: true,
     highContrast: false
   });
@@ -81,100 +81,94 @@ export function useTheme() {
   // Cargar configuración guardada
   useEffect(() => {
     const savedConfig = localStorage.getItem(THEME_STORAGE_KEY);
-    const systemPreference = detectSystemPreference();
-    
+
     if (savedConfig) {
       try {
         const parsed = JSON.parse(savedConfig);
-        const effectiveTheme = calculateEffectiveTheme(parsed.theme, systemPreference);
-        
+        // Forzar modo oscuro independientemente de la configuración guardada
+        const effectiveTheme = 'dark';
+
         setConfig({
-          ...parsed,
-          systemPreference,
-          effectiveTheme
+          theme: 'dark',
+          systemPreference: 'dark',
+          effectiveTheme: 'dark',
+          transitions: parsed.transitions || true,
+          highContrast: parsed.highContrast || false
         });
-        
-        applyTheme(effectiveTheme, parsed.transitions, parsed.highContrast);
+
+        applyTheme(effectiveTheme, parsed.transitions || true, parsed.highContrast || false);
       } catch (error) {
         console.error('Error loading theme config:', error);
-        // Usar configuración por defecto
-        const effectiveTheme = calculateEffectiveTheme('auto', systemPreference);
+        // Usar configuración por defecto - modo oscuro
         setConfig(prev => ({
           ...prev,
-          systemPreference,
-          effectiveTheme
+          theme: 'dark',
+          systemPreference: 'dark',
+          effectiveTheme: 'dark'
         }));
-        applyTheme(effectiveTheme, true, false);
+        applyTheme('dark', true, false);
       }
     } else {
-      // Primera carga - usar configuración por defecto
-      const effectiveTheme = calculateEffectiveTheme('auto', systemPreference);
+      // Primera carga - forzar modo oscuro
       setConfig(prev => ({
         ...prev,
-        systemPreference,
-        effectiveTheme
+        theme: 'dark',
+        systemPreference: 'dark',
+        effectiveTheme: 'dark'
       }));
-      applyTheme(effectiveTheme, true, false);
+      applyTheme('dark', true, false);
     }
-  }, [detectSystemPreference, calculateEffectiveTheme, applyTheme]);
+  }, [applyTheme]);
 
-  // Escuchar cambios en la preferencia del sistema
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      const newSystemPreference = e.matches ? 'dark' : 'light';
-      const newEffectiveTheme = calculateEffectiveTheme(config.theme, newSystemPreference);
-      
-      setConfig(prev => ({
-        ...prev,
-        systemPreference: newSystemPreference,
-        effectiveTheme: newEffectiveTheme
-      }));
-      
-      applyTheme(newEffectiveTheme, config.transitions, config.highContrast);
-    };
+  // Listener de cambios del sistema DESACTIVADO - solo modo oscuro
+  // useEffect(() => {
+  //   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  //
+  //   const handleChange = (e: MediaQueryListEvent) => {
+  //     // No hacer nada - mantener siempre modo oscuro
+  //   };
+  //
+  //   mediaQuery.addEventListener('change', handleChange);
+  //   return () => mediaQuery.removeEventListener('change', handleChange);
+  // }, []);
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [config.theme, config.transitions, config.highContrast, calculateEffectiveTheme, applyTheme]);
-
-  // Guardar configuración cuando cambie
+  // Guardar configuración cuando cambie - FORZADO A MODO OSCURO
   useEffect(() => {
     localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify({
-      theme: config.theme,
+      theme: 'dark',
       transitions: config.transitions,
       highContrast: config.highContrast
     }));
-  }, [config.theme, config.transitions, config.highContrast]);
+  }, [config.transitions, config.highContrast]);
 
-  // Cambiar tema
+  // Cambiar tema - FORZADO A MODO OSCURO
   const setTheme = useCallback(async (newTheme: Theme) => {
     setIsChanging(true);
-    
-    const newEffectiveTheme = calculateEffectiveTheme(newTheme, config.systemPreference);
-    
+
+    // Siempre forzar modo oscuro independientemente del tema solicitado
+    const forcedTheme = 'dark';
+
     setConfig(prev => ({
       ...prev,
-      theme: newTheme,
-      effectiveTheme: newEffectiveTheme
+      theme: 'dark',
+      effectiveTheme: 'dark'
     }));
-    
-    applyTheme(newEffectiveTheme, config.transitions, config.highContrast);
-    
+
+    applyTheme('dark', config.transitions, config.highContrast);
+
     // Esperar a que termine la transición
     if (config.transitions) {
       await new Promise(resolve => setTimeout(resolve, THEME_TRANSITION_DURATION));
     }
-    
-    setIsChanging(false);
-  }, [config.systemPreference, config.transitions, config.highContrast, calculateEffectiveTheme, applyTheme]);
 
-  // Toggle entre light y dark (ignora auto)
+    setIsChanging(false);
+  }, [config.transitions, config.highContrast, applyTheme]);
+
+  // Toggle entre light y dark - DESACTIVADO (siempre oscuro)
   const toggleTheme = useCallback(async () => {
-    const newTheme = config.effectiveTheme === 'dark' ? 'light' : 'dark';
-    await setTheme(newTheme);
-  }, [config.effectiveTheme, setTheme]);
+    // No hacer nada - mantener siempre modo oscuro
+    console.log('Toggle theme desactivado - manteniendo modo oscuro');
+  }, []);
 
   // Configurar transiciones
   const setTransitions = useCallback((enabled: boolean) => {
