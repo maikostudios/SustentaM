@@ -140,7 +140,8 @@ export function LoginForm() {
           </Button>
         </form>
 
-        {/* Información de usuarios de prueba con sistema de temas */}
+        {/* Información de usuarios de prueba - OCULTA PARA PRESENTACIÓN AL CLIENTE */}
+        {/*
         <div className="mt-8 text-center">
           <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4`}>
             <p className={`font-sans text-sm font-semibold ${theme.text} mb-3`}>
@@ -158,6 +159,7 @@ export function LoginForm() {
             </div>
           </div>
         </div>
+        */}
 
         <div className="mt-4 text-center">
           <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">

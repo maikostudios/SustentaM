@@ -157,8 +157,8 @@ export function ContractorManagement() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gestión de Contratistas</h2>
-          <p className="text-gray-600">Administra los contratistas y sus datos de contacto</p>
+          <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Contratistas</h2>
+          <p className="font-sans text-gray-600 dark:text-gray-400">Administra los contratistas y sus datos de contacto</p>
         </div>
         <Button onClick={handleCreate} className="flex items-center space-x-2">
           <PlusIcon className="w-4 h-4" />
@@ -167,9 +167,9 @@ export function ContractorManagement() {
       </div>
 
       {/* Buscador */}
-      <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
           <Input
             placeholder="Buscar por nombre, empresa, email o RUT..."
             value={searchTerm}
@@ -181,92 +181,92 @@ export function ContractorManagement() {
 
       {/* Estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <UserIcon className="w-8 h-8 text-blue-500" />
+            <UserIcon className="w-8 h-8 text-blue-500 dark:text-blue-400" />
             <div className="ml-3">
-              <div className="text-2xl font-bold text-gray-900">{contractors.length}</div>
-              <div className="text-sm text-gray-600">Total Contratistas</div>
+              <div className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">{contractors.length}</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Total Contratistas</div>
             </div>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <BuildingOfficeIcon className="w-8 h-8 text-green-500" />
+            <BuildingOfficeIcon className="w-8 h-8 text-green-500 dark:text-green-400" />
             <div className="ml-3">
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {contractors.filter(c => c.estado === 'activo').length}
               </div>
-              <div className="text-sm text-gray-600">Activos</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Activos</div>
             </div>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <EnvelopeIcon className="w-8 h-8 text-amber-500" />
+            <EnvelopeIcon className="w-8 h-8 text-amber-500 dark:text-amber-400" />
             <div className="ml-3">
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {contractors.filter(c => c.estado === 'inactivo').length}
               </div>
-              <div className="text-sm text-gray-600">Inactivos</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Inactivos</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Tabla de contratistas */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Contratista
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Empresa
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Contacto
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Estado
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Fecha Registro
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {filteredContractors.map((contractor) => (
-                <tr key={contractor.id} className="hover:bg-gray-50">
+                <tr key={contractor.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{contractor.nombre}</div>
-                      <div className="text-sm text-gray-500">{contractor.rut}</div>
+                      <div className="font-sans text-sm font-medium text-gray-900 dark:text-gray-100">{contractor.nombre}</div>
+                      <div className="font-sans text-sm text-gray-500 dark:text-gray-400">{contractor.rut}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{contractor.empresa}</div>
-                    <div className="text-sm text-gray-500">{contractor.direccion}</div>
+                    <div className="font-sans text-sm text-gray-900 dark:text-gray-100">{contractor.empresa}</div>
+                    <div className="font-sans text-sm text-gray-500 dark:text-gray-400">{contractor.direccion}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{contractor.email}</div>
-                    <div className="text-sm text-gray-500">{contractor.telefono}</div>
+                    <div className="font-sans text-sm text-gray-900 dark:text-gray-100">{contractor.email}</div>
+                    <div className="font-sans text-sm text-gray-500 dark:text-gray-400">{contractor.telefono}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      contractor.estado === 'activo' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                      contractor.estado === 'activo'
+                        ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                        : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                     }`}>
                       {contractor.estado}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     {new Date(contractor.fechaRegistro).toLocaleDateString('es-CL')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -275,7 +275,7 @@ export function ContractorManagement() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleEdit(contractor)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         <PencilIcon className="w-4 h-4" />
                       </Button>
@@ -283,7 +283,7 @@ export function ContractorManagement() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleDelete(contractor.id)}
-                        className="text-red-600 hover:text-red-900"
+                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                       >
                         <TrashIcon className="w-4 h-4" />
                       </Button>
@@ -297,9 +297,9 @@ export function ContractorManagement() {
         
         {filteredContractors.length === 0 && (
           <div className="text-center py-8">
-            <UserIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No se encontraron contratistas</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <UserIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
+            <h3 className="font-sans mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No se encontraron contratistas</h3>
+            <p className="font-sans mt-1 text-sm text-gray-500 dark:text-gray-400">
               {searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza agregando un nuevo contratista.'}
             </p>
           </div>

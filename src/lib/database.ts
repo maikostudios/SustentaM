@@ -70,11 +70,11 @@ export async function initializeData() {
       console.log('Users reinitialized with', mockUsers.length, 'users');
     }
 
-    // Si ya hay datos suficientes, no inicializar el resto
-    if (courseCount > 0 && sessionCount > 0 && participantCount > 0) {
-      console.log('Database already contains sufficient data, skipping course initialization');
-      return;
-    }
+    // FORZAR REINICIALIZACIÓN PARA PRESENTACIÓN AL CLIENTE
+    console.log('Forzando reinicialización de cursos para presentación al cliente');
+    await db.courses.clear();
+    await db.sessions.clear();
+    await db.participants.clear();
 
     // Inicializar cada tabla por separado para mejor manejo de errores
     try {

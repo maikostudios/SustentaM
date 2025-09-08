@@ -202,11 +202,11 @@ FILTROS APLICADOS:
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-            <ChartBarIcon className="w-6 h-6 mr-2" />
+          <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            <ChartBarIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
             Dashboard de Reportes
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="font-sans text-gray-600 dark:text-gray-400 mt-1">
             Análisis y métricas de capacitaciones
           </p>
         </div>
@@ -342,33 +342,33 @@ FILTROS APLICADOS:
       {/* KPIs Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-lg text-white">
-          <div className="text-3xl font-bold">{kpis.totalParticipants}</div>
-          <div className="text-blue-100">Total Participantes</div>
-          <div className="text-sm text-blue-200 mt-1">
+          <div className="font-sans text-3xl font-bold">{kpis.totalParticipants}</div>
+          <div className="font-sans text-blue-100">Total Participantes</div>
+          <div className="font-sans text-sm text-blue-200 mt-1">
             En {kpis.totalCourses} cursos
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-lg text-white">
-          <div className="text-3xl font-bold">{kpis.approvalRate.toFixed(1)}%</div>
-          <div className="text-green-100">Tasa de Aprobación</div>
-          <div className="text-sm text-green-200 mt-1">
+          <div className="font-sans text-3xl font-bold">{kpis.approvalRate.toFixed(1)}%</div>
+          <div className="font-sans text-green-100">Tasa de Aprobación</div>
+          <div className="font-sans text-sm text-green-200 mt-1">
             {kpis.approvedCount} de {kpis.totalParticipants}
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6 rounded-lg text-white">
-          <div className="text-3xl font-bold">{kpis.avgAttendance}%</div>
-          <div className="text-orange-100">Asistencia Promedio</div>
-          <div className="text-sm text-orange-200 mt-1">
+          <div className="font-sans text-3xl font-bold">{kpis.avgAttendance}%</div>
+          <div className="font-sans text-orange-100">Asistencia Promedio</div>
+          <div className="font-sans text-sm text-orange-200 mt-1">
             Nota promedio: {kpis.avgGrade}
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6 rounded-lg text-white">
-          <div className="text-3xl font-bold">{kpis.activeContractors}</div>
-          <div className="text-purple-100">Contratistas Activos</div>
-          <div className="text-sm text-purple-200 mt-1">
+          <div className="font-sans text-3xl font-bold">{kpis.activeContractors}</div>
+          <div className="font-sans text-purple-100">Contratistas Activos</div>
+          <div className="font-sans text-sm text-purple-200 mt-1">
             Participando en cursos
           </div>
         </div>

@@ -15,7 +15,11 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 
-export function SimpleReportsDashboard() {
+interface SimpleReportsDashboardProps {
+  hidePerformanceMetrics?: boolean;
+}
+
+export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: SimpleReportsDashboardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState('month');
   const [selectedCourse, setSelectedCourse] = useState('all');
 
@@ -261,8 +265,10 @@ export function SimpleReportsDashboard() {
         </div>
       </div>
 
-      {/* Métricas de rendimiento mejoradas */}
-      <PerformanceMetrics data={reportData.performanceMetrics} />
+      {/* Métricas de rendimiento mejoradas - OCULTAS PARA CONTRATISTAS */}
+      {!hidePerformanceMetrics && (
+        <PerformanceMetrics data={reportData.performanceMetrics} />
+      )}
 
       {/* Nuevos Gráficos */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -279,43 +285,43 @@ export function SimpleReportsDashboard() {
       {/* Gráficos y tablas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Estadísticas por curso con nueva paleta */}
-        <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
-          <h3 className="font-sans text-xl font-bold text-text-primary mb-6">Rendimiento por Curso</h3>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+          <h3 className="font-sans text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Rendimiento por Curso</h3>
           <div className="space-y-6">
             {reportData.cursoStats.map((curso, index) => (
-              <div key={index} className="border-b border-border-light pb-6 last:border-b-0">
+              <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-sans text-base font-semibold text-text-primary">{curso.curso}</h4>
-                  <span className="font-sans text-sm text-text-muted bg-background-tertiary px-3 py-1 rounded">
+                  <h4 className="font-sans text-base font-semibold text-gray-900 dark:text-gray-100">{curso.curso}</h4>
+                  <span className="font-sans text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded">
                     {curso.participantes} participantes
                   </span>
                 </div>
                 <div className="grid grid-cols-3 gap-6 text-sm">
                   <div>
-                    <span className="font-sans text-text-secondary">Aprobados:</span>
-                    <span className="ml-2 font-sans font-semibold text-secondary-600">
+                    <span className="font-sans text-gray-600 dark:text-gray-400">Aprobados:</span>
+                    <span className="ml-2 font-sans font-semibold text-green-600 dark:text-green-400">
                       {curso.aprobados}/{curso.participantes}
                     </span>
                   </div>
                   <div>
-                    <span className="font-sans text-text-secondary">Promedio:</span>
-                    <span className="ml-2 font-sans font-semibold text-text-primary">{curso.promedio}</span>
+                    <span className="font-sans text-gray-600 dark:text-gray-400">Promedio:</span>
+                    <span className="ml-2 font-sans font-semibold text-gray-900 dark:text-gray-100">{curso.promedio}</span>
                   </div>
                   <div>
-                    <span className="font-sans text-text-secondary">Asistencia:</span>
-                    <span className="ml-2 font-sans font-semibold text-text-primary">{curso.asistencia}%</span>
+                    <span className="font-sans text-gray-600 dark:text-gray-400">Asistencia:</span>
+                    <span className="ml-2 font-sans font-semibold text-gray-900 dark:text-gray-100">{curso.asistencia}%</span>
                   </div>
                 </div>
                 <div className="mt-4">
-                  <div className="w-full bg-background-tertiary rounded-full h-3">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
                     <div
-                      className="bg-secondary-500 h-3 rounded-full transition-all duration-300"
+                      className="bg-green-500 h-3 rounded-full transition-all duration-300"
                       style={{ width: `${(curso.aprobados / curso.participantes) * 100}%` }}
                     ></div>
                   </div>
-                  <div className="flex justify-between mt-2 text-xs text-text-muted">
+                  <div className="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>0%</span>
-                    <span className="font-semibold text-secondary-600">
+                    <span className="font-semibold text-green-600 dark:text-green-400">
                       {Math.round((curso.aprobados / curso.participantes) * 100)}% aprobación
                     </span>
                     <span>100%</span>
@@ -327,42 +333,42 @@ export function SimpleReportsDashboard() {
         </div>
 
         {/* Estadísticas por contratista con nueva paleta */}
-        <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
-          <h3 className="font-sans text-xl font-bold text-text-primary mb-6">Rendimiento por Contratista</h3>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+          <h3 className="font-sans text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Rendimiento por Contratista</h3>
           <div className="space-y-6">
             {reportData.contratistaStats.map((contratista, index) => (
-              <div key={index} className="border-b border-border-light pb-6 last:border-b-0">
+              <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-sans text-base font-semibold text-text-primary">{contratista.nombre}</h4>
+                  <h4 className="font-sans text-base font-semibold text-gray-900 dark:text-gray-100">{contratista.nombre}</h4>
                   <span className={`font-sans text-sm font-semibold px-3 py-1 rounded ${
-                    contratista.tasa >= 85 ? 'bg-secondary-100 text-secondary-800' :
-                    contratista.tasa >= 70 ? 'bg-warning-100 text-warning-800' :
-                    'bg-error-100 text-error-800'
+                    contratista.tasa >= 85 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                    contratista.tasa >= 70 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                    'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                   }`}>
                     {contratista.tasa}%
                   </span>
                 </div>
-                <div className="flex items-center justify-between font-sans text-sm text-text-secondary mb-3">
+                <div className="flex items-center justify-between font-sans text-sm text-gray-600 dark:text-gray-400 mb-3">
                   <span>{contratista.participantes} participantes</span>
                   <span>{contratista.aprobados} aprobados</span>
                 </div>
                 <div className="mt-4">
-                  <div className="w-full bg-background-tertiary rounded-full h-3">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
                     <div
                       className={`h-3 rounded-full transition-all duration-300 ${
-                        contratista.tasa >= 85 ? 'bg-secondary-500' :
-                        contratista.tasa >= 70 ? 'bg-warning-500' :
-                        'bg-error-500'
+                        contratista.tasa >= 85 ? 'bg-green-500' :
+                        contratista.tasa >= 70 ? 'bg-yellow-500' :
+                        'bg-red-500'
                       }`}
                       style={{ width: `${contratista.tasa}%` }}
                     ></div>
                   </div>
-                  <div className="flex justify-between mt-2 text-xs text-text-muted">
+                  <div className="flex justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>0%</span>
                     <span className={`font-semibold ${
-                      contratista.tasa >= 85 ? 'text-secondary-600' :
-                      contratista.tasa >= 70 ? 'text-warning-600' :
-                      'text-error-600'
+                      contratista.tasa >= 85 ? 'text-green-600 dark:text-green-400' :
+                      contratista.tasa >= 70 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-red-600 dark:text-red-400'
                     }`}>
                       {contratista.tasa}% aprobación
                     </span>
@@ -376,15 +382,15 @@ export function SimpleReportsDashboard() {
       </div>
 
       {/* Tendencias */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tendencias Mensuales</h3>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Tendencias Mensuales</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {reportData.tendencias.map((mes, index) => (
-            <div key={index} className="text-center p-4 bg-gray-50 rounded-lg">
-              <h4 className="font-medium text-gray-900">{mes.mes}</h4>
-              <p className="text-2xl font-bold text-blue-600 mt-2">{mes.participantes}</p>
-              <p className="text-sm text-gray-600">participantes</p>
-              <p className="text-sm text-green-600 font-medium mt-1">
+            <div key={index} className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <h4 className="font-sans font-medium text-gray-900 dark:text-gray-100">{mes.mes}</h4>
+              <p className="font-sans text-2xl font-bold text-blue-600 dark:text-blue-400 mt-2">{mes.participantes}</p>
+              <p className="font-sans text-sm text-gray-600 dark:text-gray-400">participantes</p>
+              <p className="font-sans text-sm text-green-600 dark:text-green-400 font-medium mt-1">
                 {mes.aprobados} aprobados
               </p>
             </div>
@@ -393,12 +399,12 @@ export function SimpleReportsDashboard() {
       </div>
 
       {/* Alertas y recomendaciones */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
         <div className="flex items-start">
-          <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600 mt-1" />
+          <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mt-1" />
           <div className="ml-3">
-            <h3 className="text-lg font-medium text-yellow-800">Recomendaciones</h3>
-            <div className="mt-2 text-sm text-yellow-700">
+            <h3 className="font-sans text-lg font-medium text-yellow-800 dark:text-yellow-200">Recomendaciones</h3>
+            <div className="mt-2 font-sans text-sm text-yellow-700 dark:text-yellow-300">
               <ul className="list-disc list-inside space-y-1">
                 <li>Servicios Integrales DEF tiene una tasa de aprobación del 80%, considerar refuerzo.</li>
                 <li>El curso de Seguridad Informática tiene la menor asistencia promedio (82%).</li>

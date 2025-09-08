@@ -39,17 +39,19 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
   };
 
   return (
-    <div className="min-h-screen bg-sustenta-gray">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header con gradiente SUSTENTA */}
-      <header className="bg-gradient-sustenta shadow-lg">
+      <header className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-700 dark:to-blue-900 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo y título */}
             <div className="flex items-center space-x-4">
-              <div className="hexagon-sustenta scale-75"></div>
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <span className="text-blue-600 font-bold text-sm">S</span>
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-white">SUSTENTA</h1>
-                <p className="text-xs text-sustenta-light-blue">Portal del Estudiante</p>
+                <h1 className="font-sans text-xl font-bold text-white">SUSTENTA</h1>
+                <p className="font-sans text-xs text-blue-200">Portal del Estudiante</p>
               </div>
             </div>
 
@@ -59,10 +61,10 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
                 <button
                   key={item.id}
                   onClick={() => handleNavigation(item.id)}
-                  className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`font-sans flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id
                       ? 'bg-white/20 text-white'
-                      : 'text-sustenta-light-blue hover:bg-white/10 hover:text-white'
+                      : 'text-blue-200 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   <item.icon className="w-4 h-4 mr-2" />
@@ -74,8 +76,8 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
             {/* User menu */}
             <div className="flex items-center space-x-4">
               <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-white">{user?.nombre}</p>
-                <p className="text-xs text-sustenta-light-blue">{user?.empresa}</p>
+                <p className="font-sans text-sm font-medium text-white">{user?.nombre}</p>
+                <p className="font-sans text-xs text-blue-200">{user?.empresa}</p>
               </div>
 
               {/* Mobile menu button */}
@@ -99,7 +101,7 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
                 aria-label="Cerrar sesión"
               >
                 <ArrowRightOnRectangleIcon className="w-4 h-4" />
-                <span className="hidden sm:inline ml-2">Salir</span>
+                <span className="font-sans hidden sm:inline ml-2">Salir</span>
               </Button>
             </div>
           </div>
@@ -107,16 +109,16 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-sustenta-dark-blue border-t border-white/10">
+          <div className="md:hidden bg-blue-800 dark:bg-blue-900 border-t border-white/10">
             <div className="px-4 py-3 space-y-1">
               {navigation.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleNavigation(item.id)}
-                  className={`flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`font-sans flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id
                       ? 'bg-white/20 text-white'
-                      : 'text-sustenta-light-blue hover:bg-white/10 hover:text-white'
+                      : 'text-blue-200 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   <item.icon className="w-4 h-4 mr-3" />
@@ -127,8 +129,8 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
               {/* User info in mobile */}
               <div className="pt-3 mt-3 border-t border-white/10">
                 <div className="px-3 py-2">
-                  <p className="text-sm font-medium text-white">{user?.nombre}</p>
-                  <p className="text-xs text-sustenta-light-blue">{user?.empresa}</p>
+                  <p className="font-sans text-sm font-medium text-white">{user?.nombre}</p>
+                  <p className="font-sans text-xs text-blue-200">{user?.empresa}</p>
                 </div>
               </div>
             </div>

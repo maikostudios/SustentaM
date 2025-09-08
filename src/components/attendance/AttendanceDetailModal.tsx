@@ -173,16 +173,16 @@ export function AttendanceDetailModal({
     >
       <div className="space-y-6">
         {/* Header con información del participante */}
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <UserIcon className="w-10 h-10 text-gray-400" />
+              <UserIcon className="w-10 h-10 text-gray-400 dark:text-gray-500" />
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">{participant.nombre}</h3>
-                <p className="text-sm text-gray-600">RUT: {participant.rut}</p>
+                <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">{participant.nombre}</h3>
+                <p className="font-sans text-sm text-gray-600 dark:text-gray-400">RUT: {participant.rut}</p>
                 <div className="flex items-center mt-1">
-                  <AcademicCapIcon className="w-4 h-4 text-gray-400 mr-1" />
-                  <span className="text-sm text-gray-600">{participant.curso}</span>
+                  <AcademicCapIcon className="w-4 h-4 text-gray-400 dark:text-gray-500 mr-1" />
+                  <span className="font-sans text-sm text-gray-600 dark:text-gray-400">{participant.curso}</span>
                 </div>
               </div>
             </div>
@@ -192,7 +192,7 @@ export function AttendanceDetailModal({
               <div className={`inline-flex px-3 py-1 rounded-full text-sm font-medium ${getAttendanceColor(attendancePercentage)}`}>
                 {attendancePercentage.toFixed(1)}% Asistencia
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="font-sans text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {attendedSessions} de {sessions.length} sesiones
               </p>
             </div>
@@ -201,7 +201,7 @@ export function AttendanceDetailModal({
 
         {/* Buscador */}
         <div className="relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
           <Input
             placeholder="Buscar por tema, fecha u observaciones..."
             value={searchTerm}
@@ -212,85 +212,85 @@ export function AttendanceDetailModal({
 
         {/* Resumen estadístico */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
             <div className="flex items-center">
-              <CalendarDaysIcon className="w-6 h-6 text-blue-500" />
+              <CalendarDaysIcon className="w-6 h-6 text-blue-500 dark:text-blue-400" />
               <div className="ml-3">
-                <div className="text-lg font-semibold text-gray-900">{sessions.length}</div>
-                <div className="text-xs text-gray-600">Total Sesiones</div>
+                <div className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">{sessions.length}</div>
+                <div className="font-sans text-xs text-gray-600 dark:text-gray-400">Total Sesiones</div>
               </div>
             </div>
           </div>
-          
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
             <div className="flex items-center">
-              <CheckCircleIcon className="w-6 h-6 text-green-500" />
+              <CheckCircleIcon className="w-6 h-6 text-green-500 dark:text-green-400" />
               <div className="ml-3">
-                <div className="text-lg font-semibold text-gray-900">{attendedSessions}</div>
-                <div className="text-xs text-gray-600">Asistidas</div>
+                <div className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">{attendedSessions}</div>
+                <div className="font-sans text-xs text-gray-600 dark:text-gray-400">Asistidas</div>
               </div>
             </div>
           </div>
-          
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
             <div className="flex items-center">
-              <XCircleIcon className="w-6 h-6 text-red-500" />
+              <XCircleIcon className="w-6 h-6 text-red-500 dark:text-red-400" />
               <div className="ml-3">
-                <div className="text-lg font-semibold text-gray-900">{sessions.length - attendedSessions}</div>
-                <div className="text-xs text-gray-600">Ausencias</div>
+                <div className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">{sessions.length - attendedSessions}</div>
+                <div className="font-sans text-xs text-gray-600 dark:text-gray-400">Ausencias</div>
               </div>
             </div>
           </div>
-          
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
             <div className="flex items-center">
-              <ClockIcon className="w-6 h-6 text-purple-500" />
+              <ClockIcon className="w-6 h-6 text-purple-500 dark:text-purple-400" />
               <div className="ml-3">
-                <div className="text-lg font-semibold text-gray-900">
+                <div className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {sessions.filter(s => s.asistio).reduce((total, s) => total + s.duracion, 0)}
                 </div>
-                <div className="text-xs text-gray-600">Min. Asistidas</div>
+                <div className="font-sans text-xs text-gray-600 dark:text-gray-400">Min. Asistidas</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabla de sesiones */}
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Fecha
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Tema
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Duración
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Asistencia
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Observaciones
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Acciones
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredSessions.map((session) => (
-                  <tr key={session.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <tr key={session.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {new Date(session.fecha).toLocaleDateString('es-CL')}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                    <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                       {session.tema}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {session.duracion} min
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -307,7 +307,7 @@ export function AttendanceDetailModal({
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                       {session.observaciones || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -315,7 +315,7 @@ export function AttendanceDetailModal({
                         variant="ghost"
                         size="sm"
                         onClick={() => handleToggleAttendance(session.id)}
-                        className={session.asistio ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'}
+                        className={session.asistio ? 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300' : 'text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300'}
                       >
                         {session.asistio ? 'Marcar Ausente' : 'Marcar Presente'}
                       </Button>
@@ -325,12 +325,12 @@ export function AttendanceDetailModal({
               </tbody>
             </table>
           </div>
-          
+
           {filteredSessions.length === 0 && (
             <div className="text-center py-8">
-              <CalendarDaysIcon className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No se encontraron sesiones</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <CalendarDaysIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
+              <h3 className="font-sans mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No se encontraron sesiones</h3>
+              <p className="font-sans mt-1 text-sm text-gray-500 dark:text-gray-400">
                 {searchTerm ? 'Intenta con otros términos de búsqueda.' : 'No hay sesiones registradas.'}
               </p>
             </div>
@@ -338,7 +338,7 @@ export function AttendanceDetailModal({
         </div>
 
         {/* Footer con acciones */}
-        <div className="flex justify-end space-x-3 pt-4 border-t">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button variant="secondary" onClick={onClose}>
             Cerrar
           </Button>

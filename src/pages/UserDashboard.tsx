@@ -64,11 +64,11 @@ export function UserDashboard() {
   const getStatusColor = (estado: string) => {
     switch (estado) {
       case 'aprobado':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border-green-200 dark:border-green-700';
       case 'reprobado':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border-red-200 dark:border-red-700';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-600';
     }
   };
 
@@ -76,67 +76,67 @@ export function UserDashboard() {
     <UserLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             Mis Cursos
           </h1>
-          <p className="text-gray-600">
+          <p className="font-sans text-gray-600 dark:text-gray-400">
             Revisa el estado de tus cursos y descarga tus certificados
           </p>
         </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="card-sustenta p-6 bg-sustenta-light-blue/20 border-sustenta-blue/30">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-blue-200 dark:border-blue-700">
           <div className="flex items-center space-x-3">
-            <ClockIcon className="w-8 h-8 text-sustenta-blue" />
+            <ClockIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
             <div>
-              <div className="text-2xl font-bold text-sustenta-blue">
+              <div className="font-sans text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {userParticipations.filter(p => p.estado === 'inscrito').length}
               </div>
-              <div className="text-sm text-gray-600">Cursos en Progreso</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos en Progreso</div>
             </div>
           </div>
         </div>
 
-        <div className="card-sustenta p-6 bg-green-50 border-green-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-green-200 dark:border-green-700">
           <div className="flex items-center space-x-3">
-            <CheckCircleIcon className="w-8 h-8 text-green-600" />
+            <CheckCircleIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
             <div>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="font-sans text-2xl font-bold text-green-600 dark:text-green-400">
                 {userParticipations.filter(p => p.estado === 'aprobado').length}
               </div>
-              <div className="text-sm text-gray-600">Cursos Aprobados</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos Aprobados</div>
             </div>
           </div>
         </div>
 
-        <div className="card-sustenta p-6 bg-red-50 border-red-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-red-200 dark:border-red-700">
           <div className="flex items-center space-x-3">
-            <XCircleIcon className="w-8 h-8 text-red-600" />
+            <XCircleIcon className="w-8 h-8 text-red-600 dark:text-red-400" />
             <div>
-              <div className="text-2xl font-bold text-red-600">
+              <div className="font-sans text-2xl font-bold text-red-600 dark:text-red-400">
                 {userParticipations.filter(p => p.estado === 'reprobado').length}
               </div>
-              <div className="text-sm text-gray-600">Cursos Reprobados</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos Reprobados</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Courses List */}
-      <div className="card-sustenta">
-        <div className="header-sustenta">
-          <h2 className="text-lg font-semibold">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">
             Historial de Cursos
           </h2>
         </div>
-        
-        <div className="divide-y divide-gray-200">
+
+        <div className="divide-y divide-gray-200 dark:divide-gray-700">
           {userParticipations.length === 0 ? (
             <div className="text-center py-12">
-              <ClockIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">No tienes cursos registrados</p>
-              <p className="text-gray-400 text-sm">
+              <ClockIcon className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <p className="font-sans text-gray-500 dark:text-gray-400 text-lg">No tienes cursos registrados</p>
+              <p className="font-sans text-gray-400 dark:text-gray-500 text-sm">
                 Contacta a tu contratista para inscribirte en cursos disponibles
               </p>
             </div>
@@ -145,20 +145,20 @@ export function UserDashboard() {
               const course = courses.find(c => c.id === 'course-1') || courses[0]; // Simplified for demo
               
               return (
-                <div key={participant.id} className="p-6 hover:bg-gray-50">
+                <div key={participant.id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
                         {getStatusIcon(participant.estado)}
-                        <h3 className="text-lg font-medium text-gray-900">
+                        <h3 className="font-sans text-lg font-medium text-gray-900 dark:text-gray-100">
                           {course?.nombre || 'Curso no encontrado'}
                         </h3>
                         <span className={`inline-flex px-3 py-1 text-xs font-medium rounded-full border ${getStatusColor(participant.estado)}`}>
                           {participant.estado.charAt(0).toUpperCase() + participant.estado.slice(1)}
                         </span>
                       </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-600">
+
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-600 dark:text-gray-400">
                         <div>
                           <span className="font-medium">Código:</span> {course?.codigo}
                         </div>
@@ -176,7 +176,7 @@ export function UserDashboard() {
                       </div>
 
                       {course?.objetivos && (
-                        <p className="mt-2 text-sm text-gray-600">
+                        <p className="font-sans mt-2 text-sm text-gray-600 dark:text-gray-400">
                           <span className="font-medium">Objetivos:</span> {course.objetivos}
                         </p>
                       )}

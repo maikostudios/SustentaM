@@ -226,7 +226,7 @@ export function AttendanceTable({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
           Asistencia y Calificaciones
         </h2>
         
@@ -263,47 +263,47 @@ export function AttendanceTable({
 
       {participants.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">{participants.length}</div>
-            <div className="text-sm text-gray-600">Total Inscritos</div>
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <div className="font-sans text-2xl font-bold text-blue-600 dark:text-blue-400">{participants.length}</div>
+            <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Total Inscritos</div>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">
+          <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+            <div className="font-sans text-2xl font-bold text-green-600 dark:text-green-400">
               {participants.filter(p => p.estado === 'aprobado').length}
             </div>
-            <div className="text-sm text-gray-600">Aprobados</div>
+            <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Aprobados</div>
           </div>
-          <div className="bg-red-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-red-600">
+          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+            <div className="font-sans text-2xl font-bold text-red-600 dark:text-red-400">
               {participants.filter(p => p.estado === 'reprobado').length}
             </div>
-            <div className="text-sm text-gray-600">Reprobados</div>
+            <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Reprobados</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="text-2xl font-bold text-gray-600">
-              {participants.length > 0 
+          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            <div className="font-sans text-2xl font-bold text-gray-600 dark:text-gray-300">
+              {participants.length > 0
                 ? `${(participants.reduce((acc, p) => acc + p.asistencia, 0) / participants.length).toFixed(1)}%`
                 : '0%'
               }
             </div>
-            <div className="text-sm text-gray-600">Asistencia Promedio</div>
+            <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Asistencia Promedio</div>
           </div>
         </div>
       )}
 
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <caption className="sr-only">
             Tabla de asistencia y calificaciones de participantes
           </caption>
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
                   <th
                     key={header.id}
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                   >
                     {header.isPlaceholder
                       ? null
@@ -316,14 +316,14 @@ export function AttendanceTable({
               </tr>
             ))}
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {table.getRowModel().rows.map((row, index) => (
-              <tr 
+              <tr
                 key={row.id}
-                className={`hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}
+                className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 {row.getVisibleCells().map(cell => (
-                  <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -331,10 +331,10 @@ export function AttendanceTable({
             ))}
           </tbody>
         </table>
-        
+
         {participants.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">No hay participantes registrados</p>
+            <p className="font-sans text-gray-500 dark:text-gray-400">No hay participantes registrados</p>
           </div>
         )}
       </div>

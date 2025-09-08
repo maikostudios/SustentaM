@@ -25,18 +25,18 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       title: 'Total Estudiantes',
       value: data.totalEstudiantes,
       icon: UserGroupIcon,
-      color: 'blue',
-      bgColor: 'bg-blue-50',
-      iconColor: 'text-blue-600',
+      color: 'primary',
+      bgColor: 'bg-primary-50',
+      iconColor: 'text-primary-600',
       suffix: ''
     },
     {
       title: 'Promedio General',
       value: data.promedioGeneral,
       icon: AcademicCapIcon,
-      color: 'green',
-      bgColor: 'bg-green-50',
-      iconColor: 'text-green-600',
+      color: 'secondary',
+      bgColor: 'bg-secondary-50',
+      iconColor: 'text-secondary-600',
       suffix: '',
       decimals: 1
     },
@@ -44,9 +44,9 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       title: 'Asistencia Promedio',
       value: data.asistenciaPromedio,
       icon: ClockIcon,
-      color: 'purple',
-      bgColor: 'bg-purple-50',
-      iconColor: 'text-purple-600',
+      color: 'accent',
+      bgColor: 'bg-accent-50',
+      iconColor: 'text-accent-600',
       suffix: '%',
       decimals: 1
     },
@@ -54,9 +54,9 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       title: 'Tasa de Aprobación',
       value: data.tasaAprobacion,
       icon: CheckCircleIcon,
-      color: 'emerald',
-      bgColor: 'bg-emerald-50',
-      iconColor: 'text-emerald-600',
+      color: 'success',
+      bgColor: 'bg-success-50',
+      iconColor: 'text-success-600',
       suffix: '%',
       decimals: 1
     },
@@ -64,18 +64,18 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       title: 'Estudiantes Destacados',
       value: data.estudiantesDestacados,
       icon: StarIcon,
-      color: 'yellow',
-      bgColor: 'bg-yellow-50',
-      iconColor: 'text-yellow-600',
+      color: 'warning',
+      bgColor: 'bg-warning-50',
+      iconColor: 'text-warning-600',
       suffix: ''
     },
     {
       title: 'Cursos Activos',
       value: data.cursosActivos,
       icon: ChartBarIcon,
-      color: 'indigo',
-      bgColor: 'bg-indigo-50',
-      iconColor: 'text-indigo-600',
+      color: 'info',
+      bgColor: 'bg-info-50',
+      iconColor: 'text-info-600',
       suffix: ''
     }
   ], [data]);
@@ -90,19 +90,19 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       {metrics.map((metric, index) => {
         const Icon = metric.icon;
         return (
-          <div 
+          <div
             key={index}
-            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+            className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
           >
             <div className="flex items-center">
               <div className={`p-2 rounded-lg ${metric.bgColor}`}>
                 <Icon className={`w-5 h-5 ${metric.iconColor}`} />
               </div>
               <div className="ml-3 flex-1">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide">
+                <p className="font-sans text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                   {metric.title}
                 </p>
-                <p className="text-lg font-bold text-gray-900 mt-1">
+                <p className="font-sans text-lg font-bold text-gray-900 dark:text-gray-100 mt-1">
                   {formatValue(metric.value, metric.decimals, metric.suffix)}
                 </p>
               </div>
@@ -111,28 +111,28 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
             {/* Indicador de rendimiento */}
             <div className="mt-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Rendimiento</span>
-                <span className={`font-medium ${
-                  (metric.suffix === '%' && metric.value >= 85) || 
+                <span className="font-sans text-gray-500 dark:text-gray-400">Rendimiento</span>
+                <span className={`font-sans font-medium ${
+                  (metric.suffix === '%' && metric.value >= 85) ||
                   (metric.title === 'Promedio General' && metric.value >= 6.0) ||
                   (metric.title === 'Total Estudiantes' && metric.value >= 100) ||
                   (metric.title === 'Estudiantes Destacados' && metric.value >= 10) ||
                   (metric.title === 'Cursos Activos' && metric.value >= 5)
-                    ? 'text-green-600' : 
-                  (metric.suffix === '%' && metric.value >= 70) || 
+                    ? 'text-green-600 dark:text-green-400' :
+                  (metric.suffix === '%' && metric.value >= 70) ||
                   (metric.title === 'Promedio General' && metric.value >= 5.0) ||
                   (metric.title === 'Total Estudiantes' && metric.value >= 50) ||
                   (metric.title === 'Estudiantes Destacados' && metric.value >= 5) ||
                   (metric.title === 'Cursos Activos' && metric.value >= 3)
-                    ? 'text-yellow-600' : 'text-red-600'
+                    ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'
                 }`}>
-                  {(metric.suffix === '%' && metric.value >= 85) || 
+                  {(metric.suffix === '%' && metric.value >= 85) ||
                    (metric.title === 'Promedio General' && metric.value >= 6.0) ||
                    (metric.title === 'Total Estudiantes' && metric.value >= 100) ||
                    (metric.title === 'Estudiantes Destacados' && metric.value >= 10) ||
                    (metric.title === 'Cursos Activos' && metric.value >= 5)
-                    ? 'Excelente' : 
-                   (metric.suffix === '%' && metric.value >= 70) || 
+                    ? 'Excelente' :
+                   (metric.suffix === '%' && metric.value >= 70) ||
                    (metric.title === 'Promedio General' && metric.value >= 5.0) ||
                    (metric.title === 'Total Estudiantes' && metric.value >= 50) ||
                    (metric.title === 'Estudiantes Destacados' && metric.value >= 5) ||
@@ -140,16 +140,16 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
                     ? 'Bueno' : 'Mejorable'}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
-                <div 
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
+                <div
                   className={`h-1 rounded-full transition-all duration-300 ${
-                    (metric.suffix === '%' && metric.value >= 85) || 
+                    (metric.suffix === '%' && metric.value >= 85) ||
                     (metric.title === 'Promedio General' && metric.value >= 6.0) ||
                     (metric.title === 'Total Estudiantes' && metric.value >= 100) ||
                     (metric.title === 'Estudiantes Destacados' && metric.value >= 10) ||
                     (metric.title === 'Cursos Activos' && metric.value >= 5)
-                      ? 'bg-green-500' : 
-                    (metric.suffix === '%' && metric.value >= 70) || 
+                      ? 'bg-green-500' :
+                    (metric.suffix === '%' && metric.value >= 70) ||
                     (metric.title === 'Promedio General' && metric.value >= 5.0) ||
                     (metric.title === 'Total Estudiantes' && metric.value >= 50) ||
                     (metric.title === 'Estudiantes Destacados' && metric.value >= 5) ||

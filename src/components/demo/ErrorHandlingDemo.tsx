@@ -222,18 +222,18 @@ export function ErrorHandlingDemo() {
   return (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <ShieldExclamationIcon className="w-6 h-6 mr-2" />
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+          <ShieldExclamationIcon className="w-6 h-6 mr-2 text-red-600 dark:text-red-400" />
           Demo de Manejo de Errores
         </h3>
-        <p className="text-gray-600 text-sm mb-6">
-          Sistema robusto de manejo de errores con error boundaries, logging centralizado, 
+        <p className="font-sans text-gray-600 dark:text-gray-400 text-sm mb-6">
+          Sistema robusto de manejo de errores con error boundaries, logging centralizado,
           notificaciones de error y recuperación automática.
         </p>
       </div>
 
       {/* Selector de demo */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-fit">
+      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg w-fit">
         {[
           { id: 'boundaries', label: 'Error Boundaries', icon: ExclamationTriangleIcon },
           { id: 'async', label: 'Async Errors', icon: ArrowPathIcon },
@@ -245,12 +245,12 @@ export function ErrorHandlingDemo() {
             onClick={() => setActiveDemo(id as any)}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center space-x-2 ${
               activeDemo === id
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
             }`}
           >
             <Icon className="h-4 w-4" />
-            <span>{label}</span>
+            <span className="font-sans">{label}</span>
           </button>
         ))}
       </div>

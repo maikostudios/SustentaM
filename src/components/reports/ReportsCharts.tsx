@@ -112,8 +112,8 @@ export function ReportsCharts({ participants, courses }: ReportsChartsProps) {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Status Distribution */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-lg font-semibold mb-4">Distribución por Estado</h3>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+          <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Distribución por Estado</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie

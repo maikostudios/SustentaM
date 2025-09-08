@@ -163,12 +163,12 @@ export function ThemeDemo() {
   return (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold text-theme-primary mb-4 flex items-center">
-          <SwatchIcon className="w-6 h-6 mr-2" />
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+          <SwatchIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
           Demo de Sistema de Temas
         </h3>
-        <p className="text-theme-secondary text-sm mb-6">
-          Sistema completo de modo oscuro con transiciones suaves, persistencia de preferencias 
+        <p className="font-sans text-gray-600 dark:text-gray-400 text-sm mb-6">
+          Sistema completo de modo oscuro con transiciones suaves, persistencia de preferencias
           y detección automática del sistema.
         </p>
       </div>

@@ -123,7 +123,7 @@ export function ContractorDashboard() {
 
       case 'reports':
         const filteredParticipants = getFilteredParticipants();
-        return <LazyReports participants={filteredParticipants} courses={courses} />;
+        return <LazyReports participants={filteredParticipants} courses={courses} hidePerformanceMetrics={true} />;
 
       default:
         return renderCalendarView();

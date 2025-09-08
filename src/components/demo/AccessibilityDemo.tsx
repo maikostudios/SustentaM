@@ -112,19 +112,19 @@ export function AccessibilityDemo() {
       
       <LandmarkRegion role="banner">
         <div>
-          <h1 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <EyeIcon className="w-6 h-6 mr-2" />
+          <h1 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+            <EyeIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
             Demo de Accesibilidad (a11y)
           </h1>
-          <p className="text-sm text-gray-600 mb-6">
-            Demostración completa de las mejoras de accesibilidad implementadas: 
+          <p className="font-sans text-sm text-gray-600 dark:text-gray-400 mb-6">
+            Demostración completa de las mejoras de accesibilidad implementadas:
             soporte para lectores de pantalla, navegación por teclado, contraste de colores y etiquetas ARIA.
           </p>
         </div>
       </LandmarkRegion>
 
       <LandmarkRegion role="navigation" ariaLabel="Navegación de demostración">
-        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-fit">
+        <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg w-fit">
           <button
             onClick={() => setActiveDemo('overview')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${

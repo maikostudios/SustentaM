@@ -83,27 +83,27 @@ export function ValidationDemo() {
   return (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <ShieldCheckIcon className="w-6 h-6 mr-2" />
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+          <ShieldCheckIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
           Demo de Validación de Formularios Mejorada
         </h3>
-        <p className="text-sm text-gray-600 mb-6">
-          Demostración de validación en tiempo real, RUT chileno, contraseñas seguras, 
+        <p className="font-sans text-sm text-gray-600 dark:text-gray-400 mb-6">
+          Demostración de validación en tiempo real, RUT chileno, contraseñas seguras,
           sugerencias de email y feedback visual mejorado.
         </p>
       </div>
 
       {/* Formulario de demostración */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border">
-        <h4 className="text-md font-medium text-gray-800 mb-6">Formulario de Registro</h4>
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h4 className="font-sans text-md font-medium text-gray-800 dark:text-gray-200 mb-6">Formulario de Registro</h4>
         
         <div className="space-y-6">
           {/* Información personal */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <UserIcon className="h-5 w-5 text-blue-600" />
-                <h5 className="font-medium text-gray-700">Información Personal</h5>
+                <UserIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <h5 className="font-sans font-medium text-gray-700 dark:text-gray-300">Información Personal</h5>
               </div>
               
               <div className="space-y-4">
@@ -138,8 +138,8 @@ export function ValidationDemo() {
 
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <EnvelopeIcon className="h-5 w-5 text-green-600" />
-                <h5 className="font-medium text-gray-700">Información de Contacto</h5>
+                <EnvelopeIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <h5 className="font-sans font-medium text-gray-700 dark:text-gray-300">Información de Contacto</h5>
               </div>
               
               <div className="space-y-4">

@@ -136,11 +136,11 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
   return (
     <div className="space-y-4">
       {/* Buscador y Filtros */}
-      <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         {/* Buscador principal */}
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <div className="flex-1 relative">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
             <Input
               placeholder="Buscar por nombre, código, contratista o descripción..."
               value={searchTerm}
@@ -171,15 +171,15 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
 
         {/* Filtros avanzados */}
         {showFilters && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Contratista
               </label>
               <select
                 value={contractorFilter}
                 onChange={(e) => setContractorFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Todos los contratistas</option>
                 {uniqueContractors.map(contractor => (
@@ -191,13 +191,13 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Tipo de Curso
               </label>
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Todos los tipos</option>
                 {uniqueTypes.map(type => (
@@ -209,7 +209,7 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Fecha Desde
               </label>
               <Input
@@ -220,7 +220,7 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Fecha Hasta
               </label>
               <Input
@@ -233,10 +233,10 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
         )}
 
         {/* Contador de resultados */}
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
           Mostrando {filteredCourses.length} de {courses.length} cursos
           {(searchTerm || contractorFilter || typeFilter || dateFromFilter || dateToFilter) && (
-            <span className="ml-2 text-blue-600">
+            <span className="ml-2 text-blue-600 dark:text-blue-400">
               (filtrado)
             </span>
           )}
@@ -244,19 +244,19 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
       </div>
 
       {/* Tabla */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200" role="table">
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" role="table">
         <caption className="sr-only">
           Lista de cursos disponibles con opciones de edición y eliminación
         </caption>
-        <thead className="bg-gray-50">
+        <thead className="bg-gray-50 dark:bg-gray-700">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   {header.isPlaceholder
                     ? null
@@ -269,14 +269,14 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
             </tr>
           ))}
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           {table.getRowModel().rows.map((row, index) => (
-            <tr 
+            <tr
               key={row.id}
-              className={`hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}
+              className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -284,10 +284,10 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
           ))}
         </tbody>
       </table>
-      
+
       {courses.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No hay cursos registrados</p>
+          <p className="font-sans text-gray-500 dark:text-gray-400">No hay cursos registrados</p>
         </div>
       )}
       </div>

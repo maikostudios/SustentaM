@@ -90,72 +90,72 @@ export function SimpleCertificateGenerator() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <DocumentCheckIcon className="w-8 h-8 mr-3" />
+          <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            <DocumentCheckIcon className="w-8 h-8 mr-3 text-blue-600 dark:text-blue-400" />
             Generador de Certificados
           </h2>
-          <p className="text-gray-600 mt-1">Genera y descarga certificados para participantes aprobados</p>
+          <p className="font-sans text-gray-600 dark:text-gray-400 mt-1">Genera y descarga certificados para participantes aprobados</p>
         </div>
       </div>
 
       {/* Estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <DocumentCheckIcon className="w-6 h-6 text-green-600" />
+            <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+              <DocumentCheckIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Certificados</p>
-              <p className="text-2xl font-bold text-gray-900">{certificateData.totalCertificados}</p>
+              <p className="font-sans text-sm font-medium text-gray-600 dark:text-gray-400">Total Certificados</p>
+              <p className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">{certificateData.totalCertificados}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <ClockIcon className="w-6 h-6 text-yellow-600" />
+            <div className="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+              <ClockIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Pendientes</p>
-              <p className="text-2xl font-bold text-gray-900">{certificateData.pendientes}</p>
+              <p className="font-sans text-sm font-medium text-gray-600 dark:text-gray-400">Pendientes</p>
+              <p className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">{certificateData.pendientes}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <CheckCircleIcon className="w-6 h-6 text-blue-600" />
+            <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+              <CheckCircleIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Generados Hoy</p>
-              <p className="text-2xl font-bold text-gray-900">{certificateData.generadosHoy}</p>
+              <p className="font-sans text-sm font-medium text-gray-600 dark:text-gray-400">Generados Hoy</p>
+              <p className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">{certificateData.generadosHoy}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Selector de curso */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Seleccionar Curso</h3>
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Seleccionar Curso</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {certificateData.participantesAprobados.map((course) => (
             <div
               key={course.courseId}
               className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                 selectedCourse === course.courseId
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
               onClick={() => setSelectedCourse(course.courseId)}
             >
               <div className="flex items-start">
-                <AcademicCapIcon className="w-6 h-6 text-blue-600 mt-1" />
+                <AcademicCapIcon className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
                 <div className="ml-3 flex-1">
-                  <h4 className="font-medium text-gray-900">{course.courseName}</h4>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <h4 className="font-sans font-medium text-gray-900 dark:text-gray-100">{course.courseName}</h4>
+                  <p className="font-sans text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {course.participants.length} participantes aprobados
                   </p>
                 </div>
@@ -167,9 +167,9 @@ export function SimpleCertificateGenerator() {
 
       {/* Lista de participantes */}
       {selectedCourseData && (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">
               Participantes Aprobados - {selectedCourseData.courseName}
             </h3>
             <Button
@@ -186,12 +186,12 @@ export function SimpleCertificateGenerator() {
           {generating && (
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Generando certificados...</span>
-                <span className="text-sm text-gray-600">{progress}%</span>
+                <span className="font-sans text-sm text-gray-600 dark:text-gray-400">Generando certificados...</span>
+                <span className="font-sans text-sm text-gray-600 dark:text-gray-400">{progress}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div
+                  className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
@@ -200,53 +200,53 @@ export function SimpleCertificateGenerator() {
 
           {/* Tabla de participantes */}
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Participante
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     RUT
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Nota Final
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Estado
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Acciones
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {selectedCourseData.participants.map((participant) => (
-                  <tr key={participant.id} className="hover:bg-gray-50">
+                  <tr key={participant.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <UserGroupIcon className="w-5 h-5 text-gray-400 mr-3" />
+                        <UserGroupIcon className="w-5 h-5 text-gray-400 dark:text-gray-500 mr-3" />
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="font-sans text-sm font-medium text-gray-900 dark:text-gray-100">
                             {participant.nombre}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {participant.rut}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        participant.nota >= 6.0 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
+                        participant.nota >= 6.0
+                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                          : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
                       }`}>
                         {participant.nota}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                         Aprobado
                       </span>
                     </td>

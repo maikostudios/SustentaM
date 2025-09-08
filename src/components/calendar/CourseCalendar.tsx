@@ -23,7 +23,7 @@ interface CourseCalendarProps {
 
 export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewType, setViewType] = useState<CalendarViewType>('traditional');
+  const [viewType, setViewType] = useState<CalendarViewType>('matrix'); // Forzado a matriz para presentación
   const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
   const { isMenuCollapsed } = useMenuContext();
   const theme = useThemeAware();
@@ -102,12 +102,14 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
           Calendario de Cursos
         </h2>
 
-        {/* Selector de vista */}
+        {/* Selector de vista - OCULTO PARA PRESENTACIÓN AL CLIENTE */}
         <div className="flex items-center space-x-4">
+          {/*
           <CalendarViewSelector
             currentView={viewType}
             onViewChange={handleViewChange}
           />
+          */}
 
           {/* Navegación de mes */}
           <div className="flex items-center space-x-2">
@@ -134,16 +136,17 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
         </div>
       </div>
 
-      {/* Renderizado condicional según el tipo de vista */}
-      {viewType === 'matrix' ? (
-        <MatrixCalendar
-          courses={courses}
-          sessions={sessions}
-          currentDate={currentDate}
-          onSessionSelect={onSelectSession}
-          onNavigateMonth={navigateMonth}
-        />
-      ) : (
+      {/* Renderizado solo de vista matriz para presentación */}
+      <MatrixCalendar
+        courses={courses}
+        sessions={sessions}
+        currentDate={currentDate}
+        onSessionSelect={onSelectSession}
+        onNavigateMonth={navigateMonth}
+      />
+
+      {/* Vista tradicional oculta para presentación */}
+      {false && (
         <>
           <div className="grid grid-cols-7 gap-1 mb-4">
             {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (

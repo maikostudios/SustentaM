@@ -1,7 +1,8 @@
 import { Course, Session, Participant, User } from '../types';
 
-// Usuarios del sistema
+// Usuarios del sistema - CREDENCIALES PARA PRESENTACIÓN AL CLIENTE
 export const mockUsers: User[] = [
+  // ADMINISTRADOR
   {
     id: 'admin-1',
     nombre: 'Administrador Principal',
@@ -10,12 +11,29 @@ export const mockUsers: User[] = [
     clave: 'admin'
   },
   {
+    id: 'admin-2',
+    nombre: 'Administrador Principal',
+    rut: 'admin@sustenta.cl',
+    rol: 'administrador',
+    clave: 'admin123'
+  },
+
+  // CONTRATISTAS
+  {
     id: 'contractor-1',
     nombre: 'Empresa Contratista ABC',
     rut: '22.222.222-2',
     rol: 'contratista',
     clave: '1234',
     empresa: 'Empresa ABC Ltda.'
+  },
+  {
+    id: 'contractor-1b',
+    nombre: 'Empresa Contratista Principal',
+    rut: 'contratista@empresa.cl',
+    rol: 'contratista',
+    clave: 'contratista123',
+    empresa: 'Empresa Contratista Principal S.A.'
   },
   {
     id: 'contractor-2',
@@ -41,12 +59,21 @@ export const mockUsers: User[] = [
     clave: '1234',
     empresa: 'Servicios Integrales DEF'
   },
+
+  // PARTICIPANTES
   {
     id: 'user-1',
     nombre: 'Juan Carlos Pérez González',
     rut: '12.345.678-5',
     rol: 'usuario',
     clave: 'user123'
+  },
+  {
+    id: 'user-1b',
+    nombre: 'Juan Carlos Pérez González',
+    rut: 'participante@email.cl',
+    rol: 'usuario',
+    clave: 'participante123'
   },
   {
     id: 'user-2',
@@ -64,87 +91,310 @@ export const mockUsers: User[] = [
   }
 ];
 
-// Cursos disponibles
+// Cursos disponibles - ACTUALIZADOS PARA PRESENTACIÓN AL CLIENTE
 export const mockCourses: Course[] = [
+  // TABLA 1: PROPIOS Y EE.CC.
   {
     id: 'course-1',
-    codigo: 'PROP-001',
-    nombre: 'Excel Avanzado para Profesionales',
+    codigo: 'SSO-001',
+    nombre: 'INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO',
     duracionHoras: 16,
     fechaInicio: '2025-09-10',
     fechaFin: '2025-09-12',
     modalidad: 'presencial',
-    objetivos: 'Dominar funciones avanzadas de Excel, tablas dinámicas, macros básicas y análisis de datos para mejorar la productividad laboral en el ámbito empresarial.'
+    objetivos: 'Proporcionar conocimientos fundamentales sobre seguridad y salud ocupacional, normativas vigentes y procedimientos de prevención de riesgos laborales.'
   },
   {
     id: 'course-2',
-    codigo: 'EXT-002',
-    nombre: 'Power BI para Análisis de Datos',
-    duracionHoras: 20,
+    codigo: 'MINSAL-002',
+    nombre: 'PROTOCOLOS MINISTERIO DE SALUD',
+    duracionHoras: 4,
     fechaInicio: '2025-09-15',
-    fechaFin: '2025-09-19',
+    fechaFin: '2025-09-15',
     modalidad: 'teams',
-    objetivos: 'Crear dashboards interactivos, conectar múltiples fuentes de datos y generar reportes automatizados con Power BI para la toma de decisiones empresariales.'
+    objetivos: 'Conocer y aplicar los protocolos sanitarios establecidos por el Ministerio de Salud para el ámbito laboral.'
   },
   {
     id: 'course-3',
-    codigo: 'PROP-003',
-    nombre: 'Gestión Ágil de Proyectos',
-    duracionHoras: 16,
+    codigo: 'BEL-003',
+    nombre: 'PROGRAMA BAJA EXPERIENCIA LABORAL (BEL)-TUTOR',
+    duracionHoras: 4,
     fechaInicio: '2025-09-20',
-    fechaFin: '2025-09-25',
+    fechaFin: '2025-09-20',
     modalidad: 'presencial',
-    objetivos: 'Implementar metodologías ágiles como Scrum y Kanban para la gestión efectiva de proyectos y equipos de trabajo.'
+    objetivos: 'Capacitar a tutores para el acompañamiento y formación de trabajadores con baja experiencia laboral.'
   },
   {
     id: 'course-4',
-    codigo: 'EXT-004',
-    nombre: 'Análisis de Datos con Python',
-    duracionHoras: 20,
-    fechaInicio: '2025-10-01',
-    fechaFin: '2025-10-05',
-    modalidad: 'teams',
-    objetivos: 'Introducción al análisis de datos, manipulación con Pandas, visualización con Matplotlib y conceptos básicos de machine learning.'
+    codigo: 'BEL-004',
+    nombre: 'PROGRAMA BAJA EXPERIENCIA LABORAL (BEL)-PARTICIPANTE',
+    duracionHoras: 4,
+    fechaInicio: '2025-09-22',
+    fechaFin: '2025-09-22',
+    modalidad: 'presencial',
+    objetivos: 'Formar a trabajadores con baja experiencia laboral en competencias básicas y procedimientos de seguridad.'
   },
   {
     id: 'course-5',
-    codigo: 'PROP-005',
-    nombre: 'Liderazgo y Comunicación Efectiva',
-    duracionHoras: 12,
-    fechaInicio: '2025-10-08',
-    fechaFin: '2025-10-10',
+    codigo: 'MINSUB-005',
+    nombre: 'CONTROL DE RIESGOS MINERÍA SUBTERRÁNEA',
+    duracionHoras: 8,
+    fechaInicio: '2025-09-25',
+    fechaFin: '2025-09-26',
     modalidad: 'presencial',
-    objetivos: 'Desarrollar habilidades de liderazgo, comunicación asertiva y manejo de equipos de alto rendimiento.'
+    objetivos: 'Identificar y controlar los riesgos específicos asociados a las operaciones de minería subterránea.'
   },
   {
     id: 'course-6',
-    codigo: 'EXT-006',
-    nombre: 'Seguridad Informática Básica',
+    codigo: 'LIDER-006',
+    nombre: 'LIDERAZGO SIGO SUPERVISORES EE.CC.',
     duracionHoras: 8,
-    fechaInicio: '2025-09-12',
-    fechaFin: '2025-09-13',
+    fechaInicio: '2025-09-28',
+    fechaFin: '2025-09-29',
     modalidad: 'teams',
-    objetivos: 'Fundamentos de ciberseguridad, protección de datos y buenas prácticas de seguridad digital.'
+    objetivos: 'Desarrollar competencias de liderazgo en supervisores de empresas colaboradoras bajo el sistema SIGO.'
   },
   {
     id: 'course-7',
-    codigo: 'PROP-007',
-    nombre: 'Técnicas de Presentación',
-    duracionHoras: 6,
-    fechaInicio: '2025-09-18',
-    fechaFin: '2025-09-19',
+    codigo: 'CONF-007',
+    nombre: 'ESPACIOS CONFINADOS',
+    duracionHoras: 4,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2025-10-01',
     modalidad: 'presencial',
-    objetivos: 'Mejorar habilidades de presentación, manejo de audiencias y comunicación visual efectiva.'
+    objetivos: 'Capacitar en procedimientos seguros para trabajo en espacios confinados y uso de equipos de protección.'
   },
   {
     id: 'course-8',
-    codigo: 'EXT-008',
-    nombre: 'Marketing Digital y Redes Sociales',
-    duracionHoras: 14,
-    fechaInicio: '2025-09-22',
-    fechaFin: '2025-09-26',
+    codigo: 'TCAL-008',
+    nombre: 'TRABAJO EN CALIENTE',
+    duracionHoras: 4,
+    fechaInicio: '2025-10-03',
+    fechaFin: '2025-10-03',
+    modalidad: 'presencial',
+    objetivos: 'Establecer procedimientos seguros para trabajos en caliente y prevención de incendios.'
+  },
+  {
+    id: 'course-9',
+    codigo: 'ECF-009',
+    nombre: 'ECF N° 22 INSTALACIONES INDUSTRIALES Y SUS ESTRUCTURAS',
+    duracionHoras: 4,
+    fechaInicio: '2025-10-05',
+    fechaFin: '2025-10-05',
     modalidad: 'teams',
-    objetivos: 'Estrategias de marketing digital, gestión de redes sociales y análisis de métricas para el crecimiento empresarial.'
+    objetivos: 'Conocer las normativas ECF N°22 para instalaciones industriales y sus estructuras de soporte.'
+  },
+  {
+    id: 'course-10',
+    codigo: 'SUST-010',
+    nombre: 'MANEJO DE SUSTANCIAS PELIGROSAS',
+    duracionHoras: 8,
+    fechaInicio: '2025-10-08',
+    fechaFin: '2025-10-09',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en el manejo seguro, almacenamiento y transporte de sustancias peligrosas.'
+  },
+  {
+    id: 'course-11',
+    codigo: 'GUARD-011',
+    nombre: 'GUARDAS Y PROTECCIONES',
+    duracionHoras: 8,
+    fechaInicio: '2025-10-12',
+    fechaFin: '2025-10-13',
+    modalidad: 'presencial',
+    objetivos: 'Implementar sistemas de guardas y protecciones en maquinaria y equipos industriales.'
+  },
+  {
+    id: 'course-12',
+    codigo: 'OBS-012',
+    nombre: 'OBSERVADOR DE CONDUCTAS',
+    duracionHoras: 4,
+    fechaInicio: '2025-10-15',
+    fechaFin: '2025-10-15',
+    modalidad: 'teams',
+    objetivos: 'Formar observadores de conductas seguras para la prevención de accidentes laborales.'
+  },
+  {
+    id: 'course-13',
+    codigo: 'GUIA-013',
+    nombre: 'EQUIPO GUÍA',
+    duracionHoras: 4,
+    fechaInicio: '2025-10-18',
+    fechaFin: '2025-10-18',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar equipos guía para liderazgo en seguridad y procedimientos de emergencia.'
+  },
+  {
+    id: 'course-14',
+    codigo: 'ELEC-014',
+    nombre: 'SEGURIDAD ELÉCTRICA G.1',
+    duracionHoras: 16,
+    fechaInicio: '2025-10-20',
+    fechaFin: '2025-10-22',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en seguridad eléctrica nivel básico para trabajos con instalaciones de baja tensión.'
+  },
+  {
+    id: 'course-15',
+    codigo: 'ELEC-015',
+    nombre: 'SEGURIDAD ELÉCTRICA G.2',
+    duracionHoras: 16,
+    fechaInicio: '2025-10-25',
+    fechaFin: '2025-10-27',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en seguridad eléctrica nivel avanzado para trabajos con instalaciones de media y alta tensión.'
+  },
+  {
+    id: 'course-16',
+    codigo: 'RC04-016',
+    nombre: 'RC 04 PÉRDIDA DE CONTROL DE ENERGÍA A ALTA INTENSIDAD (HIDRÁULICA Y NEUMÁTICA)',
+    duracionHoras: 8,
+    fechaInicio: '2025-10-30',
+    fechaFin: '2025-10-31',
+    modalidad: 'teams',
+    objetivos: 'Prevenir accidentes por pérdida de control de energía en sistemas hidráulicos y neumáticos de alta intensidad.'
+  },
+
+  // TABLA 2: PROPIOS
+  {
+    id: 'course-17',
+    codigo: 'PAUX-017',
+    nombre: 'PRIMEROS AUXILIOS / USO Y MANEJO DE EXTINTORES',
+    duracionHoras: 8,
+    fechaInicio: '2025-11-05',
+    fechaFin: '2025-11-06',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en técnicas de primeros auxilios y uso correcto de extintores para situaciones de emergencia.'
+  },
+  {
+    id: 'course-18',
+    codigo: 'AISL-018',
+    nombre: 'AISLACIÓN Y BLOQUEO DE ENERGÍAS',
+    duracionHoras: 8,
+    fechaInicio: '2025-11-08',
+    fechaFin: '2025-11-09',
+    modalidad: 'presencial',
+    objetivos: 'Implementar procedimientos de aislación y bloqueo de energías para trabajos de mantenimiento seguro.'
+  },
+  {
+    id: 'course-19',
+    codigo: 'FUND-019',
+    nombre: 'MATERIALES FUNDIDOS',
+    duracionHoras: 8,
+    fechaInicio: '2025-11-12',
+    fechaFin: '2025-11-13',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en el manejo seguro de materiales fundidos y procedimientos de fundición industrial.'
+  },
+  {
+    id: 'course-20',
+    codigo: 'BRIG-020',
+    nombre: 'BRIGADISTAS RAJO',
+    duracionHoras: 12,
+    fechaInicio: '2025-11-15',
+    fechaFin: '2025-11-17',
+    modalidad: 'presencial',
+    objetivos: 'Formar brigadistas especializados en operaciones de rajo abierto y procedimientos de emergencia minera.'
+  },
+  {
+    id: 'course-21',
+    codigo: 'ALT-021',
+    nombre: 'TRABAJO EN ALTURA',
+    duracionHoras: 16,
+    fechaInicio: '2025-11-20',
+    fechaFin: '2025-11-22',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en técnicas seguras de trabajo en altura y uso de equipos de protección anticaídas.'
+  },
+  {
+    id: 'course-22',
+    codigo: 'MONT-022',
+    nombre: 'MONTACARGAS',
+    duracionHoras: 16,
+    fechaInicio: '2025-11-25',
+    fechaFin: '2025-11-27',
+    modalidad: 'presencial',
+    objetivos: 'Formar operadores de montacargas en técnicas de operación segura y mantenimiento básico.'
+  },
+  {
+    id: 'course-23',
+    codigo: 'MINI-023',
+    nombre: 'MINICARGADORES',
+    duracionHoras: 16,
+    fechaInicio: '2025-11-30',
+    fechaFin: '2025-12-02',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar operadores de minicargadores en técnicas de operación segura y eficiente.'
+  },
+  {
+    id: 'course-24',
+    codigo: 'RIGG-024',
+    nombre: 'TÉCNICAS DE OPERACIÓN SEGURA DE PUENTES GRÚA E IZAJE DE CARGAS (RIGGER)',
+    duracionHoras: 32,
+    fechaInicio: '2025-12-05',
+    fechaFin: '2025-12-10',
+    modalidad: 'presencial',
+    objetivos: 'Formar riggers especializados en operación de puentes grúa e izaje seguro de cargas pesadas.'
+  },
+  {
+    id: 'course-25',
+    codigo: 'INV-025',
+    nombre: 'OPERACIÓN INVIERNO',
+    duracionHoras: 2,
+    fechaInicio: '2025-12-12',
+    fechaFin: '2025-12-12',
+    modalidad: 'teams',
+    objetivos: 'Preparar a los trabajadores para operaciones seguras durante la temporada de invierno.'
+  },
+  {
+    id: 'course-26',
+    codigo: 'REGL-026',
+    nombre: 'REGLAMENTO INTERNO Y MANEJO A LA DEFENSIVA-LICENCIA POR PRIMERA VEZ',
+    duracionHoras: 8,
+    fechaInicio: '2025-12-15',
+    fechaFin: '2025-12-16',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar en reglamento interno de tránsito y técnicas de manejo defensivo para nuevos conductores.'
+  },
+  {
+    id: 'course-27',
+    codigo: '4X4-027',
+    nombre: 'CONDUCCIÓN 4X4 DET',
+    duracionHoras: 16,
+    fechaInicio: '2025-12-18',
+    fechaFin: '2025-12-20',
+    modalidad: 'presencial',
+    objetivos: 'Formar conductores especializados en vehículos 4x4 para operaciones en terreno difícil.'
+  },
+  {
+    id: 'course-28',
+    codigo: 'TMERT-028',
+    nombre: 'TMERT CPHS - SINDICATOS',
+    duracionHoras: 8,
+    fechaInicio: '2025-12-22',
+    fechaFin: '2025-12-23',
+    modalidad: 'teams',
+    objetivos: 'Capacitar a representantes de CPHS y sindicatos en TMERT (Taller de Manejo de Emergencias y Rescate en Terreno).'
+  },
+  {
+    id: 'course-29',
+    codigo: 'TMERT-029',
+    nombre: 'TMERT TRABAJADORES - SUPERVISORES',
+    duracionHoras: 8,
+    fechaInicio: '2025-12-25',
+    fechaFin: '2025-12-26',
+    modalidad: 'presencial',
+    objetivos: 'Capacitar a trabajadores y supervisores en técnicas de manejo de emergencias y rescate en terreno.'
+  },
+  {
+    id: 'course-30',
+    codigo: 'TMERT-030',
+    nombre: 'TMERT JEFATURAS',
+    duracionHoras: 16,
+    fechaInicio: '2025-12-28',
+    fechaFin: '2025-12-30',
+    modalidad: 'presencial',
+    objetivos: 'Formar jefaturas en liderazgo de emergencias y coordinación de operaciones de rescate en terreno.'
   }
 ];
 

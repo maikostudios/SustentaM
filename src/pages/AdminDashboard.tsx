@@ -287,12 +287,12 @@ export function AdminDashboard() {
         return (
           <div className="space-y-8">
             {/* Header con tipografía consistente */}
-            <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden">
               <div className="p-8">
-                <h1 className="font-sans text-3xl font-bold text-text-primary mb-2">
+                <h1 className="font-sans text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                   Bienvenido al Panel de Administración
                 </h1>
-                <p className="font-sans text-base text-text-secondary">
+                <p className="font-sans text-base text-gray-600 dark:text-gray-400">
                   Gestiona cursos, participantes y certificados desde este panel centralizado
                 </p>
               </div>
@@ -363,13 +363,13 @@ export function AdminDashboard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">Gestión de Cursos</h2>
+              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Cursos</h2>
               <Button onClick={handleCreateCourse} className="flex items-center space-x-2">
                 <PlusIcon className="w-4 h-4" />
                 <span>Nuevo Curso</span>
               </Button>
             </div>
-            
+
             <CourseTable
               courses={courses}
               onEdit={handleEditCourse}
@@ -393,7 +393,7 @@ export function AdminDashboard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">Gestión de Certificados</h2>
+              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Certificados</h2>
               <div className="space-x-3">
                 <Button
                   variant="ghost"
@@ -418,14 +418,14 @@ export function AdminDashboard() {
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <p className="font-sans text-gray-600 dark:text-gray-400 mb-4">
                 Genere certificados para participantes aprobados de cualquier curso.
               </p>
-              
+
               {participants.filter(p => p.estado === 'aprobado').length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">No hay participantes aprobados para generar certificados</p>
+                  <p className="font-sans text-gray-500 dark:text-gray-400">No hay participantes aprobados para generar certificados</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -452,9 +452,9 @@ export function AdminDashboard() {
       case 'notifications':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Sistema de Notificaciones</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sistema de Notificaciones</h2>
                 <LazyNotificationDemoComponent />
               </div>
             </div>
@@ -464,9 +464,9 @@ export function AdminDashboard() {
       case 'performance':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimizaciones de Rendimiento</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Optimizaciones de Rendimiento</h2>
                 <PerformanceDemo />
               </div>
             </div>
@@ -476,9 +476,9 @@ export function AdminDashboard() {
       case 'validation':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Validación de Formularios</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Validación de Formularios</h2>
                 <ValidationDemo />
               </div>
             </div>
@@ -488,9 +488,9 @@ export function AdminDashboard() {
       case 'search':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Búsqueda y Filtros Avanzados</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Búsqueda y Filtros Avanzados</h2>
                 <SearchDemo />
               </div>
             </div>
@@ -500,9 +500,9 @@ export function AdminDashboard() {
       case 'accessibility':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Accesibilidad (a11y)</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Accesibilidad (a11y)</h2>
                 <AccessibilityDemo />
               </div>
             </div>
@@ -512,9 +512,9 @@ export function AdminDashboard() {
       case 'theme':
         return (
           <div className="space-y-6">
-            <div className="bg-theme-primary overflow-hidden shadow rounded-lg border border-theme">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-theme-primary mb-4">Sistema de Temas</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sistema de Temas</h2>
                 <ThemeDemo />
               </div>
             </div>
@@ -524,9 +524,9 @@ export function AdminDashboard() {
       case 'errors':
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Manejo de Errores</h2>
+                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Manejo de Errores</h2>
                 <ErrorHandlingDemo />
               </div>
             </div>

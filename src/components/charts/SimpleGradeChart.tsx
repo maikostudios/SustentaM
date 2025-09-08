@@ -19,23 +19,23 @@ export function SimpleGradeChart({ data }: SimpleGradeChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+      <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
         Distribución de Notas
       </h3>
-      
+
       {/* Gráfico de barras horizontal simple */}
       <div className="space-y-4 mb-6">
         {data.map((item, index) => (
           <div key={index} className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.range}</span>
-              <span className="text-sm text-gray-700 dark:text-gray-300">{item.count} ({item.percentage.toFixed(1)}%)</span>
+              <span className="font-sans text-sm font-medium text-gray-900 dark:text-gray-100">{item.range}</span>
+              <span className="font-sans text-sm text-gray-600 dark:text-gray-400">{item.count} ({item.percentage.toFixed(1)}%)</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-              <div 
+              <div
                 className="h-3 rounded-full transition-all duration-500"
-                style={{ 
+                style={{
                   width: `${item.percentage}%`,
                   backgroundColor: COLORS[item.range as keyof typeof COLORS]
                 }}
@@ -49,11 +49,11 @@ export function SimpleGradeChart({ data }: SimpleGradeChartProps) {
       <div className="grid grid-cols-2 gap-4 text-sm">
         {data.map((item, index) => (
           <div key={index} className="flex items-center">
-            <div 
+            <div
               className="w-3 h-3 rounded-full mr-2"
               style={{ backgroundColor: COLORS[item.range as keyof typeof COLORS] }}
             ></div>
-            <span className="text-gray-600">
+            <span className="font-sans text-gray-600 dark:text-gray-400">
               {item.range}: <span className="font-medium">{item.count}</span>
             </span>
           </div>

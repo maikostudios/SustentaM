@@ -52,41 +52,41 @@ export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
       <div className="flex items-center mb-6">
         <StarIcon className="w-6 h-6 text-yellow-500 mr-2" />
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">
           Ranking de Mejores Estudiantes
         </h3>
       </div>
-      
+
       <div className="space-y-4">
         {memoizedData.map((student, index) => {
           const position = index + 1;
           return (
-            <div 
+            <div
               key={index}
               className={`relative p-4 rounded-lg border transition-all hover:shadow-md ${
-                position <= 3 ? 'border-yellow-200 bg-yellow-50' : 'border-gray-200 bg-gray-50'
+                position <= 3 ? 'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20' : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700'
               }`}
             >
               {/* Posición y medalla */}
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-4">
                   <div className={`flex items-center justify-center w-12 h-12 rounded-full ${getRankBadgeColor(position)}`}>
-                    {position <= 3 ? getRankIcon(position) : <span className="font-bold">#{position}</span>}
+                    {position <= 3 ? getRankIcon(position) : <span className="font-sans font-bold">#{position}</span>}
                   </div>
-                  
+
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
-                      <h4 className="font-semibold text-gray-900">{student.nombre}</h4>
+                      <h4 className="font-sans font-semibold text-gray-900 dark:text-gray-100">{student.nombre}</h4>
                       {position === 1 && <StarIcon className="w-4 h-4 text-yellow-500" />}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">{student.curso}</p>
-                    <p className="text-xs text-gray-500">{student.contractor}</p>
+                    <p className="font-sans text-sm text-gray-600 dark:text-gray-400 mt-1">{student.curso}</p>
+                    <p className="font-sans text-xs text-gray-500 dark:text-gray-500">{student.contractor}</p>
                   </div>
                 </div>
-                
+
                 {/* Puntuación total */}
                 <div className={`px-3 py-1 rounded-full text-sm font-medium ${getPerformanceColor(student.puntuacionTotal)}`}>
                   {student.puntuacionTotal.toFixed(1)} pts
@@ -98,32 +98,32 @@ export function TopStudentsRanking({ data }: TopStudentsRankingProps) {
                 <div className="flex items-center space-x-2">
                   <AcademicCapIcon className="w-4 h-4 text-blue-500" />
                   <div>
-                    <span className="text-xs text-gray-500">Promedio</span>
-                    <p className="font-medium text-gray-900">{student.promedio.toFixed(1)}</p>
+                    <span className="font-sans text-xs text-gray-500 dark:text-gray-400">Promedio</span>
+                    <p className="font-sans font-medium text-gray-900 dark:text-gray-100">{student.promedio.toFixed(1)}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <UserIcon className="w-4 h-4 text-green-500" />
                   <div>
-                    <span className="text-xs text-gray-500">Asistencia</span>
-                    <p className="font-medium text-gray-900">{student.asistencia}%</p>
+                    <span className="font-sans text-xs text-gray-500 dark:text-gray-400">Asistencia</span>
+                    <p className="font-sans font-medium text-gray-900 dark:text-gray-100">{student.asistencia}%</p>
                   </div>
                 </div>
               </div>
-              
+
               {/* Barra de progreso combinada */}
               <div className="mt-3">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>Rendimiento General</span>
-                  <span>{student.puntuacionTotal.toFixed(1)}%</span>
+                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  <span className="font-sans">Rendimiento General</span>
+                  <span className="font-sans">{student.puntuacionTotal.toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                  <div
                     className={`h-2 rounded-full transition-all duration-300 ${
                       student.puntuacionTotal >= 90 ? 'bg-green-500' :
                       student.puntuacionTotal >= 80 ? 'bg-blue-500' :
-                      student.puntuacionTotal >= 70 ? 'bg-amber-500' : 'bg-red-500'
+                      student.puntuacionTotal >= 70 ? 'bg-yellow-500' : 'bg-red-500'
                     }`}
                     style={{ width: `${Math.min(student.puntuacionTotal, 100)}%` }}
                   ></div>
