@@ -102,11 +102,10 @@ export async function initializeData() {
       console.warn('Error adding sessions:', error);
     }
 
+    // Siempre inicializar participantes después de limpiar
     try {
-      if (participantCount === 0) {
-        await db.participants.bulkAdd(mockParticipants);
-        console.log('Participants initialized');
-      }
+      await db.participants.bulkAdd(mockParticipants);
+      console.log('Participants initialized with', mockParticipants.length, 'participants');
     } catch (error) {
       console.warn('Error adding participants:', error);
     }
