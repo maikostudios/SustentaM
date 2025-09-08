@@ -5,6 +5,7 @@ import { SimpleGradeChart } from '../charts/SimpleGradeChart';
 import { SimpleAttendanceChart } from '../charts/SimpleAttendanceChart';
 import { TopStudentsRanking } from '../charts/TopStudentsRanking';
 import { PerformanceMetrics } from '../charts/PerformanceMetrics';
+import { useThemeAware } from '../../hooks/useTheme';
 import {
   ChartBarIcon,
   DocumentArrowDownIcon,
@@ -20,6 +21,7 @@ interface SimpleReportsDashboardProps {
 }
 
 export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: SimpleReportsDashboardProps) {
+  const theme = useThemeAware();
   const [selectedPeriod, setSelectedPeriod] = useState('month');
   const [selectedCourse, setSelectedCourse] = useState('all');
 
@@ -236,14 +238,14 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
   return (
     <div className="space-y-8">
       {/* Header con tipografía consistente y nueva paleta */}
-      <div className="bg-background-secondary border border-border-light rounded-lg shadow-sm p-6">
+      <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-sans text-3xl font-bold text-text-primary flex items-center">
-              <ChartBarIcon className="w-8 h-8 mr-3 text-primary-500" />
+            <h1 className={`font-sans text-3xl font-bold ${theme.text} flex items-center`}>
+              <ChartBarIcon className="w-8 h-8 mr-3 text-blue-600 dark:text-blue-400" />
               Dashboard de Reportes
             </h1>
-            <p className="font-sans text-base text-text-secondary mt-2">
+            <p className={`font-sans text-base ${theme.textSecondary} mt-2`}>
               Análisis y estadísticas de cursos y participantes
             </p>
           </div>

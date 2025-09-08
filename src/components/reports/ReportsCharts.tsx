@@ -16,6 +16,7 @@ import {
 } from 'recharts';
 import { Participant, Course } from '../../types';
 import { TrendsChart } from './TrendsChart';
+import { useThemeAware } from '../../hooks/useTheme';
 
 interface ReportsChartsProps {
   participants: Participant[];
@@ -25,6 +26,7 @@ interface ReportsChartsProps {
 const COLORS = ['#0A3D62', '#4CAF50', '#F57C00', '#D32F2F'];
 
 export function ReportsCharts({ participants, courses }: ReportsChartsProps) {
+  const theme = useThemeAware();
   const chartData = useMemo(() => {
     // Attendance by course
     const attendanceByCourse = courses.map(course => {
@@ -112,8 +114,8 @@ export function ReportsCharts({ participants, courses }: ReportsChartsProps) {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Status Distribution */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
-          <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Distribución por Estado</h3>
+        <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6`}>
+          <h3 className={`font-sans text-lg font-semibold ${theme.text} mb-4`}>Distribución por Estado</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -136,8 +138,8 @@ export function ReportsCharts({ participants, courses }: ReportsChartsProps) {
         </div>
 
         {/* Attendance by Course */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-lg font-semibold mb-4">Asistencia Promedio por Curso</h3>
+        <div className={`${theme.bg} p-6 rounded-lg shadow-sm border ${theme.border}`}>
+          <h3 className={`text-lg font-semibold ${theme.text} mb-4`}>Asistencia Promedio por Curso</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData.attendanceByCourse}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -164,8 +166,8 @@ export function ReportsCharts({ participants, courses }: ReportsChartsProps) {
       </div>
 
       {/* Approval vs Failure by Course */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border">
-        <h3 className="text-lg font-semibold mb-4">Aprobados vs Reprobados por Curso</h3>
+      <div className={`${theme.bg} p-6 rounded-lg shadow-sm border ${theme.border}`}>
+        <h3 className={`text-lg font-semibold ${theme.text} mb-4`}>Aprobados vs Reprobados por Curso</h3>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData.attendanceByCourse} margin={{ bottom: 60 }}>
             <CartesianGrid strokeDasharray="3 3" />

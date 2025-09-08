@@ -5,6 +5,7 @@ import { Course, Participant } from '../../types';
 import { ReportsCharts } from './ReportsCharts';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { useThemeAware } from '../../hooks/useTheme';
 import { 
   FunnelIcon,
   DocumentArrowDownIcon,
@@ -31,6 +32,8 @@ interface FilterState {
 }
 
 export function ReportsDashboard({ courses, participants }: ReportsDashboardProps) {
+  const theme = useThemeAware();
+
   const [filters, setFilters] = useState<FilterState>({
     dateRange: {
       start: '',
@@ -234,9 +237,9 @@ FILTROS APLICADOS:
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className={`${theme.bg} p-6 rounded-lg shadow-sm border ${theme.border}`}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Filtros de Reporte</h3>
+            <h3 className={`text-lg font-semibold ${theme.text}`}>Filtros de Reporte</h3>
             <Button
               variant="ghost"
               size="sm"
@@ -341,35 +344,67 @@ FILTROS APLICADOS:
 
       {/* KPIs Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-lg text-white">
-          <div className="font-sans text-3xl font-bold">{kpis.totalParticipants}</div>
-          <div className="font-sans text-blue-100">Total Participantes</div>
-          <div className="font-sans text-sm text-blue-200 mt-1">
-            En {kpis.totalCourses} cursos
+        {/* Total Participantes - Azul */}
+        <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-sans text-3xl font-bold text-blue-600 dark:text-blue-400">{kpis.totalParticipants}</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Total Participantes</div>
+              <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
+                En {kpis.totalCourses} cursos
+              </div>
+            </div>
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+              <div className="w-6 h-6 bg-blue-500 dark:bg-blue-400 rounded"></div>
+            </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-lg text-white">
-          <div className="font-sans text-3xl font-bold">{kpis.approvalRate.toFixed(1)}%</div>
-          <div className="font-sans text-green-100">Tasa de Aprobación</div>
-          <div className="font-sans text-sm text-green-200 mt-1">
-            {kpis.approvedCount} de {kpis.totalParticipants}
+        {/* Tasa de Aprobación - Verde */}
+        <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-sans text-3xl font-bold text-green-600 dark:text-green-400">{kpis.approvalRate.toFixed(1)}%</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Tasa de Aprobación</div>
+              <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
+                {kpis.approvedCount} de {kpis.totalParticipants}
+              </div>
+            </div>
+            <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+              <div className="w-6 h-6 bg-green-500 dark:bg-green-400 rounded"></div>
+            </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6 rounded-lg text-white">
-          <div className="font-sans text-3xl font-bold">{kpis.avgAttendance}%</div>
-          <div className="font-sans text-orange-100">Asistencia Promedio</div>
-          <div className="font-sans text-sm text-orange-200 mt-1">
-            Nota promedio: {kpis.avgGrade}
+        {/* Asistencia Promedio - Naranja */}
+        <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-sans text-3xl font-bold text-orange-600 dark:text-orange-400">{kpis.avgAttendance}%</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Asistencia Promedio</div>
+              <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
+                Nota promedio: {kpis.avgGrade}
+              </div>
+            </div>
+            <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+              <div className="w-6 h-6 bg-orange-500 dark:bg-orange-400 rounded"></div>
+            </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6 rounded-lg text-white">
-          <div className="font-sans text-3xl font-bold">{kpis.activeContractors}</div>
-          <div className="font-sans text-purple-100">Contratistas Activos</div>
-          <div className="font-sans text-sm text-purple-200 mt-1">
-            Participando en cursos
+        {/* Contratistas Activos - Púrpura */}
+        <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-sans text-3xl font-bold text-purple-600 dark:text-purple-400">{kpis.activeContractors}</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Contratistas Activos</div>
+              <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
+                Participando en cursos
+              </div>
+            </div>
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+              <div className="w-6 h-6 bg-purple-500 dark:bg-purple-400 rounded"></div>
+            </div>
           </div>
         </div>
       </div>
