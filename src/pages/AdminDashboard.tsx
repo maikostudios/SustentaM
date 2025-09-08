@@ -28,6 +28,8 @@ import { ThemeDemo } from '../components/demo/ThemeDemo';
 import { ErrorHandlingDemo } from '../components/demo/ErrorHandlingDemo';
 import { ContractorManagement } from '../components/contractors/ContractorManagement';
 import { SeatIconDemo } from '../components/demo/SeatIconDemo';
+import { ImportAttendanceModal } from '../components/attendance/ImportAttendanceModal';
+import { ImportGradesModal } from '../components/attendance/ImportGradesModal';
 
 export function AdminDashboard() {
   // Component state
@@ -37,6 +39,8 @@ export function AdminDashboard() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [showAttendanceImport, setShowAttendanceImport] = useState(false);
   const [showGradesImport, setShowGradesImport] = useState(false);
+  const [showSimpleAttendanceImport, setShowSimpleAttendanceImport] = useState(false);
+  const [showSimpleGradesImport, setShowSimpleGradesImport] = useState(false);
   const [showBulkCertificates, setShowBulkCertificates] = useState<Course | null>(null);
   const [showCertificatePreview, setShowCertificatePreview] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
@@ -383,8 +387,8 @@ export function AdminDashboard() {
           <AttendanceTable
             participants={participants}
             onUpdateAttendance={updateAttendance}
-            onImportAttendance={() => setShowAttendanceImport(true)}
-            onImportGrades={() => setShowGradesImport(true)}
+            onImportAttendance={() => setShowSimpleAttendanceImport(true)}
+            onImportGrades={() => setShowSimpleGradesImport(true)}
             onExportReport={handleExportReport}
           />
         );
@@ -765,6 +769,17 @@ export function AdminDashboard() {
           loading={deleteLoading}
         />
       )}
+
+      {/* Simple Import Modals */}
+      <ImportAttendanceModal
+        isOpen={showSimpleAttendanceImport}
+        onClose={() => setShowSimpleAttendanceImport(false)}
+      />
+
+      <ImportGradesModal
+        isOpen={showSimpleGradesImport}
+        onClose={() => setShowSimpleGradesImport(false)}
+      />
 
       {/* Help Modal */}
       <HelpModal

@@ -13,7 +13,8 @@ import { useAuthStore } from '../store/authStore';
 import { logger } from '../utils/logger';
 import { Modal } from '../components/ui/Modal';
 import { Button } from '../components/ui/Button';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ComputerDesktopIcon, BuildingOfficeIcon, CalendarDaysIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { useThemeAware } from '../hooks/useTheme';
 
 export function ContractorDashboard() {
   const [activeSection, setActiveSection] = useState('calendar');
@@ -41,6 +42,7 @@ export function ContractorDashboard() {
     fetchParticipantsBySession,
     addParticipants
   } = useCourseStore();
+  const theme = useThemeAware();
 
   useEffect(() => {
     fetchCourses();
@@ -85,29 +87,72 @@ export function ContractorDashboard() {
         const filteredParticipantsForDashboard = getFilteredParticipants();
         return (
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Panel de Contratista
+            <div className={`${theme.bg} overflow-hidden shadow-lg rounded-xl border ${theme.border} transition-all duration-300 hover:shadow-xl`}>
+              <div className="p-8">
+                <div className="mb-8">
+                  <h2 className={`text-3xl font-black ${theme.text} font-sans mb-2`}>
+                    Panel de Contratista
+                  </h2>
                   {user?.empresa && (
-                    <span className="block text-lg font-normal text-gray-600 mt-1">
-                      {user.empresa}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
+                      <span className={`text-lg font-medium ${theme.textSecondary} font-sans`}>
+                        {user.empresa}
+                      </span>
+                    </div>
                   )}
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-blue-900">Cursos Activos</h3>
-                    <p className="text-3xl font-bold text-blue-600">{courses.length}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {/* Cursos Activos */}
+                  <div className={`${theme.isDark ? 'bg-gradient-to-br from-blue-900/30 to-blue-800/20' : 'bg-gradient-to-br from-blue-50 to-blue-100'} p-6 rounded-xl border-2 ${theme.isDark ? 'border-blue-700/50' : 'border-blue-200'} shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 rounded-xl ${theme.isDark ? 'bg-blue-600' : 'bg-blue-500'} shadow-lg flex items-center justify-center transform hover:rotate-12 transition-transform duration-300`}>
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                      </div>
+                      <div className={`px-3 py-1 ${theme.isDark ? 'bg-blue-800/50' : 'bg-blue-200'} rounded-full`}>
+                        <span className={`text-xs font-bold ${theme.isDark ? 'text-blue-300' : 'text-blue-800'}`}>ACTIVOS</span>
+                      </div>
+                    </div>
+                    <h3 className={`text-lg font-bold ${theme.isDark ? 'text-blue-300' : 'text-blue-900'} font-sans mb-2`}>Cursos Activos</h3>
+                    <p className={`text-4xl font-black ${theme.isDark ? 'text-blue-400' : 'text-blue-600'} font-sans`}>{courses.length}</p>
+                    <p className={`text-sm ${theme.isDark ? 'text-blue-400/70' : 'text-blue-700'} font-medium mt-2`}>Disponibles para inscripción</p>
                   </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-green-900">Sesiones</h3>
-                    <p className="text-3xl font-bold text-green-600">{sessions.length}</p>
+
+                  {/* Sesiones */}
+                  <div className={`${theme.isDark ? 'bg-gradient-to-br from-green-900/30 to-green-800/20' : 'bg-gradient-to-br from-green-50 to-green-100'} p-6 rounded-xl border-2 ${theme.isDark ? 'border-green-700/50' : 'border-green-200'} shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 rounded-xl ${theme.isDark ? 'bg-green-600' : 'bg-green-500'} shadow-lg flex items-center justify-center transform hover:rotate-12 transition-transform duration-300`}>
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div className={`px-3 py-1 ${theme.isDark ? 'bg-green-800/50' : 'bg-green-200'} rounded-full`}>
+                        <span className={`text-xs font-bold ${theme.isDark ? 'text-green-300' : 'text-green-800'}`}>PROGRAMADAS</span>
+                      </div>
+                    </div>
+                    <h3 className={`text-lg font-bold ${theme.isDark ? 'text-green-300' : 'text-green-900'} font-sans mb-2`}>Sesiones</h3>
+                    <p className={`text-4xl font-black ${theme.isDark ? 'text-green-400' : 'text-green-600'} font-sans`}>{sessions.length}</p>
+                    <p className={`text-sm ${theme.isDark ? 'text-green-400/70' : 'text-green-700'} font-medium mt-2`}>Fechas programadas</p>
                   </div>
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-purple-900">Mis Participantes</h3>
-                    <p className="text-3xl font-bold text-purple-600">{filteredParticipantsForDashboard.length}</p>
-                    <p className="text-sm text-purple-600 mt-1">de {user?.empresa}</p>
+
+                  {/* Mis Participantes */}
+                  <div className={`${theme.isDark ? 'bg-gradient-to-br from-purple-900/30 to-purple-800/20' : 'bg-gradient-to-br from-purple-50 to-purple-100'} p-6 rounded-xl border-2 ${theme.isDark ? 'border-purple-700/50' : 'border-purple-200'} shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 rounded-xl ${theme.isDark ? 'bg-purple-600' : 'bg-purple-500'} shadow-lg flex items-center justify-center transform hover:rotate-12 transition-transform duration-300`}>
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <div className={`px-3 py-1 ${theme.isDark ? 'bg-purple-800/50' : 'bg-purple-200'} rounded-full`}>
+                        <span className={`text-xs font-bold ${theme.isDark ? 'text-purple-300' : 'text-purple-800'}`}>MI EMPRESA</span>
+                      </div>
+                    </div>
+                    <h3 className={`text-lg font-bold ${theme.isDark ? 'text-purple-300' : 'text-purple-900'} font-sans mb-2`}>Mis Participantes</h3>
+                    <p className={`text-4xl font-black ${theme.isDark ? 'text-purple-400' : 'text-purple-600'} font-sans`}>{filteredParticipantsForDashboard.length}</p>
+                    <p className={`text-sm ${theme.isDark ? 'text-purple-400/70' : 'text-purple-700'} font-medium mt-2`}>de {user?.empresa}</p>
                   </div>
                 </div>
               </div>
@@ -156,7 +201,11 @@ export function ContractorDashboard() {
 
     return (
       <div className="space-y-6">
-        <CourseCalendar onSelectSession={handleSelectSession} />
+        <CourseCalendar
+          onSelectSession={handleSelectSession}
+          courses={courses}
+          sessions={sessions}
+        />
       </div>
     );
   };
@@ -179,20 +228,75 @@ export function ContractorDashboard() {
 
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        {/* Header del Curso Mejorado */}
+        <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-6`}>
+          <div className="flex items-center justify-between mb-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setSelectedSession(null)}
-              className="flex items-center space-x-2"
+              className={`flex items-center space-x-2 ${theme.textSecondary} hover:${theme.text}`}
             >
               <ArrowLeftIcon className="w-4 h-4" />
               <span>Volver al Calendario</span>
             </Button>
+          </div>
+
+          {/* Información del Curso */}
+          <div className="space-y-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{selectedSession.course.nombre}</h2>
-              <p className="text-gray-600">Código: {selectedSession.course.codigo}</p>
+              <h2 className={`text-2xl font-bold ${theme.text} font-sans`}>
+                {selectedSession.course.nombre}
+              </h2>
+              <p className={`${theme.textSecondary} font-sans text-sm mt-1`}>
+                Código: {selectedSession.course.codigo}
+              </p>
+            </div>
+
+            {/* Detalles del Curso */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Modalidad */}
+              <div className="flex items-center space-x-3">
+                {selectedSession.course.modalidad === 'presencial' ? (
+                  <BuildingOfficeIcon className={`w-5 h-5 ${theme.textSecondary}`} />
+                ) : (
+                  <ComputerDesktopIcon className={`w-5 h-5 ${theme.textSecondary}`} />
+                )}
+                <div>
+                  <p className={`text-xs ${theme.textMuted} font-sans uppercase tracking-wide`}>
+                    Modalidad
+                  </p>
+                  <p className={`text-sm font-medium ${theme.text} font-sans`}>
+                    {selectedSession.course.modalidad === 'presencial' ? 'Presencial' : 'Online'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Duración */}
+              <div className="flex items-center space-x-3">
+                <ClockIcon className={`w-5 h-5 ${theme.textSecondary}`} />
+                <div>
+                  <p className={`text-xs ${theme.textMuted} font-sans uppercase tracking-wide`}>
+                    Duración
+                  </p>
+                  <p className={`text-sm font-medium ${theme.text} font-sans`}>
+                    {selectedSession.course.duracionHoras} horas
+                  </p>
+                </div>
+              </div>
+
+              {/* Fecha */}
+              <div className="flex items-center space-x-3">
+                <CalendarDaysIcon className={`w-5 h-5 ${theme.textSecondary}`} />
+                <div>
+                  <p className={`text-xs ${theme.textMuted} font-sans uppercase tracking-wide`}>
+                    Fecha
+                  </p>
+                  <p className={`text-sm font-medium ${theme.text} font-sans`}>
+                    {new Date(selectedSession.session.fecha).toLocaleDateString('es-CL')}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -285,6 +389,7 @@ export function ContractorDashboard() {
           onSubmit={handleManualEnrollment}
           onCancel={() => setShowManualForm(false)}
           existingRuts={getExistingRuts()}
+          contractorCompany={user?.empresa}
         />
       </Modal>
 

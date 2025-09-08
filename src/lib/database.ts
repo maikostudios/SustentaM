@@ -86,20 +86,18 @@ export async function initializeData() {
       console.warn('Error adding users:', error);
     }
 
+    // Siempre inicializar cursos después de limpiar
     try {
-      if (courseCount === 0) {
-        await db.courses.bulkAdd(mockCourses);
-        console.log('Courses initialized');
-      }
+      await db.courses.bulkAdd(mockCourses);
+      console.log('Courses initialized with', mockCourses.length, 'courses');
     } catch (error) {
       console.warn('Error adding courses:', error);
     }
 
+    // Siempre inicializar sesiones después de limpiar
     try {
-      if (sessionCount === 0) {
-        await db.sessions.bulkAdd(mockSessions);
-        console.log('Sessions initialized');
-      }
+      await db.sessions.bulkAdd(mockSessions);
+      console.log('Sessions initialized with', mockSessions.length, 'sessions');
     } catch (error) {
       console.warn('Error adding sessions:', error);
     }

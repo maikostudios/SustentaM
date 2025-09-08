@@ -20,7 +20,7 @@ const enrollmentSchema = z.object({
   rut: z.string().refine((rut) => validarRUT(rut).valido, {
     message: 'RUT inválido'
   }),
-  contractor: z.string().min(1, 'Contratista requerido')
+  contractor: z.string().optional() // Campo opcional - se auto-asigna desde el contratista logueado
 });
 
 type EnrollmentFormData = z.infer<typeof enrollmentSchema>;
@@ -30,13 +30,15 @@ interface ManualEnrollmentFormProps {
   onCancel: () => void;
   loading?: boolean;
   existingRuts?: string[];
+  contractorCompany?: string; // Empresa del contratista logueado
 }
 
-export function ManualEnrollmentForm({ 
-  onSubmit, 
-  onCancel, 
-  loading, 
-  existingRuts = [] 
+export function ManualEnrollmentForm({
+  onSubmit,
+  onCancel,
+  loading,
+  existingRuts = [],
+  contractorCompany
 }: ManualEnrollmentFormProps) {
   const {
     register,
@@ -96,7 +98,13 @@ export function ManualEnrollmentForm({
       return;
     }
 
-    onSubmit(data);
+    // Auto-asignar la empresa del contratista logueado
+    const formDataWithContractor = {
+      ...data,
+      contractor: contractorCompany || 'Empresa no especificada'
+    };
+
+    onSubmit(formDataWithContractor);
   };
 
   return (
@@ -137,13 +145,17 @@ export function ManualEnrollmentForm({
         helperText="Formato: 12345678-5"
       />
 
-      <Input
-        label="Empresa Contratista"
-        required
-        error={errors.contractor?.message}
-        placeholder="Ej: Empresa ABC Ltda."
-        {...register('contractor')}
-      />
+      {/* Campo "Empresa Contratista" OCULTO - Se auto-asigna desde el contratista logueado */}
+      {contractorCompany && (
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
+          <p className="font-sans text-sm text-blue-800 dark:text-blue-200">
+            <span className="font-medium">Empresa:</span> {contractorCompany}
+          </p>
+          <p className="font-sans text-xs text-blue-600 dark:text-blue-300 mt-1">
+            El participante será inscrito automáticamente en tu empresa
+          </p>
+        </div>
+      )}
 
       <div className="flex justify-end space-x-3 pt-4">
         <Button

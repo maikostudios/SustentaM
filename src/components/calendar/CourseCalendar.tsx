@@ -19,12 +19,18 @@ import { useThemeAware } from '../../hooks/useTheme';
 
 interface CourseCalendarProps {
   onSelectSession: (session: Session, course: Course) => void;
+  courses?: Course[];
+  sessions?: Session[];
 }
 
-export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
+export function CourseCalendar({ onSelectSession, courses: propCourses, sessions: propSessions }: CourseCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewType, setViewType] = useState<CalendarViewType>('matrix'); // Forzado a matriz para presentación
-  const { courses, sessions, fetchCourses, fetchSessions } = useCourseStore();
+  const { courses: storeCourses, sessions: storeSessions, fetchCourses, fetchSessions } = useCourseStore();
+
+  // Usar props si están disponibles, sino usar del store
+  const courses = propCourses || storeCourses;
+  const sessions = propSessions || storeSessions;
   const { isMenuCollapsed } = useMenuContext();
   const theme = useThemeAware();
 
@@ -39,7 +45,9 @@ export function CourseCalendar({ onSelectSession }: CourseCalendarProps) {
     logger.debug('CourseCalendar', 'Datos actualizados', {
       coursesCount: courses.length,
       sessionsCount: sessions.length,
-      viewType
+      viewType,
+      coursesData: courses.map(c => ({ id: c.id, nombre: c.nombre, codigo: c.codigo })),
+      sessionsData: sessions.map(s => ({ id: s.id, courseId: s.courseId, fecha: s.fecha }))
     });
   }, [courses, sessions, viewType]);
 

@@ -327,34 +327,36 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
           EN SEGURIDAD Y SALUD OCUPACIONAL
         </h3>
 
-        {/* DEBUG: Verificación de 31 días con tamaños fijos */}
-        <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/30 border-2 border-green-300 dark:border-green-700 rounded-xl">
-          <div className="text-center">
-            <div className="text-lg font-black text-green-800 dark:text-green-400 mb-2">
-              🎯 CALENDARIO ADAPTATIVO - TAMAÑOS FIJOS
-            </div>
-            <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700 dark:text-green-400">
-              <div className="space-y-1">
-                <div>📅 Días: {gridConfig.totalDays}</div>
-                <div>📐 Día: {gridConfig.dayWidth}px</div>
-                <div>📊 Curso: {gridConfig.courseWidth}px</div>
+        {/* DEBUG: Verificación de 31 días con tamaños fijos - OCULTO */}
+        {false && (
+          <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/30 border-2 border-green-300 dark:border-green-700 rounded-xl">
+            <div className="text-center">
+              <div className="text-lg font-black text-green-800 dark:text-green-400 mb-2">
+                🎯 CALENDARIO ADAPTATIVO - TAMAÑOS FIJOS
               </div>
-              <div className="space-y-1">
-                <div>⏰ Horas: {gridConfig.hoursWidth}px</div>
-                <div>📏 Total: {gridConfig.totalWidth}px</div>
-                <div>🎛️ Menú: {gridConfig.menuState}</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-center">
-                  {gridConfig.totalDays === 31 ? '✅ 31 DÍAS' : `❌ ${gridConfig.totalDays} DÍAS`}
+              <div className="grid grid-cols-3 gap-4 text-sm font-bold text-green-700 dark:text-green-400">
+                <div className="space-y-1">
+                  <div>📅 Días: {gridConfig.totalDays}</div>
+                  <div>📐 Día: {gridConfig.dayWidth}px</div>
+                  <div>📊 Curso: {gridConfig.courseWidth}px</div>
                 </div>
-                <div className="text-center">
-                  {isMenuCollapsed ? '🚀 EXPANDIDO' : '📱 COMPACTO'}
+                <div className="space-y-1">
+                  <div>⏰ Horas: {gridConfig.hoursWidth}px</div>
+                  <div>📏 Total: {gridConfig.totalWidth}px</div>
+                  <div>🎛️ Menú: {gridConfig.menuState}</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-center">
+                    {gridConfig.totalDays === 31 ? '✅ 31 DÍAS' : `❌ ${gridConfig.totalDays} DÍAS`}
+                  </div>
+                  <div className="text-center">
+                    {isMenuCollapsed ? '🚀 EXPANDIDO' : '📱 COMPACTO'}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Navegación de meses */}
         <div className="flex items-center justify-center space-x-6 mb-6">
