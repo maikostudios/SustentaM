@@ -1,0 +1,122 @@
+Vamos a empezar a realizar los ultimos ajustes para ahora dejar el sistema listo para presentarlo al cliente  por lo tanto vamos a empezar a ocultar las secciones que son innnecesarias para que el cliente las vea ( que eran propias para el área de desarrollo ) 
+Empezaremos con la vista del Login: 
+En el login hay una sección que te dice cuales son los usuarios de prueba y las contraseñas ,  necesito que generes una documentación de las credenciales aceptadas por el sistema de los distintos roles para que el usuario pueda entrar , ( Modo  ADMIN ,  CONTRATISTA , PARTICIPANTES )   y que luego  la sección con esa información en el frontend  la  ocultes . 
+
+Quiero que elimines el selector de vistas de calendarios ( Calendario Tradicional -  Calendario Matriz) y que ocultes el calendario tradicional , ya que por el momento no se utilizará en la presentación el calendario tradicional. 
+
+necesito que modifiques los nombres de los cursos que están presentes en el sistema actualmente y los reemplaces y o agregues  por los siguientes cursos que te doy en este listado : 
+Además necesito que en el Calendario de Matriz puedas colocar los cursos de acuerdo al siguiente listado : 
+Tabla 1: Propios y EE.CC.
+INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO: 16 horas
+
+PROTOCOLOS MINISTERIO DE SALUD: 4 horas
+
+PROGRAMA BAJA EXPERIENCIA LABORAL (BEL)-TUTOR: 4 horas
+
+PROGRAMA BAJA EXPERIENCIA LABORAL (BEL)-PARTICIPANTE: 4 horas
+
+CONTROL DE RIESGOS MINERÍA SUBTERRÁNEA: 8 horas
+
+LIDERAZGO SIGO SUPERVISORES EE.CC.: 8 horas
+
+ESPACIOS CONFINADOS: 4 horas
+
+TRABAJO EN CALIENTE: 4 horas
+
+ECF N° 22 INSTALACIONES INDUSTRIALES Y SUS ESTRUCTURAS: 4 horas
+
+MANEJO DE SUSTANCIAS PELIGROSAS: 8 horas
+
+GUARDAS Y PROTECCIONES: 8 horas
+
+OBSERVADOR DE CONDUCTAS: Horas no especificadas (AM/PM)
+
+EQUIPO GUÍA: Horas no especificadas (AM/PM)
+
+SEGURIDAD ELÉCTRICA G.1: 16 horas
+
+SEGURIDAD ELÉCTRICA G.2: 16 horas
+
+RC 04 PÉRDIDA DE CONTROL DE ENERGÍA A ALTA INTENSIDAD (HIDRÁULICA Y NEUMÁTICA): 8 horas
+
+Tabla 2: Propios
+PRIMEROS AUXILIOS / USO Y MANEJO DE EXTINTORES: 8 horas
+
+AISLACIÓN Y BLOQUEO DE ENERGÍAS: 8 horas
+
+MATERIALES FUNDIDOS: 8 horas
+
+BRIGADISTAS RAJO: 12 horas
+
+TRABAJO EN ALTURA: 16 horas
+
+MONTACARGAS: 16 horas
+
+MINICARGADORES: 16 horas
+
+TÉCNICAS DE OPERACIÓN SEGURA DE PUENTES GRÚA E IZAJE DE CARGAS (RIGGER): 32 horas
+
+OPERACIÓN INVIERNO: 2 horas
+
+REGLAMENTO INTERNO Y MANEJO A LA DEFENSIVA-LICENCIA POR PRIMERA VEZ: 8 horas
+
+CONDUCCIÓN 4X4 DET: 16 horas
+
+TMERT CPHS - SINDICATOS: 8 horas
+
+TMERT TRABAJADORES - SUPERVISORES: 8 horas
+
+TMERT JEFATURAS: 16 horas
+
+Y quiero que analices los cursos y que según los cursos puedas elegir algunos como presenciales u online y que sigas las reglas que hasta el momento tenemos en las simulaciones para la inscripción de participantes y la gestión de los cursos correspondientemente. 
+
+
+
+
+bordes impirtacion 
+
+
+
+Enviar Dimension de baner para imagen de fondo.
+los textos importantes con mayusculas "Bienvenidos al panel de administración"
+"Gestión de Cursos"  en mayusculas
+
+Cambiar las fechas a Día Mes AÑO 
+
+Agrandar e logo del nav y ponerlo mas a la izq en la esquina 
+
+
+Diferenciar el fondo de acuerdo a cada rol 
+Color de fondo para ADMIN el color actual 
+Contratista Celeste
+Usuario Participante Morado 
+
+Colocar ASISTENCIAS Y CALIFICACIONES en ambas partes . 
+Boton importar nota por importar calificaciones 
+cambiar concepto de contratista por EMPRESA 
+Cambiar en la tabla Contratista a Empresa 
+NOTA (cambiar a calificacion ) : porcentaje en vez de decimales  de 80% =+ para arriba aprobado , menos de 80% reprobado 
+PORCENTAJE ASISTENCIA 80% LO VAN A CONFIRMAR ELLOS 
+
+En importar Calificaciones , esperar la definicion de sustenta para verificar las columnas del os excel   y las notas que deben estar en porcentaje del 0 al 100 porciento 
+
+INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL (SERÁ EL CURSO DE EJEMPLO PARA TODO ) 
+
+Ocultar el Vista previa del PDF generado del admin 
+
+Dejar Generar certificado 
+
+Cambiar el nombre de Gestión de Contratistas a .... le van a a dar una vuelta
+y la columna llamada contratista tambien le van a dar una vuelta .. 
+
+Agregar un botón que simule la descarga de un documento excel  en la carga masiva 
+
+Quieren que investiguemos a fondo sobre las APIS que hagan el cruce de información entre el nombre y rut 
+
+
+En la Inscripción Manual y Masiva , agregar select de Masculino y Femenino (Genero ) y modificar la simulacion de carga agregando este item
+
+
+Quedan en enviar el PDF de certificacion personal 
+
+

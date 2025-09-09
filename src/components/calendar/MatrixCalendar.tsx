@@ -351,16 +351,20 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h2 className={`text-2xl font-bold ${theme.text} mb-2`}>
-          CALENDARIO DE CAPACITACIÓN Y ENTRENAMIENTO
-        </h2>
-        <h3 className={`text-xl font-bold ${theme.text} mb-4`}>
-          EN SEGURIDAD Y SALUD OCUPACIONAL
-        </h3>
+      {/* Título oculto para presentación al cliente */}
+      {false && (
+        <div className="text-center">
+          <h2 className={`text-2xl font-bold ${theme.text} mb-2`}>
+            CALENDARIO DE CAPACITACIÓN Y ENTRENAMIENTO
+          </h2>
+          <h3 className={`text-xl font-bold ${theme.text} mb-4`}>
+            EN SEGURIDAD Y SALUD OCUPACIONAL
+          </h3>
+        </div>
+      )}
 
-        {/* DEBUG: Verificación de ajuste automático - VISIBLE TEMPORALMENTE */}
-        {true && (
+        {/* DEBUG: Verificación de ajuste automático - OCULTO PARA PRESENTACIÓN AL CLIENTE */}
+        {false && (
           <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/30 border-2 border-green-300 dark:border-green-700 rounded-xl">
             <div className="text-center">
               <div className="text-lg font-black text-green-800 dark:text-green-400 mb-2">
@@ -399,40 +403,39 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
           </div>
         )}
 
-        {/* Navegación de meses */}
-        <div className="flex items-center justify-center space-x-6 mb-6">
-          <Button
-            variant="ghost"
-            size="lg"
-            onClick={() => handleNavigateMonth('prev')}
-            disabled={isTransitioning}
-            className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
-              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            aria-label="Mes anterior"
-          >
-            <ChevronLeftIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-          </Button>
+      {/* Navegación de meses */}
+      <div className="flex items-center justify-center space-x-6 mb-6">
+        <Button
+          variant="ghost"
+          size="lg"
+          onClick={() => handleNavigateMonth('prev')}
+          disabled={isTransitioning}
+          className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
+            isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          aria-label="Mes anterior"
+        >
+          <ChevronLeftIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+        </Button>
 
-          <h4 className={`text-2xl font-black text-blue-600 dark:text-blue-400 min-w-64 px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border-2 border-blue-200 dark:border-blue-700 transition-all duration-300 ${
-            isTransitioning ? 'opacity-70 scale-95' : 'opacity-100 scale-100'
-          }`}>
-            {format(currentDate, 'MMMM, yyyy', { locale: es }).toUpperCase()}
-          </h4>
+        <h4 className={`text-2xl font-black text-blue-600 dark:text-blue-400 min-w-64 px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border-2 border-blue-200 dark:border-blue-700 transition-all duration-300 ${
+          isTransitioning ? 'opacity-70 scale-95' : 'opacity-100 scale-100'
+        }`}>
+          {format(currentDate, 'MMMM, yyyy', { locale: es }).toUpperCase()}
+        </h4>
 
-          <Button
-            variant="ghost"
-            size="lg"
-            onClick={() => handleNavigateMonth('next')}
-            disabled={isTransitioning}
-            className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
-              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            aria-label="Mes siguiente"
-          >
-            <ChevronRightIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          size="lg"
+          onClick={() => handleNavigateMonth('next')}
+          disabled={isTransitioning}
+          className={`p-3 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 ${
+            isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          aria-label="Mes siguiente"
+        >
+          <ChevronRightIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+        </Button>
       </div>
 
       {/* Matrices con transición fluida */}
