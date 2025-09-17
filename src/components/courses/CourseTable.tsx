@@ -10,6 +10,7 @@ import {
 import { Course } from '../../types';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { formatDateDDMMYYYY } from '../../utils/dateFormat';
 import { PencilIcon, TrashIcon, MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline';
 
 interface CourseTableProps {
@@ -109,14 +110,14 @@ export function CourseTable({ courses, onEdit, onDelete }: CourseTableProps) {
     }),
     columnHelper.accessor('fechaInicio', {
       header: 'Fecha Inicio',
-      cell: info => info.getValue(),
+      cell: info => formatDateDDMMYYYY(info.getValue()),
       size: 120,
       minSize: 100,
       maxSize: 140
     }),
     columnHelper.accessor('fechaFin', {
       header: 'Fecha Fin',
-      cell: info => info.getValue(),
+      cell: info => formatDateDDMMYYYY(info.getValue()),
       size: 120,
       minSize: 100,
       maxSize: 140

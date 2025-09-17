@@ -52,7 +52,7 @@ export function CourseForm({ course, onSubmit, onCancel, loading }: CourseFormPr
           label="Nombre del Curso"
           required
           error={errors.nombre?.message}
-          placeholder="Ej: Excel Avanzado"
+          placeholder="Ej: INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL"
           {...register('nombre')}
         />
       </div>
@@ -127,7 +127,7 @@ export function CourseForm({ course, onSubmit, onCancel, loading }: CourseFormPr
           id="objetivos"
           rows={4}
           className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          placeholder="Describe los objetivos y contenidos del curso..."
+          placeholder="Ej: Proporcionar conocimientos fundamentales sobre seguridad y salud ocupacional, normativas vigentes y procedimientos de prevención de riesgos laborales..."
           {...register('objetivos')}
         />
         {errors.objetivos && (

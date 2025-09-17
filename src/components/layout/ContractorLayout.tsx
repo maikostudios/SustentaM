@@ -20,7 +20,7 @@ export function ContractorLayout({
   activeSection = 'dashboard',
   onSectionChange,
   breadcrumbs = [],
-  title = 'Panel de Contratista',
+  title = 'PANEL DE EMPRESA',
   onHelpClick
 }: ContractorLayoutProps) {
   const { user } = useAuthStore();

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
+import { parsePercentage, isValidPercentage } from '../../utils/gradeUtils';
 import { XMarkIcon, DocumentArrowUpIcon, CheckCircleIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 import { useThemeAware } from '../../hooks/useTheme';
 import { useNotifications } from '../../contexts/ToastContext';
@@ -30,16 +31,34 @@ export function ImportGradesModal({ isOpen, onClose }: ImportGradesModalProps) {
 
     setIsUploading(true);
 
-    // Simulación de carga de archivo
+    // Simulación de validación y carga de archivo
     setTimeout(() => {
+      // Simulamos validación de formato de porcentajes
+      const mockValidationErrors = [
+        'Fila 3: Calificación "6.5" debe estar en formato porcentaje (0-100%)',
+        'Fila 7: Calificación "4.2" debe estar en formato porcentaje (0-100%)'
+      ];
+
+      // Simulamos que algunas calificaciones no están en formato correcto
+      if (Math.random() > 0.7) {
+        setIsUploading(false);
+        showNotification({
+          type: 'error',
+          title: 'ERROR DE VALIDACIÓN',
+          message: 'Las calificaciones deben estar en formato porcentaje (0-100%). Revisa el archivo y vuelve a intentar.',
+          duration: 8000
+        });
+        return;
+      }
+
       setIsUploading(false);
       setUploadSuccess(true);
-      
+
       // Mostrar notificación de éxito
       showNotification({
         type: 'success',
-        title: 'Notas Importadas',
-        message: `Se importaron exitosamente las notas desde ${file.name}`,
+        title: 'CALIFICACIONES IMPORTADAS',
+        message: `Se importaron exitosamente las calificaciones desde ${file.name}. Todas las calificaciones están en formato porcentaje válido.`,
         duration: 5000
       });
     }, 2000);
@@ -58,7 +77,7 @@ export function ImportGradesModal({ isOpen, onClose }: ImportGradesModalProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Importar Notas" size="md">
+    <Modal isOpen={isOpen} onClose={handleClose} title="IMPORTAR CALIFICACIONES" size="md">
       <div className="space-y-6">
         {!uploadSuccess ? (
           <>
@@ -66,7 +85,7 @@ export function ImportGradesModal({ isOpen, onClose }: ImportGradesModalProps) {
             <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4`}>
               <h4 className={`font-semibold ${theme.text} mb-3 flex items-center`}>
                 <AcademicCapIcon className="w-5 h-5 mr-2 text-purple-500" />
-                Instrucciones para Importar Notas
+                INSTRUCCIONES PARA IMPORTAR CALIFICACIONES
               </h4>
               <ul className={`text-sm ${theme.textSecondary} space-y-2`}>
                 <li className="flex items-start">
@@ -75,11 +94,15 @@ export function ImportGradesModal({ isOpen, onClose }: ImportGradesModalProps) {
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  Debe contener las columnas: RUT, Nombre, Nota Final
+                  Debe contener las columnas: RUT, Nombre, Calificación
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  Las notas deben estar entre 1.0 y 7.0
+                  <strong>Las calificaciones deben estar en porcentaje (0% - 100%)</strong>
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Aprobado: ≥ 80% | Reprobado: &lt; 80%
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
@@ -91,7 +114,7 @@ export function ImportGradesModal({ isOpen, onClose }: ImportGradesModalProps) {
             {/* Selector de archivo */}
             <div className="space-y-4">
               <label className={`block text-sm font-semibold ${theme.text}`}>
-                Seleccionar Archivo de Notas
+                SELECCIONAR ARCHIVO DE CALIFICACIONES
               </label>
               
               {!file ? (

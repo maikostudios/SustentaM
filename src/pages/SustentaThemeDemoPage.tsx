@@ -143,7 +143,7 @@ const ComponentsShowcase: React.FC = () => {
                 <input
                   type="text"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sustenta-blue focus:border-sustenta-blue"
-                  placeholder="Ingrese el nombre del curso"
+                  placeholder="Ej: INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL"
                 />
               </div>
               

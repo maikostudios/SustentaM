@@ -4,7 +4,7 @@ export interface User {
   rut: string;
   rol: 'administrador' | 'contratista' | 'usuario';
   clave: string;
-  empresa?: string; // Empresa contratista (solo para rol contratista)
+  empresa?: string; // Empresa (solo para rol contratista)
 }
 
 export interface Course {
@@ -41,8 +41,9 @@ export interface Participant {
   nombre: string;
   rut: string;
   contractor: string;
+  genero: 'Masculino' | 'Femenino';
   asistencia: number;
-  nota: number;
+  calificacion: number;
   estado: 'inscrito' | 'aprobado' | 'reprobado';
 }
 
@@ -58,10 +59,11 @@ export interface EnrollmentData {
   nombre: string;
   rut: string;
   contractor: string;
+  genero: 'Masculino' | 'Femenino';
 }
 
 export interface AttendanceData {
   rut: string;
   asistencia: number;
-  nota: number;
+  calificacion: number;
 }

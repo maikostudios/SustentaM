@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { formatGradeAsPercentage } from '../../utils/gradeUtils';
 import {
   AcademicCapIcon,
   UserGroupIcon,
@@ -22,7 +23,7 @@ interface PerformanceMetricsProps {
 export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
   const metrics = useMemo(() => [
     {
-      title: 'Total Estudiantes',
+      title: 'TOTAL ESTUDIANTES',
       value: data.totalEstudiantes,
       icon: UserGroupIcon,
       color: 'primary',
@@ -31,17 +32,17 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       suffix: ''
     },
     {
-      title: 'Promedio General',
-      value: data.promedioGeneral,
+      title: 'PROMEDIO GENERAL',
+      value: formatGradeAsPercentage(data.promedioGeneral),
       icon: AcademicCapIcon,
       color: 'secondary',
       bgColor: 'bg-secondary-50',
       iconColor: 'text-secondary-600',
       suffix: '',
-      decimals: 1
+      decimals: 0
     },
     {
-      title: 'Asistencia Promedio',
+      title: 'ASISTENCIA PROMEDIO',
       value: data.asistenciaPromedio,
       icon: ClockIcon,
       color: 'accent',
@@ -51,7 +52,7 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       decimals: 1
     },
     {
-      title: 'Tasa de Aprobación',
+      title: 'TASA DE APROBACIÓN',
       value: data.tasaAprobacion,
       icon: CheckCircleIcon,
       color: 'success',
@@ -61,7 +62,7 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       decimals: 1
     },
     {
-      title: 'Estudiantes Destacados',
+      title: 'ESTUDIANTES DESTACADOS',
       value: data.estudiantesDestacados,
       icon: StarIcon,
       color: 'warning',
@@ -70,7 +71,7 @@ export function PerformanceMetrics({ data }: PerformanceMetricsProps) {
       suffix: ''
     },
     {
-      title: 'Cursos Activos',
+      title: 'CURSOS ACTIVOS',
       value: data.cursosActivos,
       icon: ChartBarIcon,
       color: 'info',

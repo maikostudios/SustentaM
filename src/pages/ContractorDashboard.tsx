@@ -91,7 +91,7 @@ export function ContractorDashboard() {
               <div className="p-8">
                 <div className="mb-8">
                   <h2 className={`text-3xl font-black ${theme.text} font-sans mb-2`}>
-                    Panel de Contratista
+                    PANEL DE EMPRESA
                   </h2>
                   {user?.empresa && (
                     <div className="flex items-center space-x-2">
@@ -184,10 +184,10 @@ export function ContractorDashboard() {
     return getSessionParticipants().map(p => p.rut);
   };
 
-  // Filtrar participantes por empresa del contratista logueado
+  // Filtrar participantes por empresa logueada
   const getFilteredParticipants = () => {
     if (!user || user.rol !== 'contratista' || !user.empresa) {
-      return participants; // Si no es contratista o no tiene empresa, devolver todos
+      return participants; // Si no es empresa o no tiene empresa, devolver todos
     }
     return participants.filter(p => p.contractor === user.empresa);
   };
@@ -214,7 +214,7 @@ export function ContractorDashboard() {
     if (!selectedSession) {
       return (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">Gestión de Inscripciones</h2>
+          <h2 className="text-2xl font-bold text-gray-900">GESTIÓN DE INSCRIPCIONES</h2>
           <div className="bg-white p-6 rounded-lg shadow">
             <p className="text-gray-600">Selecciona un curso del calendario para gestionar inscripciones.</p>
           </div>
@@ -328,27 +328,27 @@ export function ContractorDashboard() {
   const getBreadcrumbs = () => {
     switch (activeSection) {
       case 'dashboard':
-        return [{ label: 'Dashboard', current: true }];
+        return [{ label: 'DASHBOARD', current: true }];
       case 'calendar':
         return selectedSession
           ? [
-              { label: 'Dashboard', href: '#' },
-              { label: 'Calendario', href: '#' },
-              { label: selectedSession.course.nombre, current: true }
+              { label: 'DASHBOARD', href: '#' },
+              { label: 'CALENDARIO', href: '#' },
+              { label: selectedSession.course.nombre.toUpperCase(), current: true }
             ]
           : [
-              { label: 'Dashboard', href: '#' },
-              { label: 'Calendario', current: true }
+              { label: 'DASHBOARD', href: '#' },
+              { label: 'CALENDARIO', current: true }
             ];
       case 'enrollment':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Inscripciones', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'INSCRIPCIONES', current: true }
         ];
       case 'reports':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Reportes', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'REPORTES', current: true }
         ];
       default:
         return [];
@@ -358,15 +358,15 @@ export function ContractorDashboard() {
   const getSectionTitle = () => {
     switch (activeSection) {
       case 'dashboard':
-        return 'Panel de Contratista';
+        return 'PANEL DE EMPRESA';
       case 'calendar':
-        return selectedSession ? `Inscripciones - ${selectedSession.course.nombre}` : 'Calendario de Cursos';
+        return selectedSession ? `INSCRIPCIONES - ${selectedSession.course.nombre.toUpperCase()}` : 'CALENDARIO DE CURSOS';
       case 'enrollment':
-        return 'Gestión de Inscripciones';
+        return 'GESTIÓN DE INSCRIPCIONES';
       case 'reports':
-        return 'Mis Reportes';
+        return 'MIS REPORTES';
       default:
-        return 'Panel de Contratista';
+        return 'PANEL DE EMPRESA';
     }
   };
 

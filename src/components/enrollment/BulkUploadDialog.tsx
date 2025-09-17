@@ -4,7 +4,7 @@ import { validarRUT } from '../../lib/validations';
 import { EnrollmentData } from '../../types';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
-import { DocumentArrowUpIcon, ExclamationTriangleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { DocumentArrowUpIcon, DocumentArrowDownIcon, ExclamationTriangleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useThemeAware } from '../../hooks/useTheme';
 
 // Datos hardcodeados para simulación de validación nombre-RUT
@@ -186,6 +186,26 @@ export function BulkUploadDialog({
     }, 3000);
   };
 
+  const handleDownloadTemplate = () => {
+    // Crear datos de ejemplo para el template
+    const templateData = [
+      ['Nombre', 'RUT', 'Empresa', 'Género'],
+      ['Juan Carlos Pérez González', '12.345.678-5', 'Empresa ABC', 'Masculino'],
+      ['María Elena Rodríguez Silva', '98.765.432-5', 'Empresa XYZ', 'Femenino'],
+      ['Carlos Alberto Muñoz Torres', '15.678.234-3', 'Empresa DEF', 'Masculino']
+    ];
+
+    // Crear workbook y worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(templateData);
+
+    // Agregar el worksheet al workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Plantilla');
+
+    // Generar archivo y descargarlo
+    XLSX.writeFile(wb, 'plantilla_carga_masiva.xlsx');
+  };
+
   const handleClose = () => {
     setFile(null);
     setPreview([]);
@@ -196,19 +216,20 @@ export function BulkUploadDialog({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Carga Masiva de Participantes" size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title="CARGA MASIVA DE PARTICIPANTES" size="lg">
       <div className="space-y-6">
         {!uploadSuccess ? (
           <>
             {/* Contenido original del modal */}
         <div className={`${theme.bgSecondary} border ${theme.border} rounded-lg p-4`}>
-          <h4 className={`font-medium ${theme.text} mb-2`}>Instrucciones</h4>
+          <h4 className={`font-medium ${theme.text} mb-2`}>INSTRUCCIONES</h4>
           <ul className={`text-sm ${theme.textSecondary} space-y-1`}>
             <li>• El archivo debe ser Excel (.xlsx)</li>
-            <li>• Columnas requeridas: Nombre (A), RUT (B), Contratista (C)</li>
+            <li>• Columnas requeridas: Nombre (A), RUT (B), Empresa (C), Género (D)</li>
+            <li>• Género debe ser: "Masculino" o "Femenino"</li>
             <li>• La primera fila debe contener los encabezados</li>
             <li>• Espacios disponibles: {capacity - currentOccupancy} de {capacity}</li>
-            <li>• Ejemplo de formato válido:</li>
+            <li>• Descarga la plantilla de ejemplo para el formato correcto</li>
           </ul>
           <div className={`mt-2 ${theme.bg} border ${theme.border} rounded p-2 text-xs font-mono`}>
             <div className="grid grid-cols-3 gap-2 font-semibold border-b pb-1">
@@ -229,10 +250,21 @@ export function BulkUploadDialog({
           </div>
         </div>
 
-        <div>
-          <label className={`block text-sm font-medium ${theme.text} mb-2`}>
-            Seleccionar Archivo Excel
-          </label>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className={`block text-sm font-medium ${theme.text}`}>
+              SELECCIONAR ARCHIVO EXCEL
+            </label>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadTemplate}
+              className="flex items-center space-x-2"
+            >
+              <DocumentArrowDownIcon className="w-4 h-4" />
+              <span>DESCARGAR PLANTILLA</span>
+            </Button>
+          </div>
           <input
             type="file"
             accept=".xlsx,.xls"
@@ -306,13 +338,13 @@ export function BulkUploadDialog({
             variant="secondary"
             onClick={handleClose}
           >
-            Cancelar
+            CANCELAR
           </Button>
           <Button
             onClick={handleImport}
             disabled={!file || preview.length === 0 || errors.length > 0}
           >
-            Importar Participantes
+            IMPORTAR PARTICIPANTES
           </Button>
         </div>
           </>

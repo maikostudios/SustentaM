@@ -118,21 +118,21 @@ export function AttendanceImportDialog({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Importar Asistencia y Notas" size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Importar Asistencia y Calificaciones" size="lg">
       <div className="space-y-6">
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h4 className="font-medium text-blue-900 mb-2">Instrucciones</h4>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• El archivo debe ser Excel (.xlsx)</li>
-            <li>• Columnas requeridas: RUT (A), Asistencia % (B), Nota (C)</li>
+            <li>• Columnas requeridas: RUT (A), Asistencia % (B), Calificación (C)</li>
             <li>• La primera fila debe contener los encabezados</li>
-            <li>• Asistencia: 0-100%, Nota: 1.0-7.0</li>
+            <li>• Asistencia: 0-100%, Calificación: 1.0-7.0</li>
           </ul>
           <div className="mt-2 bg-white border border-blue-200 rounded p-2 text-xs font-mono">
             <div className="grid grid-cols-3 gap-2 font-semibold border-b pb-1">
               <span>RUT</span>
               <span>Asistencia</span>
-              <span>Nota</span>
+              <span>Calificación</span>
             </div>
             <div className="grid grid-cols-3 gap-2 pt-1">
               <span>12345678-5</span>

@@ -45,37 +45,37 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
         return [
           {
             id: 'dashboard',
-            label: 'Dashboard',
+            label: 'DASHBOARD',
             icon: HomeIcon,
             description: 'Vista general del sistema'
           },
           {
             id: 'courses',
-            label: 'Gestión de Cursos',
+            label: 'GESTIÓN DE CURSOS',
             icon: AcademicCapIcon,
             description: 'Crear y administrar cursos'
           },
           {
             id: 'attendance',
-            label: 'Asistencia y Notas',
+            label: 'ASISTENCIA Y CALIFICACIONES',
             icon: DocumentCheckIcon,
             description: 'Gestionar asistencia y calificaciones'
           },
           {
             id: 'certificates',
-            label: 'Certificados',
+            label: 'CERTIFICADOS',
             icon: DocumentCheckIcon,
             description: 'Generar y gestionar certificados'
           },
           {
             id: 'contractors',
-            label: 'Gestión de Contratistas',
+            label: 'GESTIÓN DE EMPRESAS',
             icon: UserGroupIcon,
-            description: 'Administrar contratistas y sus datos'
+            description: 'Administrar empresas y sus datos'
           },
           {
             id: 'reports',
-            label: 'Reportes',
+            label: 'REPORTES',
             icon: ChartBarIcon,
             description: 'Análisis y estadísticas'
           },
@@ -146,25 +146,25 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
         return [
           {
             id: 'dashboard',
-            label: 'Dashboard',
+            label: 'DASHBOARD',
             icon: HomeIcon,
             description: 'Vista general'
           },
           {
             id: 'calendar',
-            label: 'Calendario',
+            label: 'CALENDARIO',
             icon: CalendarDaysIcon,
             description: 'Programación de cursos'
           },
           {
             id: 'enrollment',
-            label: 'Inscripciones',
+            label: 'INSCRIPCIONES',
             icon: UsersIcon,
             description: 'Gestionar participantes'
           },
           {
             id: 'reports',
-            label: 'Mis Reportes',
+            label: 'MIS REPORTES',
             icon: ChartBarIcon,
             description: 'Reportes de mis cursos'
           }
@@ -174,19 +174,19 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
         return [
           {
             id: 'dashboard',
-            label: 'Mi Dashboard',
+            label: 'MI DASHBOARD',
             icon: HomeIcon,
             description: 'Vista personal'
           },
           {
             id: 'courses',
-            label: 'Mis Cursos',
+            label: 'MIS CURSOS',
             icon: AcademicCapIcon,
             description: 'Cursos inscritos'
           },
           {
             id: 'certificates',
-            label: 'Mis Certificados',
+            label: 'MIS CERTIFICADOS',
             icon: DocumentCheckIcon,
             description: 'Certificados obtenidos'
           }
@@ -277,12 +277,12 @@ export function MobileMainMenu({ activeItem, onItemClick, userRole }: Omit<MainM
     switch (userRole) {
       case 'administrador':
         return [
-          { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
-          { id: 'courses', label: 'Cursos', icon: AcademicCapIcon },
-          { id: 'attendance', label: 'Asistencia', icon: DocumentCheckIcon },
-          { id: 'certificates', label: 'Certificados', icon: DocumentCheckIcon },
-          { id: 'contractors', label: 'Contratistas', icon: UserGroupIcon },
-          { id: 'reports', label: 'Reportes', icon: ChartBarIcon },
+          { id: 'dashboard', label: 'DASHBOARD', icon: HomeIcon },
+          { id: 'courses', label: 'CURSOS', icon: AcademicCapIcon },
+          { id: 'attendance', label: 'ASISTENCIA', icon: DocumentCheckIcon },
+          { id: 'certificates', label: 'CERTIFICADOS', icon: DocumentCheckIcon },
+          { id: 'contractors', label: 'EMPRESAS', icon: UserGroupIcon },
+          { id: 'reports', label: 'REPORTES', icon: ChartBarIcon },
           /* SECCIONES OCULTAS PARA PRESENTACIÓN AL CLIENTE
           { id: 'notifications', label: 'Notificaciones', icon: BellIcon },
           { id: 'performance', label: 'Rendimiento', icon: RocketLaunchIcon },
@@ -300,17 +300,17 @@ export function MobileMainMenu({ activeItem, onItemClick, userRole }: Omit<MainM
       
       case 'contratista':
         return [
-          { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
-          { id: 'calendar', label: 'Calendario', icon: CalendarDaysIcon },
-          { id: 'enrollment', label: 'Inscripciones', icon: UsersIcon },
-          { id: 'reports', label: 'Reportes', icon: ChartBarIcon }
+          { id: 'dashboard', label: 'DASHBOARD', icon: HomeIcon },
+          { id: 'calendar', label: 'CALENDARIO', icon: CalendarDaysIcon },
+          { id: 'enrollment', label: 'INSCRIPCIONES', icon: UsersIcon },
+          { id: 'reports', label: 'REPORTES', icon: ChartBarIcon }
         ];
-      
+
       case 'usuario':
         return [
-          { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
-          { id: 'courses', label: 'Cursos', icon: AcademicCapIcon },
-          { id: 'certificates', label: 'Certificados', icon: DocumentCheckIcon }
+          { id: 'dashboard', label: 'DASHBOARD', icon: HomeIcon },
+          { id: 'courses', label: 'CURSOS', icon: AcademicCapIcon },
+          { id: 'certificates', label: 'CERTIFICADOS', icon: DocumentCheckIcon }
         ];
       
       default:

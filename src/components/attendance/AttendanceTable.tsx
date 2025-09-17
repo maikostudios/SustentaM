@@ -9,6 +9,7 @@ import {
 import { Participant } from '../../types';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { formatGradeAsPercentage, getGradeStatusClasses, isGradeApproved } from '../../utils/gradeUtils';
 import { AttendanceDetailModal } from './AttendanceDetailModal';
 import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Modal } from '../ui/Modal';
@@ -97,7 +98,7 @@ export function AttendanceTable({
 
   const columns = [
     columnHelper.accessor('nombre', {
-      header: 'Nombre',
+      header: 'NOMBRE',
       cell: info => info.getValue()
     }),
     columnHelper.accessor('rut', {
@@ -105,11 +106,11 @@ export function AttendanceTable({
       cell: info => info.getValue()
     }),
     columnHelper.accessor('contractor', {
-      header: 'Contratista',
+      header: 'EMPRESA',
       cell: info => info.getValue()
     }),
     columnHelper.accessor('asistencia', {
-      header: 'Asistencia (%)',
+      header: 'ASISTENCIA',
       cell: ({ row }) => {
         const participant = row.original;
         const isEditing = editingId === participant.id;
@@ -129,62 +130,67 @@ export function AttendanceTable({
         }
         
         return (
-          <span className={`font-medium ${
-            participant.asistencia >= 50 ? 'text-green-600' : 'text-red-600'
+          <span className={`font-medium px-2 py-1 rounded ${
+            participant.asistencia >= 80
+              ? 'bg-green-100 text-green-800'
+              : 'bg-red-100 text-red-800'
           }`}>
             {participant.asistencia}%
           </span>
         );
       }
     }),
-    columnHelper.accessor('nota', {
-      header: 'Nota',
+    columnHelper.accessor('calificacion', {
+      header: 'CALIFICACIÓN',
       cell: ({ row }) => {
         const participant = row.original;
         const isEditing = editingId === participant.id;
-        
+
         if (isEditing) {
           return (
             <input
               type="number"
-              min="1"
-              max="7"
-              step="0.1"
-              value={editData.nota}
-              onChange={(e) => setEditData({ ...editData, nota: Number(e.target.value) })}
+              min="0"
+              max="100"
+              step="1"
+              value={editData.calificacion}
+              onChange={(e) => setEditData({ ...editData, calificacion: Number(e.target.value) })}
               className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-              aria-label="Nota"
+              aria-label="Calificación en porcentaje"
+              placeholder="0-100%"
             />
           );
         }
-        
+
+        const statusClasses = getGradeStatusClasses(participant.calificacion);
+        const percentage = formatGradeAsPercentage(participant.calificacion);
+
         return (
-          <span className={`font-medium ${
-            participant.nota >= 4.0 ? 'text-green-600' : 'text-red-600'
-          }`}>
-            {participant.nota.toFixed(1)}
+          <span className={`font-medium px-2 py-1 rounded ${statusClasses.badge}`}>
+            {percentage}
           </span>
         );
       }
     }),
     columnHelper.accessor('estado', {
-      header: 'Estado',
-      cell: info => {
-        const estado = info.getValue();
+      header: 'ESTADO',
+      cell: ({ row }) => {
+        const participant = row.original;
+        const isApproved = isGradeApproved(participant.calificacion);
+        const estado = isApproved ? 'APROBADO' : 'REPROBADO';
+
         return (
           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-            estado === 'aprobado' ? 'bg-green-100 text-green-800' :
-            estado === 'reprobado' ? 'bg-red-100 text-red-800' :
-            'bg-gray-100 text-gray-800'
+            isApproved ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
           }`}>
-            {estado.charAt(0).toUpperCase() + estado.slice(1)}
+            {estado}
           </span>
         );
       }
     }),
     columnHelper.display({
       id: 'attendance-detail',
-      header: 'Detalle Asistencia',
+      header: 'DETALLE ASISTENCIA',
       cell: ({ row }) => {
         const participant = row.original;
         return (
@@ -265,7 +271,7 @@ export function AttendanceTable({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h2 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
-          Asistencia y Calificaciones
+          ASISTENCIA Y CALIFICACIONES
         </h2>
         
         <div className="flex space-x-3">
@@ -275,7 +281,7 @@ export function AttendanceTable({
             className="flex items-center space-x-2"
           >
             <DocumentArrowUpIcon className="w-4 h-4" />
-            <span>Importar Asistencia</span>
+            <span>IMPORTAR ASISTENCIA</span>
           </Button>
 
           <Button
@@ -284,7 +290,7 @@ export function AttendanceTable({
             className="flex items-center space-x-2"
           >
             <DocumentArrowUpIcon className="w-4 h-4" />
-            <span>Importar Notas</span>
+            <span>IMPORTAR CALIFICACIONES</span>
           </Button>
           
           <Button
@@ -294,7 +300,7 @@ export function AttendanceTable({
             disabled={participants.length === 0}
           >
             <DocumentArrowDownIcon className="w-4 h-4" />
-            <span>Exportar PDF</span>
+            <span>EXPORTAR PDF</span>
           </Button>
         </div>
       </div>

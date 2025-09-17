@@ -35,7 +35,7 @@ const generateMockParticipants = (count: number) => {
 };
 
 const generateMockCourses = (count: number) => {
-  const cursos = ['Excel Avanzado', 'Python Básico', 'Marketing Digital', 'Gestión de Proyectos', 'Análisis de Datos'];
+  const cursos = ['INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL', 'PROTOCOLOS MINISTERIO DE SALUD', 'PROGRAMA BAJA EXPERIENCIA LABORAL', 'OPERACIÓN DE EQUIPOS PESADOS', 'PRIMEROS AUXILIOS BÁSICOS'];
   const modalidades = ['presencial', 'virtual', 'híbrido'];
   const estados = ['activo', 'completado', 'cancelado'];
   
@@ -376,7 +376,7 @@ export function SearchDemo() {
             <GlobalSearch
               datasets={globalSearchDatasets}
               onResultClick={handleGlobalSearchResult}
-              placeholder="Buscar participantes, cursos, instructores..."
+              placeholder="Buscar participantes, cursos (ej: INDUCCIÓN SEGURIDAD), instructores..."
             />
           </div>
 

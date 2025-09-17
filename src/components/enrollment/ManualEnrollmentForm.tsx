@@ -8,11 +8,11 @@ import { Button } from '../ui/Button';
 
 // Datos hardcodeados para simulación de validación nombre-RUT
 const VALID_NAME_RUT_COMBINATIONS = [
-  { nombre: 'Juan Carlos Pérez González', rut: '12.345.678-5' },
-  { nombre: 'María Elena Rodríguez Silva', rut: '98.765.432-5' },
-  { nombre: 'Carlos Alberto Muñoz Torres', rut: '15.678.234-3' },
-  { nombre: 'Ana Patricia López Herrera', rut: '22.456.789-3' },
-  { nombre: 'Roberto Francisco Díaz Morales', rut: '18.234.567-8' }
+  { nombre: 'Juan Carlos Pérez González', rut: '12.345.678-5', genero: 'Masculino' },
+  { nombre: 'María Elena Rodríguez Silva', rut: '98.765.432-5', genero: 'Femenino' },
+  { nombre: 'Carlos Alberto Muñoz Torres', rut: '15.678.234-3', genero: 'Masculino' },
+  { nombre: 'Ana Patricia López Herrera', rut: '22.456.789-3', genero: 'Femenino' },
+  { nombre: 'Roberto Francisco Díaz Morales', rut: '18.234.567-8', genero: 'Masculino' }
 ];
 
 const enrollmentSchema = z.object({
@@ -20,7 +20,10 @@ const enrollmentSchema = z.object({
   rut: z.string().refine((rut) => validarRUT(rut).valido, {
     message: 'RUT inválido'
   }),
-  contractor: z.string().optional() // Campo opcional - se auto-asigna desde el contratista logueado
+  genero: z.enum(['Masculino', 'Femenino'], {
+    required_error: 'Género requerido'
+  }),
+  contractor: z.string().optional() // Campo opcional - se auto-asigna desde la empresa logueada
 });
 
 type EnrollmentFormData = z.infer<typeof enrollmentSchema>;
@@ -30,7 +33,7 @@ interface ManualEnrollmentFormProps {
   onCancel: () => void;
   loading?: boolean;
   existingRuts?: string[];
-  contractorCompany?: string; // Empresa del contratista logueado
+  contractorCompany?: string; // Empresa logueada
 }
 
 export function ManualEnrollmentForm({
@@ -117,7 +120,7 @@ export function ManualEnrollmentForm({
         <div className="text-xs text-blue-700 space-y-1">
           {VALID_NAME_RUT_COMBINATIONS.slice(0, 3).map((combo, index) => (
             <div key={index}>
-              <strong>{combo.nombre}</strong> - {combo.rut}
+              <strong>{combo.nombre}</strong> - {combo.rut} - {combo.genero}
             </div>
           ))}
           <div className="text-blue-600 mt-2">
@@ -145,11 +148,28 @@ export function ManualEnrollmentForm({
         helperText="Formato: 12345678-5"
       />
 
-      {/* Campo "Empresa Contratista" OCULTO - Se auto-asigna desde el contratista logueado */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Género <span className="text-red-500">*</span>
+        </label>
+        <select
+          {...register('genero')}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+        >
+          <option value="">Seleccionar género</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+        {errors.genero && (
+          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.genero.message}</p>
+        )}
+      </div>
+
+      {/* Campo "Empresa" OCULTO - Se auto-asigna desde la empresa logueada */}
       {contractorCompany && (
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
           <p className="font-sans text-sm text-blue-800 dark:text-blue-200">
-            <span className="font-medium">Empresa:</span> {contractorCompany}
+            <span className="font-medium">EMPRESA:</span> {contractorCompany}
           </p>
           <p className="font-sans text-xs text-blue-600 dark:text-blue-300 mt-1">
             El participante será inscrito automáticamente en tu empresa
@@ -163,13 +183,13 @@ export function ManualEnrollmentForm({
           variant="secondary"
           onClick={onCancel}
         >
-          Cancelar
+          CANCELAR
         </Button>
         <Button
           type="submit"
           loading={loading}
         >
-          Inscribir Participante
+          INSCRIBIR PARTICIPANTE
         </Button>
       </div>
     </form>

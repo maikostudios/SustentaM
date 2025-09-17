@@ -116,7 +116,7 @@ export function ReportsDashboard({ courses, participants }: ReportsDashboardProp
       : 0;
     
     const avgGrade = totalParticipants > 0
-      ? filteredData.participants.reduce((acc, p) => acc + p.nota, 0) / totalParticipants
+      ? filteredData.participants.reduce((acc, p) => acc + (p.calificacion || 0), 0) / totalParticipants
       : 0;
 
     return {
@@ -185,7 +185,7 @@ RESUMEN EJECUTIVO:
 FILTROS APLICADOS:
 - Rango de Fechas: ${filters.dateRange.start || 'No especificado'} - ${filters.dateRange.end || 'No especificado'}
 - Curso: ${filters.selectedCourse ? courses.find(c => c.id === filters.selectedCourse)?.nombre : 'Todos'}
-- Contratista: ${filters.selectedContractor || 'Todos'}
+- Empresa: ${filters.selectedContractor || 'Todos'}
 - Estado: ${filters.status || 'Todos'}
     `;
 
@@ -207,10 +207,10 @@ FILTROS APLICADOS:
         <div>
           <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
             <ChartBarIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
-            Dashboard de Reportes
+            DASHBOARD DE REPORTES
           </h1>
           <p className="font-sans text-gray-600 dark:text-gray-400 mt-1">
-            Análisis y métricas de capacitaciones
+            ANÁLISIS Y MÉTRICAS DE CAPACITACIONES
           </p>
         </div>
         
@@ -301,14 +301,14 @@ FILTROS APLICADOS:
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 flex items-center">
                 <BuildingOfficeIcon className="w-4 h-4 mr-1" />
-                Contratista
+                EMPRESA
               </label>
               <select
                 value={filters.selectedContractor}
                 onChange={(e) => handleFilterChange('selectedContractor', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Todos los contratistas</option>
+                <option value="">TODAS LAS EMPRESAS</option>
                 {contractors.map(contractor => (
                   <option key={contractor} value={contractor}>
                     {contractor}
@@ -349,7 +349,7 @@ FILTROS APLICADOS:
           <div className="flex items-center justify-between">
             <div>
               <div className="font-sans text-3xl font-bold text-blue-600 dark:text-blue-400">{kpis.totalParticipants}</div>
-              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Total Participantes</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>TOTAL PARTICIPANTES</div>
               <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
                 En {kpis.totalCourses} cursos
               </div>
@@ -365,7 +365,7 @@ FILTROS APLICADOS:
           <div className="flex items-center justify-between">
             <div>
               <div className="font-sans text-3xl font-bold text-green-600 dark:text-green-400">{kpis.approvalRate.toFixed(1)}%</div>
-              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Tasa de Aprobación</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>TASA DE APROBACIÓN</div>
               <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
                 {kpis.approvedCount} de {kpis.totalParticipants}
               </div>
@@ -392,12 +392,12 @@ FILTROS APLICADOS:
           </div>
         </div>
 
-        {/* Contratistas Activos - Púrpura */}
+        {/* Empresas Activas - Púrpura */}
         <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow`}>
           <div className="flex items-center justify-between">
             <div>
               <div className="font-sans text-3xl font-bold text-purple-600 dark:text-purple-400">{kpis.activeContractors}</div>
-              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>Contratistas Activos</div>
+              <div className={`font-sans ${theme.textSecondary} text-sm uppercase tracking-wide`}>EMPRESAS ACTIVAS</div>
               <div className={`font-sans text-sm ${theme.textMuted} mt-1`}>
                 Participando en cursos
               </div>

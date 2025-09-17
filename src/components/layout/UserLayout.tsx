@@ -12,6 +12,7 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useThemeAware } from '../../hooks/useTheme';
+import { useRoleNavbarTheme, useRoleBackgroundTheme } from '../../hooks/useRoleTheme';
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -23,12 +24,14 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
   const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const theme = useThemeAware();
+  const roleNavbarTheme = useRoleNavbarTheme();
+  const roleBackgroundTheme = useRoleBackgroundTheme();
 
   const navigation = [
-    { id: 'dashboard', name: 'Inicio', icon: HomeIcon },
-    { id: 'courses', name: 'Mis Cursos', icon: BookOpenIcon },
-    { id: 'certificates', name: 'Certificados', icon: DocumentTextIcon },
-    { id: 'profile', name: 'Mi Perfil', icon: UserIcon },
+    { id: 'dashboard', name: 'INICIO', icon: HomeIcon },
+    { id: 'courses', name: 'MIS CURSOS', icon: BookOpenIcon },
+    { id: 'certificates', name: 'CERTIFICADOS', icon: DocumentTextIcon },
+    { id: 'profile', name: 'MI PERFIL', icon: UserIcon },
   ];
 
   const handleNavigation = (sectionId: string) => {
@@ -39,19 +42,22 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className={`min-h-screen ${roleBackgroundTheme}`}>
       {/* Header con gradiente SUSTENTA */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-700 dark:to-blue-900 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className={`${roleNavbarTheme.navbar} shadow-lg`}>
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
           <div className="flex justify-between items-center h-16">
-            {/* Logo y título */}
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-blue-600 font-bold text-sm">S</span>
+            {/* Logo SUSTENTA rectangular */}
+            <div className="flex items-center space-x-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
+                <img
+                  src="/img/logo/logo_sustenta_rectangular.png"
+                  alt="SUSTENTA"
+                  className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+                />
               </div>
               <div>
-                <h1 className="font-sans text-xl font-bold text-white">SUSTENTA</h1>
-                <p className="font-sans text-xs text-blue-200">Portal del Estudiante</p>
+                <p className="font-sans text-xs text-purple-200">PORTAL DEL PARTICIPANTE</p>
               </div>
             </div>
 
@@ -64,7 +70,7 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
                   className={`font-sans flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id
                       ? 'bg-white/20 text-white'
-                      : 'text-blue-200 hover:bg-white/10 hover:text-white'
+                      : 'text-purple-200 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   <item.icon className="w-4 h-4 mr-2" />
@@ -101,7 +107,7 @@ export function UserLayout({ children, activeSection = 'dashboard', onSectionCha
                 aria-label="Cerrar sesión"
               >
                 <ArrowRightOnRectangleIcon className="w-4 h-4" />
-                <span className="font-sans hidden sm:inline ml-2">Salir</span>
+                <span className="font-sans hidden sm:inline ml-2">SALIR</span>
               </Button>
             </div>
           </div>

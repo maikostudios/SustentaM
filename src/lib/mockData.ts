@@ -18,10 +18,10 @@ export const mockUsers: User[] = [
     clave: 'admin123'
   },
 
-  // CONTRATISTAS
+  // EMPRESAS
   {
     id: 'contractor-1',
-    nombre: 'Empresa Contratista ABC',
+    nombre: 'Empresa ABC',
     rut: '22.222.222-2',
     rol: 'contratista',
     clave: '1234',
@@ -29,11 +29,11 @@ export const mockUsers: User[] = [
   },
   {
     id: 'contractor-1b',
-    nombre: 'Empresa Contratista Principal',
-    rut: 'contratista@empresa.cl',
+    nombre: 'Empresa Principal',
+    rut: 'empresa@empresa.cl',
     rol: 'contratista',
-    clave: 'contratista123',
-    empresa: 'Empresa Contratista Principal S.A.'
+    clave: 'empresa123',
+    empresa: 'Empresa Principal S.A.'
   },
   {
     id: 'contractor-2',
@@ -708,8 +708,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Juan Carlos Pérez González',
     rut: '12.345.678-5',
     contractor: 'Empresa ABC Ltda.',
+    genero: 'Masculino',
     asistencia: 95,
-    nota: 6.8,
+    calificacion: 6.8,
     estado: 'aprobado'
   },
   {
@@ -718,8 +719,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'María Elena Rodríguez Silva',
     rut: '98.765.432-5',
     contractor: 'Constructora XYZ S.A.',
+    genero: 'Femenino',
     asistencia: 88,
-    nota: 6.2,
+    calificacion: 6.2,
     estado: 'aprobado'
   },
   {
@@ -728,8 +730,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Carlos Alberto Muñoz Torres',
     rut: '15.678.234-3',
     contractor: 'Empresa ABC Ltda.',
+    genero: 'Masculino',
     asistencia: 92,
-    nota: 6.5,
+    calificacion: 6.5,
     estado: 'aprobado'
   },
   {
@@ -738,8 +741,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Ana Patricia Morales Díaz',
     rut: '19.876.543-2',
     contractor: 'Servicios Integrales DEF',
+    genero: 'Femenino',
     asistencia: 75,
-    nota: 5.8,
+    calificacion: 5.8,
     estado: 'aprobado'
   },
   {
@@ -748,8 +752,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Roberto Francisco Herrera Castro',
     rut: '11.234.567-8',
     contractor: 'Constructora XYZ S.A.',
+    genero: 'Masculino',
     asistencia: 65,
-    nota: 4.2,
+    calificacion: 4.2,
     estado: 'reprobado'
   },
 
@@ -760,8 +765,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Laura Patricia Fernández Morales',
     rut: '14.567.890-1',
     contractor: 'Tech Solutions SpA',
+    genero: 'Femenino',
     asistencia: 98,
-    nota: 6.9,
+    calificacion: 6.9,
     estado: 'aprobado'
   },
   {
@@ -770,8 +776,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Diego Alejandro Vargas Soto',
     rut: '16.789.012-3',
     contractor: 'Consultora Beta Ltda.',
+    genero: 'Masculino',
     asistencia: 85,
-    nota: 6.1,
+    calificacion: 6.1,
     estado: 'aprobado'
   },
   {
@@ -780,8 +787,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Claudia Beatriz Jiménez Rojas',
     rut: '17.890.123-4',
     contractor: 'Innovación Digital S.A.',
+    genero: 'Femenino',
     asistencia: 90,
-    nota: 6.4,
+    calificacion: 6.4,
     estado: 'aprobado'
   },
 
@@ -792,8 +800,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Andrés Felipe Muñoz Contreras',
     rut: '18.901.234-5',
     contractor: 'Empresa ABC Ltda.',
+    genero: 'Masculino',
     asistencia: 100,
-    nota: 7.0,
+    calificacion: 7.0,
     estado: 'aprobado'
   },
   {
@@ -802,8 +811,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Valentina Isabel Torres Mendoza',
     rut: '20.012.345-6',
     contractor: 'Constructora XYZ S.A.',
+    genero: 'Femenino',
     asistencia: 78,
-    nota: 5.5,
+    calificacion: 5.5,
     estado: 'aprobado'
   },
 
@@ -814,8 +824,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Sebastián Ignacio Ramírez Flores',
     rut: '21.123.456-7',
     contractor: 'Tech Solutions SpA',
+    genero: 'Masculino',
     asistencia: 95,
-    nota: 6.7,
+    calificacion: 6.7,
     estado: 'aprobado'
   },
   {
@@ -824,8 +835,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Francisca Alejandra Cortés Vega',
     rut: '22.234.567-8',
     contractor: 'Servicios Integrales DEF',
+    genero: 'Femenino',
     asistencia: 82,
-    nota: 5.9,
+    calificacion: 5.9,
     estado: 'aprobado'
   },
 
@@ -836,8 +848,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Matías Esteban Guerrero Pinto',
     rut: '23.345.678-9',
     contractor: 'Consultora Beta Ltda.',
+    genero: 'Masculino',
     asistencia: 100,
-    nota: 6.8,
+    calificacion: 6.8,
     estado: 'aprobado'
   },
   {
@@ -846,8 +859,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Camila Antonia Espinoza Ruiz',
     rut: '24.456.789-0',
     contractor: 'Innovación Digital S.A.',
+    genero: 'Femenino',
     asistencia: 88,
-    nota: 6.3,
+    calificacion: 6.3,
     estado: 'aprobado'
   },
 
@@ -858,8 +872,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Nicolás Benjamín Salinas Herrera',
     rut: '25.567.890-1',
     contractor: 'Tech Solutions SpA',
+    genero: 'Masculino',
     asistencia: 92,
-    nota: 6.6,
+    calificacion: 6.6,
     estado: 'aprobado'
   },
   {
@@ -868,8 +883,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Carmen Esperanza López Martínez',
     rut: '26.678.901-2',
     contractor: 'Servicios Integrales DEF',
+    genero: 'Femenino',
     asistencia: 85,
-    nota: 6.0,
+    calificacion: 6.0,
     estado: 'aprobado'
   },
   {
@@ -878,8 +894,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Joaquín Emilio Reyes Sandoval',
     rut: '27.789.012-3',
     contractor: 'Empresa ABC Ltda.',
+    genero: 'Masculino',
     asistencia: 95,
-    nota: 6.7,
+    calificacion: 6.7,
     estado: 'aprobado'
   },
   {
@@ -888,8 +905,9 @@ export const mockParticipants: Participant[] = [
     nombre: 'Isidora Fernanda Bravo Castillo',
     rut: '28.890.123-4',
     contractor: 'Constructora XYZ S.A.',
+    genero: 'Femenino',
     asistencia: 70,
-    nota: 5.1,
+    calificacion: 5.1,
     estado: 'aprobado'
   }
 ];

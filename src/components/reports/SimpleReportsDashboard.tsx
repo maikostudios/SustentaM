@@ -243,10 +243,10 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
           <div>
             <h1 className={`font-sans text-3xl font-bold ${theme.text} flex items-center`}>
               <ChartBarIcon className="w-8 h-8 mr-3 text-blue-600 dark:text-blue-400" />
-              Dashboard de Reportes
+              DASHBOARD DE REPORTES
             </h1>
             <p className={`font-sans text-base ${theme.textSecondary} mt-2`}>
-              Análisis y estadísticas de cursos y participantes
+              ANÁLISIS Y ESTADÍSTICAS DE CURSOS Y PARTICIPANTES
             </p>
           </div>
 

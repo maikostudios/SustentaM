@@ -322,8 +322,8 @@ export function AdminDashboard() {
       // Notificaciones basadas en el resultado
       if (successCount > 0 && errorCount === 0) {
         notifications.success(
-          'Notas importadas',
-          `Se importaron ${successCount} registros de notas correctamente.`
+          'Calificaciones importadas',
+          `Se importaron ${successCount} registros de calificaciones correctamente.`
         );
       } else if (successCount > 0 && errorCount > 0) {
         notifications.warning(
@@ -333,14 +333,14 @@ export function AdminDashboard() {
       } else {
         notifications.error(
           'Error en importación',
-          'No se pudo importar ningún registro de notas.'
+          'No se pudo importar ningún registro de calificaciones.'
         );
       }
     } catch (error) {
       console.error('Error importing grades:', error);
       notifications.error(
         'Error en importación',
-        'Ha ocurrido un error al importar las notas.'
+        'Ha ocurrido un error al importar las calificaciones.'
       );
     }
   };
@@ -384,10 +384,10 @@ export function AdminDashboard() {
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden">
               <div className="p-8">
                 <h1 className="font-sans text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  Bienvenido al Panel de Administración
+                  BIENVENIDO AL PANEL DE ADMINISTRACIÓN
                 </h1>
                 <p className="font-sans text-base text-gray-600 dark:text-gray-400">
-                  Gestiona cursos, participantes y certificados desde este panel centralizado
+                  GESTIONA CURSOS, PARTICIPANTES Y CERTIFICADOS DESDE ESTE PANEL CENTRALIZADO
                 </p>
               </div>
             </div>
@@ -457,7 +457,7 @@ export function AdminDashboard() {
         return (
           <div className="w-full space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Cursos</h2>
+              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">GESTIÓN DE CURSOS</h2>
               <Button onClick={handleCreateCourse} className="flex items-center space-x-2">
                 <PlusIcon className="w-4 h-4" />
                 <span>Nuevo Curso</span>
@@ -489,7 +489,7 @@ export function AdminDashboard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Certificados</h2>
+              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">GESTIÓN DE CERTIFICADOS</h2>
               <div className="space-x-3">
                 <Button
                   variant="ghost"
@@ -499,12 +499,13 @@ export function AdminDashboard() {
                 >
                   Ayuda
                 </Button>
-                <Button
+                {/* Vista Previa PDF - Oculto por solicitud del cliente */}
+                {/* <Button
                   variant="secondary"
                   onClick={() => setShowCertificatePreview(true)}
                 >
                   Vista Previa
-                </Button>
+                </Button> */}
                 <Button
                   onClick={handleGenerateCertificates}
                   disabled={participants.filter(p => p.estado === 'aprobado').length === 0}
@@ -644,71 +645,71 @@ export function AdminDashboard() {
   const getBreadcrumbs = () => {
     switch (activeSection) {
       case 'dashboard':
-        return [{ label: 'Dashboard', current: true }];
+        return [{ label: 'DASHBOARD', current: true }];
       case 'courses':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Gestión de Cursos', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'GESTIÓN DE CURSOS', current: true }
         ];
       case 'attendance':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Asistencia y Notas', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'ASISTENCIA Y CALIFICACIONES', current: true }
         ];
       case 'certificates':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Certificados', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'CERTIFICADOS', current: true }
         ];
       case 'contractors':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Gestión de Contratistas', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'GESTIÓN DE EMPRESAS', current: true }
         ];
       case 'reports':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Reportes', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'REPORTES', current: true }
         ];
       case 'notifications':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Notificaciones', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'NOTIFICACIONES', current: true }
         ];
       case 'performance':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Rendimiento', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'RENDIMIENTO', current: true }
         ];
       case 'validation':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Validación', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'VALIDACIÓN', current: true }
         ];
       case 'search':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Búsqueda', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'BÚSQUEDA', current: true }
         ];
       case 'accessibility':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Accesibilidad', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'ACCESIBILIDAD', current: true }
         ];
       case 'theme':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Temas', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'TEMAS', current: true }
         ];
       case 'errors':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Errores', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'ERRORES', current: true }
         ];
       case 'seat-icons':
         return [
-          { label: 'Dashboard', href: '#' },
-          { label: 'Iconos de Butacas', current: true }
+          { label: 'DASHBOARD', href: '#' },
+          { label: 'ICONOS DE BUTACAS', current: true }
         ];
       default:
         return [];
@@ -718,35 +719,35 @@ export function AdminDashboard() {
   const getSectionTitle = () => {
     switch (activeSection) {
       case 'dashboard':
-        return 'Panel de Administración';
+        return 'PANEL DE ADMINISTRACIÓN';
       case 'courses':
-        return 'Gestión de Cursos';
+        return 'GESTIÓN DE CURSOS';
       case 'attendance':
-        return 'Asistencia y Notas';
+        return 'ASISTENCIA Y CALIFICACIONES';
       case 'certificates':
-        return 'Gestión de Certificados';
+        return 'GESTIÓN DE CERTIFICADOS';
       case 'contractors':
-        return 'Gestión de Contratistas';
+        return 'GESTIÓN DE EMPRESAS';
       case 'reports':
-        return 'Reportes y Análisis';
+        return 'REPORTES Y ANÁLISIS';
       case 'notifications':
-        return 'Sistema de Notificaciones';
+        return 'SISTEMA DE NOTIFICACIONES';
       case 'performance':
-        return 'Optimizaciones de Rendimiento';
+        return 'OPTIMIZACIONES DE RENDIMIENTO';
       case 'validation':
-        return 'Validación de Formularios';
+        return 'VALIDACIÓN DE FORMULARIOS';
       case 'search':
-        return 'Búsqueda y Filtros Avanzados';
+        return 'BÚSQUEDA Y FILTROS AVANZADOS';
       case 'accessibility':
-        return 'Accesibilidad (a11y)';
+        return 'ACCESIBILIDAD (A11Y)';
       case 'theme':
-        return 'Sistema de Temas';
+        return 'SISTEMA DE TEMAS';
       case 'errors':
-        return 'Manejo de Errores';
+        return 'MANEJO DE ERRORES';
       case 'seat-icons':
-        return 'Iconos de Butacas SVG';
+        return 'ICONOS DE BUTACAS SVG';
       default:
-        return 'Panel de Administración';
+        return 'PANEL DE ADMINISTRACIÓN';
     }
   };
 
@@ -842,13 +843,13 @@ export function AdminDashboard() {
         />
       )}
 
-      {/* Certificate Preview */}
-      {showCertificatePreview && (
+      {/* Certificate Preview - Oculto por solicitud del cliente */}
+      {/* {showCertificatePreview && (
         <SimpleCertificatePreview
           isOpen={showCertificatePreview}
           onClose={() => setShowCertificatePreview(false)}
         />
-      )}
+      )} */}
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (

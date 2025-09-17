@@ -10,11 +10,13 @@ import { ToastProvider } from './contexts/ToastContext';
 import { logger } from './utils/logger';
 import { LogViewer } from './components/debug/LogViewer';
 import { useThemeAware } from './hooks/useTheme';
+import { useRoleBackgroundTheme } from './hooks/useRoleTheme';
 
 function App() {
   const { user, isAuthenticated } = useAuthStore();
   const initializeRef = useRef(false);
   const theme = useThemeAware();
+  const roleBackground = useRoleBackgroundTheme();
 
   useEffect(() => {
     logger.info('App', 'Aplicación iniciada');
@@ -62,7 +64,7 @@ function App() {
 
   return (
     <ToastProvider defaultPosition="bottom-right" maxToasts={5}>
-      <div className={`min-h-screen ${theme.bg}`}>
+      <div className={`min-h-screen ${roleBackground}`}>
         {renderDashboard()}
       </div>
       <LogViewer />

@@ -2,6 +2,7 @@ import React, { memo, useMemo, useCallback } from 'react';
 import { Course, Participant } from '../../types';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { formatDateDDMMYYYY } from '../../utils/dateFormat';
 
 // Optimized Course Card with React.memo
 interface CourseCardProps {
@@ -41,7 +42,7 @@ export const OptimizedCourseCard = memo<CourseCardProps>(({
   }, [course.estado]);
 
   const formattedDate = useMemo(() => {
-    return new Date(course.fechaInicio).toLocaleDateString('es-CL');
+    return formatDateDDMMYYYY(course.fechaInicio);
   }, [course.fechaInicio]);
 
   if (isLoading) {

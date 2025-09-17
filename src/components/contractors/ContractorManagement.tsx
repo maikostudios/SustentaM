@@ -27,7 +27,7 @@ interface Contractor {
   estado: 'activo' | 'inactivo';
 }
 
-// Datos mock de contratistas
+// Datos mock de empresas
 const MOCK_CONTRACTORS: Contractor[] = [
   {
     id: '1',
@@ -83,10 +83,10 @@ export function ContractorManagement() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const notifications = useNotifications();
 
-  // Filtrar contratistas por término de búsqueda
+  // Filtrar empresas por término de búsqueda
   const filteredContractors = useMemo(() => {
     if (!searchTerm) return contractors;
-    
+
     const term = searchTerm.toLowerCase();
     return contractors.filter(contractor =>
       contractor.nombre.toLowerCase().includes(term) ||
@@ -125,18 +125,18 @@ export function ContractorManagement() {
 
   const handleSubmit = (contractorData: Omit<Contractor, 'id' | 'fechaRegistro'>) => {
     if (editingContractor) {
-      // Actualizar contratista existente
-      setContractors(prev => prev.map(c => 
-        c.id === editingContractor.id 
+      // Actualizar empresa existente
+      setContractors(prev => prev.map(c =>
+        c.id === editingContractor.id
           ? { ...contractorData, id: editingContractor.id, fechaRegistro: editingContractor.fechaRegistro }
           : c
       ));
       notifications.success(
-        'Contratista actualizado',
-        `${contractorData.nombre} ha sido actualizado exitosamente.`
+        'EMPRESA ACTUALIZADA',
+        `${contractorData.nombre} ha sido actualizada exitosamente.`
       );
     } else {
-      // Crear nuevo contratista
+      // Crear nueva empresa
       const newContractor: Contractor = {
         ...contractorData,
         id: Date.now().toString(),
@@ -144,8 +144,8 @@ export function ContractorManagement() {
       };
       setContractors(prev => [...prev, newContractor]);
       notifications.success(
-        'Contratista creado',
-        `${contractorData.nombre} ha sido agregado exitosamente.`
+        'EMPRESA CREADA',
+        `${contractorData.nombre} ha sido agregada exitosamente.`
       );
     }
     setShowForm(false);
@@ -157,12 +157,12 @@ export function ContractorManagement() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Contratistas</h2>
-          <p className="font-sans text-gray-600 dark:text-gray-400">Administra los contratistas y sus datos de contacto</p>
+          <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">GESTIÓN DE EMPRESAS</h2>
+          <p className="font-sans text-gray-600 dark:text-gray-400">Administra las empresas y sus datos de contacto</p>
         </div>
         <Button onClick={handleCreate} className="flex items-center space-x-2">
           <PlusIcon className="w-4 h-4" />
-          <span>Nuevo Contratista</span>
+          <span>NUEVA EMPRESA</span>
         </Button>
       </div>
 
@@ -221,7 +221,7 @@ export function ContractorManagement() {
             <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Contratista
+                  EMPRESA
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Empresa
@@ -298,9 +298,9 @@ export function ContractorManagement() {
         {filteredContractors.length === 0 && (
           <div className="text-center py-8">
             <UserIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
-            <h3 className="font-sans mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No se encontraron contratistas</h3>
+            <h3 className="font-sans mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">NO SE ENCONTRARON EMPRESAS</h3>
             <p className="font-sans mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza agregando un nuevo contratista.'}
+              {searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza agregando una nueva empresa.'}
             </p>
           </div>
         )}
@@ -340,10 +340,10 @@ function ContractorForm({ contractor, onSubmit, onCancel }: {
     <Modal 
       isOpen={true} 
       onClose={onCancel} 
-      title={contractor ? 'Editar Contratista' : 'Nuevo Contratista'}
+      title={contractor ? 'EDITAR EMPRESA' : 'NUEVA EMPRESA'}
     >
       <div className="p-4">
-        <p>Formulario de contratista (por implementar)</p>
+        <p>Formulario de empresa (por implementar)</p>
         <div className="flex justify-end space-x-3 mt-4">
           <Button variant="secondary" onClick={onCancel}>Cancelar</Button>
           <Button onClick={() => onSubmit({

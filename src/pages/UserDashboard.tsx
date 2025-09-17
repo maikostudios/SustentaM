@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { generateCertificate, downloadBlob } from '../lib/pdfGenerator';
+import { formatGradeAsPercentage, isGradeApproved } from '../utils/gradeUtils';
 import { Button } from '../components/ui/Button';
 import { UserLayout } from '../components/layout/UserLayout';
 import {
@@ -77,10 +78,10 @@ export function UserDashboard() {
       <div className="space-y-8">
         <div>
           <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            Mis Cursos
+            MIS CURSOS
           </h1>
           <p className="font-sans text-gray-600 dark:text-gray-400">
-            Revisa el estado de tus cursos y descarga tus certificados
+            REVISA EL ESTADO DE TUS CURSOS Y DESCARGA TUS CERTIFICADOS
           </p>
         </div>
 
@@ -93,7 +94,7 @@ export function UserDashboard() {
               <div className="font-sans text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {userParticipations.filter(p => p.estado === 'inscrito').length}
               </div>
-              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos en Progreso</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">CURSOS EN PROGRESO</div>
             </div>
           </div>
         </div>
@@ -103,9 +104,9 @@ export function UserDashboard() {
             <CheckCircleIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
             <div>
               <div className="font-sans text-2xl font-bold text-green-600 dark:text-green-400">
-                {userParticipations.filter(p => p.estado === 'aprobado').length}
+                {userParticipations.filter(p => p.estado === 'aprobado' || isGradeApproved(p.calificacion || 0)).length}
               </div>
-              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos Aprobados</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">CURSOS APROBADOS</div>
             </div>
           </div>
         </div>
@@ -117,7 +118,7 @@ export function UserDashboard() {
               <div className="font-sans text-2xl font-bold text-red-600 dark:text-red-400">
                 {userParticipations.filter(p => p.estado === 'reprobado').length}
               </div>
-              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Cursos Reprobados</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">CURSOS REPROBADOS</div>
             </div>
           </div>
         </div>
@@ -127,7 +128,7 @@ export function UserDashboard() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Historial de Cursos
+            HISTORIAL DE CURSOS
           </h2>
         </div>
 
@@ -135,9 +136,9 @@ export function UserDashboard() {
           {userParticipations.length === 0 ? (
             <div className="text-center py-12">
               <ClockIcon className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-              <p className="font-sans text-gray-500 dark:text-gray-400 text-lg">No tienes cursos registrados</p>
+              <p className="font-sans text-gray-500 dark:text-gray-400 text-lg">NO TIENES CURSOS REGISTRADOS</p>
               <p className="font-sans text-gray-400 dark:text-gray-500 text-sm">
-                Contacta a tu contratista para inscribirte en cursos disponibles
+                CONTACTA A TU EMPRESA PARA INSCRIBIRTE EN CURSOS DISPONIBLES
               </p>
             </div>
           ) : (
@@ -171,7 +172,7 @@ export function UserDashboard() {
                           <span className="font-medium">Asistencia:</span> {participant.asistencia}%
                         </div>
                         <div>
-                          <span className="font-medium">Nota:</span> {participant.nota.toFixed(1)}
+                          <span className="font-medium">Calificación:</span> {formatGradeAsPercentage(participant.calificacion || 0)}
                         </div>
                       </div>
 
@@ -183,14 +184,14 @@ export function UserDashboard() {
                     </div>
 
                     <div className="ml-6">
-                      {participant.estado === 'aprobado' && (
+                      {(participant.estado === 'aprobado' || isGradeApproved(participant.calificacion || 0)) && (
                         <Button
                           onClick={() => handleDownloadCertificate(participant.id)}
                           loading={generatingCertificate === participant.id}
                           className="btn-sustenta-primary flex items-center space-x-2"
                         >
                           <DocumentArrowDownIcon className="w-4 h-4" />
-                          <span>Descargar Certificado</span>
+                          <span>DESCARGAR CERTIFICADO</span>
                         </Button>
                       )}
                     </div>

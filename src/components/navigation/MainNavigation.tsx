@@ -12,6 +12,7 @@ import { Button } from '../ui/Button';
 import { useAuthStore } from '../../store/authStore';
 import { ThemeSelector } from '../theme/ThemeSelector';
 import { useThemeAware } from '../../hooks/useTheme';
+import { useRoleNavbarTheme } from '../../hooks/useRoleTheme';
 
 interface BreadcrumbItem {
   label: string;
@@ -40,6 +41,7 @@ export function MainNavigation({
 }: MainNavigationProps) {
   const { user, logout } = useAuthStore();
   const theme = useThemeAware();
+  const roleNavbarTheme = useRoleNavbarTheme();
 
   const handleHomeClick = () => {
     if (onHomeClick) {
@@ -70,23 +72,34 @@ export function MainNavigation({
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'administrador':
-        return 'bg-red-100 text-red-800';
+        return 'bg-blue-100 text-blue-800'; // ADMIN - Azul
       case 'contratista':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-sky-100 text-sky-800'; // EMPRESA - Celeste
       case 'usuario':
-        return 'bg-green-100 text-green-800';
+        return 'bg-purple-100 text-purple-800'; // PARTICIPANTE - Morado
       default:
         return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
-    <div className="bg-theme-primary shadow-theme border-b border-theme">
+    <div className={`${roleNavbarTheme.navbar} shadow-lg border-b`}>
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Logo, Home button and title */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
+            {/* Logo SUSTENTA rectangular - Posicionado primero, más grande */}
+            <div className="block">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
+                <img
+                  src="/img/logo/logo_sustenta_rectangular.png"
+                  alt="SUSTENTA"
+                  className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
+            </div>
+
             {/* Mobile menu button */}
             <button
               type="button"
@@ -100,23 +113,12 @@ export function MainNavigation({
               )}
             </button>
 
-            {/* Logo SUSTENTA rectangular */}
-            <div className="hidden sm:block">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
-                <img
-                  src="/img/logo/logo_sustenta_rectangular.png"
-                  alt="SUSTENTA"
-                  className="h-6 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
-                />
-              </div>
-            </div>
-
             {/* Home button */}
             <Button
               variant="ghost"
               size="sm"
               onClick={handleHomeClick}
-              className={`flex items-center space-x-2 ${theme.textSecondary} hover:${theme.text}`}
+              className={`flex items-center space-x-2 ${roleNavbarTheme.textSecondary} hover:${roleNavbarTheme.text}`}
             >
               <HomeIcon className="w-5 h-5" />
               <span className="hidden sm:inline">Inicio</span>
@@ -125,7 +127,7 @@ export function MainNavigation({
             {/* Title */}
             {title && (
               <div className="hidden md:block">
-                <h1 className={`text-xl font-semibold ${theme.text}`}>{title}</h1>
+                <h1 className={`text-xl font-semibold ${roleNavbarTheme.text}`}>{title}</h1>
               </div>
             )}
           </div>
@@ -137,10 +139,10 @@ export function MainNavigation({
             {/* User indicator */}
             <div className="flex items-center space-x-3">
               <div className="hidden sm:block text-right">
-                <div className="text-sm font-medium text-gray-900">
+                <div className={`text-sm font-medium ${roleNavbarTheme.text}`}>
                   {user?.nombre || 'Usuario'}
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className={`text-xs ${roleNavbarTheme.textMuted}`}>
                   {user?.rut}
                 </div>
               </div>
@@ -154,7 +156,7 @@ export function MainNavigation({
 
               {/* User avatar */}
               <div className="flex items-center">
-                <UserCircleIcon className="w-8 h-8 text-gray-400" />
+                <UserCircleIcon className={`w-8 h-8 ${roleNavbarTheme.textMuted}`} />
               </div>
             </div>
 
@@ -176,7 +178,7 @@ export function MainNavigation({
               variant="ghost"
               size="sm"
               onClick={handleLogout}
-              className="flex items-center space-x-2 text-gray-600 hover:text-red-600"
+              className={`flex items-center space-x-2 ${roleNavbarTheme.textSecondary} hover:text-red-300`}
             >
               <ArrowRightOnRectangleIcon className="w-5 h-5" />
               <span className="hidden sm:inline">Salir</span>

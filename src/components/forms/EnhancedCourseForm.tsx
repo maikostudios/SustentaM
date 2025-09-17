@@ -209,7 +209,7 @@ export function EnhancedCourseForm({
             required
             error={errors.codigo?.message}
             success={dirtyFields.codigo && !errors.codigo}
-            placeholder="Ej: EXCEL-ADV-001"
+            placeholder="Ej: SSO-001"
             helperText="Solo letras mayúsculas, números y guiones"
             realTimeValidation
             onValidationChange={() => handleFieldValidation('codigo')}
@@ -221,7 +221,7 @@ export function EnhancedCourseForm({
             required
             error={errors.nombre?.message}
             success={dirtyFields.nombre && !errors.nombre}
-            placeholder="Ej: Excel Avanzado para Profesionales"
+            placeholder="Ej: INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL"
             realTimeValidation
             onValidationChange={() => handleFieldValidation('nombre')}
             {...register('nombre')}
