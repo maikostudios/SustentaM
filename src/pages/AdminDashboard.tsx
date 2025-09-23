@@ -645,70 +645,57 @@ export function AdminDashboard() {
   const getBreadcrumbs = () => {
     switch (activeSection) {
       case 'dashboard':
-        return [{ label: 'DASHBOARD', current: true }];
+        return [];
       case 'courses':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'GESTIÓN DE CURSOS', current: true }
         ];
       case 'attendance':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'ASISTENCIA Y CALIFICACIONES', current: true }
         ];
       case 'certificates':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'CERTIFICADOS', current: true }
         ];
       case 'contractors':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'GESTIÓN DE EMPRESAS', current: true }
         ];
       case 'reports':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'REPORTES', current: true }
         ];
       case 'notifications':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'NOTIFICACIONES', current: true }
         ];
       case 'performance':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'RENDIMIENTO', current: true }
         ];
       case 'validation':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'VALIDACIÓN', current: true }
         ];
       case 'search':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'BÚSQUEDA', current: true }
         ];
       case 'accessibility':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'ACCESIBILIDAD', current: true }
         ];
       case 'theme':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'TEMAS', current: true }
         ];
       case 'errors':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'ERRORES', current: true }
         ];
       case 'seat-icons':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'ICONOS DE BUTACAS', current: true }
         ];
       default:

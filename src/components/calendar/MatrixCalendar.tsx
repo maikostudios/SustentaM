@@ -5,7 +5,7 @@ import { Course, Session } from '../../types';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Button } from '../ui/Button';
 import { logger } from '../../utils/logger';
-import { isHoliday, getHolidayName, isWeekend, isNonWorkingDay } from '../../utils/holidays';
+import { isHoliday, getHolidayName, isWeekend } from '../../utils/holidays';
 import { useMenuContext } from '../../contexts/MenuContext';
 import { useThemeAware } from '../../hooks/useTheme';
 
@@ -72,20 +72,20 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
     // Si no tenemos el ancho del contenedor aún, usar valores por defecto
     if (containerWidth === 0) {
       return {
-        courseWidth: 200,
+        courseWidth: 160,
         hoursWidth: 50,
         dayWidth: 28,
-        gridTemplate: `200px 50px repeat(${totalDays}, 28px)`,
-        totalWidth: 200 + 50 + (totalDays * 28),
+        gridTemplate: `160px 50px repeat(${totalDays}, 28px)`,
+        totalWidth: 160 + 50 + (totalDays * 28),
         totalDays,
         containerWidth: 0,
         menuState: isMenuCollapsed ? 'COLLAPSED' : 'EXPANDED'
       };
     }
 
-    // Tamaños base adaptativos
+    // Tamaños base adaptativos - REDUCIDO para más espacio a los días
     const BASE_SIZES = {
-      courseWidth: Math.max(180, Math.min(250, containerWidth * 0.2)), // 20% del ancho disponible, min 180px, max 250px
+      courseWidth: Math.max(140, Math.min(180, containerWidth * 0.15)), // 15% del ancho disponible, min 140px, max 180px
       hoursWidth: 50, // Fijo para horas
     };
 
@@ -181,23 +181,36 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             </div>
             {days.map((date, index) => {
               const holidayName = getHolidayName(date);
-              const isNonWorking = isNonWorkingDay(date);
+              const isHolidayDay = isHoliday(date);
+              const isWeekendDay = isWeekend(date);
               const dayOfWeek = format(date, 'EEE', { locale: es });
+
+              // Determinar el estilo según el tipo de día y matriz
+              let dayStyle = '';
+              if (isHolidayDay) {
+                // Solo feriados legales en rojo
+                dayStyle = 'bg-gradient-to-b from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-900/50 text-red-800 dark:text-red-400 border-2 border-red-400 dark:border-red-700';
+              } else if (isWeekendDay) {
+                // Sábados y domingos en gris
+                dayStyle = `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 ${theme.textSecondary} border-2 ${theme.border}`;
+              } else {
+                // Días normales con colores según la matriz
+                if (matrixType === 'propios-ecc') {
+                  dayStyle = 'bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/50 text-blue-800 dark:text-blue-400 border-2 border-blue-400 dark:border-blue-700';
+                } else {
+                  dayStyle = 'bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-900/50 text-purple-800 dark:text-purple-400 border-2 border-purple-400 dark:border-purple-700';
+                }
+              }
+
               return (
                 <div
                   key={index}
-                  className={`p-2 text-center text-xs font-bold rounded-lg shadow-md transition-all duration-200 hover:scale-105 ${
-                    isNonWorking
-                      ? 'bg-gradient-to-b from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-900/50 text-red-800 dark:text-red-400 border-2 border-red-400 dark:border-red-700'
-                      : `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 ${theme.textSecondary} border-2 ${theme.border} hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-700 dark:hover:to-gray-600`
-                  }`}
+                  className={`p-2 text-center text-xs font-bold rounded-lg shadow-md transition-all duration-200 hover:scale-105 ${dayStyle}`}
                   title={holidayName || `${dayOfWeek} ${format(date, 'dd/MM/yyyy')}`}
                 >
                   <div className="text-xs font-medium">{dayOfWeek.slice(0, 1)}</div>
                   <div className="text-sm font-black">{format(date, 'd')}</div>
-                  {holidayName && (
-                    <div className="text-red-700 dark:text-red-400 text-xs font-black">F</div>
-                  )}
+                  {/* Eliminamos la "F" de feriados para hacer los boxes más cuadrados */}
                 </div>
               );
             })}
@@ -208,14 +221,14 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             {matrixCourses.map((course, courseIndex) => (
               <div key={course.id} className="grid gap-1" style={{ gridTemplateColumns: gridConfig.gridTemplate }}>
                 {/* Información del curso optimizada - ICONO EN ESQUINA SUPERIOR DERECHA */}
-                <div className={`p-2 rounded-lg border-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01] relative ${
+                <div className={`p-1.5 rounded-lg border-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01] relative ${
                   matrixType === 'propios-ecc'
                     ? 'bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/30 border-blue-300 dark:border-blue-700 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-900/30 dark:hover:to-blue-900/40'
                     : 'bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/30 border-purple-300 dark:border-purple-700 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-900/30 dark:hover:to-purple-900/40'
                 }`}>
-                  {/* ICONO DE MODALIDAD EN ESQUINA SUPERIOR DERECHA */}
-                  <div className="absolute -top-1 -right-1 z-10">
-                    <span className={`px-1.5 py-0.5 rounded-full text-xs font-bold text-white shadow-lg border-2 border-white ${
+                  {/* ICONO DE MODALIDAD EN ESQUINA SUPERIOR DERECHA - MÁS CERCA */}
+                  <div className="absolute -top-0.5 -right-0.5 z-10">
+                    <span className={`px-1 py-0.5 rounded-full text-xs font-bold text-white shadow-lg border border-white ${
                       course.modalidad === 'presencial'
                         ? (matrixType === 'propios-ecc' ? 'bg-blue-600' : 'bg-purple-600')
                         : (matrixType === 'propios-ecc' ? 'bg-green-600' : 'bg-indigo-600')
@@ -224,9 +237,8 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                     </span>
                   </div>
 
-                  {/* CONTENIDO DEL CURSO - MÁS COMPACTO */}
-                  <div className="flex items-start space-x-2 pr-8">
-                    <div className={`w-3 h-3 rounded-full mt-0.5 flex-shrink-0 ${matrixType === 'propios-ecc' ? 'bg-blue-500' : 'bg-purple-500'}`}></div>
+                  {/* CONTENIDO DEL CURSO - MINIMALISTA SIN VIÑETAS */}
+                  <div className="flex items-start pr-4">
                     <div className="flex-1 min-w-0">
                       <div className={`font-bold text-xs ${theme.text}`} title={course.nombre}>
                         {course.codigo}
@@ -259,10 +271,9 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                   const sessionsForDate = getSessionsForDate(date);
                   const courseSessionsForDate = sessionsForDate.filter(s => s.courseId === course.id);
                   const hasSession = courseSessionsForDate.length > 0;
-                  const isNonWorking = isNonWorkingDay(date);
-
                   // Simular algunas sesiones para demostración (patrón más realista)
-                  const simulatedSession = !isNonWorking && (
+                  // Solo permitir sesiones en días que no sean feriados
+                  const simulatedSession = !isHoliday(date) && (
                     (dayIndex + courseIndex) % 8 === 0 ||
                     (dayIndex + courseIndex) % 12 === 0 ||
                     (dayIndex === 5 && courseIndex < 3) ||
@@ -273,15 +284,19 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                   return (
                     <div
                       key={dayIndex}
-                      className={`h-10 border-2 rounded-lg transition-all duration-300 flex items-center justify-center cursor-pointer relative group ${
-                        isNonWorking
+                      className={`h-8 border-2 rounded-lg transition-all duration-300 flex items-center justify-center cursor-pointer relative group ${
+                        isHoliday(date)
                           ? 'bg-gradient-to-b from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-900/50 border-red-400 dark:border-red-700'
-                          : showSession
-                            ? `${theme.bg} border ${theme.border} shadow-lg transform hover:scale-110 hover:z-10 hover:shadow-xl`
-                            : `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border ${theme.border} hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:${theme.borderLight} hover:shadow-md`
+                          : isWeekend(date)
+                            ? `bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border ${theme.border}`
+                            : showSession
+                              ? `${theme.bg} border ${theme.border} shadow-lg transform hover:scale-110 hover:z-10 hover:shadow-xl`
+                              : matrixType === 'propios-ecc'
+                                ? 'bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/50 border-blue-400 dark:border-blue-700 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800 dark:hover:to-blue-700 hover:shadow-md'
+                                : 'bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-900/50 border-purple-400 dark:border-purple-700 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800 dark:hover:to-purple-700 hover:shadow-md'
                       }`}
                       onClick={() => {
-                        if (showSession && !isNonWorking) {
+                        if (showSession && !isHoliday(date)) {
                           // Si hay sesión real, usar esa; si no, crear una simulada
                           const sessionToUse = courseSessionsForDate[0] || {
                             id: `sim-${course.id}-${dayIndex}`,
@@ -307,14 +322,16 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                         }
                       }}
                       title={
-                        isNonWorking
-                          ? getHolidayName(date) || 'Fin de semana'
-                          : showSession
-                            ? `🎯 ${course.nombre}\n📅 ${format(date, 'dd/MM/yyyy')}\n🕘 09:00 - 17:00\n📍 ${course.modalidad}\n\n👆 Click para inscribir participantes`
-                            : `📅 ${format(date, 'dd/MM/yyyy')}\n💡 Disponible para programar\n${course.nombre}`
+                        isHoliday(date)
+                          ? getHolidayName(date) || 'Feriado'
+                          : isWeekend(date)
+                            ? 'Fin de semana'
+                            : showSession
+                              ? `🎯 ${course.nombre}\n📅 ${format(date, 'dd/MM/yyyy')}\n🕘 09:00 - 17:00\n📍 ${course.modalidad}\n\n👆 Click para inscribir participantes`
+                              : `📅 ${format(date, 'dd/MM/yyyy')}\n💡 Disponible para programar\n${course.nombre}`
                       }
                     >
-                      {showSession && !isNonWorking && (
+                      {showSession && !isHoliday(date) && (
                         <>
                           {/* Círculo principal con color sólido de modalidad */}
                           <div className={`w-6 h-6 rounded-full shadow-lg border-2 border-white transform transition-all duration-300 group-hover:scale-125 ${
@@ -331,11 +348,8 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                         </>
                       )}
 
-                      {isNonWorking && (
-                        <div className="text-red-600 dark:text-red-400 text-lg font-black">❌</div>
-                      )}
-
-                      {!showSession && !isNonWorking && (
+                      {/* Eliminamos los símbolos ❌ de feriados según las especificaciones */}
+                      {!showSession && !isHoliday(date) && !isWeekend(date) && (
                         <div className={`w-4 h-4 border-2 ${theme.border} rounded-full opacity-30 group-hover:opacity-60 transition-all duration-300`}></div>
                       )}
                     </div>

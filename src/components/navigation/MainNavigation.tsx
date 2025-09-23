@@ -83,21 +83,19 @@ export function MainNavigation({
   };
 
   return (
-    <div className={`${roleNavbarTheme.navbar} shadow-lg border-b relative`}>
+    <div className={`${roleNavbarTheme.navbar} relative`}>
       {/* Logo SUSTENTA en esquina superior izquierda - solo en desktop */}
-      <div className="hidden md:flex absolute left-0 top-0 w-64 h-16 items-center justify-center bg-blue-600 dark:bg-blue-700">
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
-          <img
-            src="/img/logo/logo_sustenta_rectangular.png"
-            alt="SUSTENTA"
-            className="h-10 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
-          />
-        </div>
+      <div className={`hidden md:flex absolute left-0 top-0 w-64 items-center justify-center z-10 ${roleNavbarTheme.navbar}`} style={{ height: '72px' }}>
+        <img
+          src="/img/logo/logo_sustenta_rectangular.png"
+          alt="SUSTENTA"
+          className="h-16 w-auto object-contain opacity-95 hover:opacity-100 transition-opacity duration-300"
+        />
       </div>
 
-      {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 md:ml-64">
-        <div className="flex justify-between items-center h-16">
+      {/* Main Navigation Bar - Comienza después del sidebar */}
+      <div className="md:ml-64 px-2 sm:px-4 lg:px-6">
+        <div className="flex justify-between items-center" style={{ height: '72px' }}>
           {/* Left side - Home button and title */}
           <div className="flex items-center space-x-6">
 
@@ -125,12 +123,7 @@ export function MainNavigation({
               <span className="hidden sm:inline">Inicio</span>
             </Button>
 
-            {/* Title */}
-            {title && (
-              <div className="hidden md:block">
-                <h1 className={`text-xl font-semibold ${roleNavbarTheme.text}`}>{title}</h1>
-              </div>
-            )}
+
           </div>
 
           {/* Right side - User info and logout */}
@@ -188,45 +181,7 @@ export function MainNavigation({
         </div>
       </div>
 
-      {/* Breadcrumbs */}
-      {breadcrumbs.length > 0 && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-3 border-t border-gray-100">
-            <nav className="flex" aria-label="Breadcrumb">
-              <ol className="flex items-center space-x-2">
-                {breadcrumbs.map((item, index) => (
-                  <li key={index} className="flex items-center">
-                    {index > 0 && (
-                      <ChevronRightIcon className="w-4 h-4 text-gray-400 mx-2" />
-                    )}
-                    {item.href && !item.current ? (
-                      <button
-                        onClick={() => {
-                          // Handle breadcrumb navigation
-                          console.log('Navigate to:', item.href);
-                        }}
-                        className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
-                      >
-                        {item.label}
-                      </button>
-                    ) : (
-                      <span 
-                        className={`text-sm ${
-                          item.current 
-                            ? 'text-gray-900 font-medium' 
-                            : 'text-gray-500'
-                        }`}
-                      >
-                        {item.label}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          </div>
-        </div>
-      )}
+
 
       {/* Mobile menu */}
       {showMobileMenu && (

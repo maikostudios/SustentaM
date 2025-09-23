@@ -328,26 +328,22 @@ export function ContractorDashboard() {
   const getBreadcrumbs = () => {
     switch (activeSection) {
       case 'dashboard':
-        return [{ label: 'DASHBOARD', current: true }];
+        return [];
       case 'calendar':
         return selectedSession
           ? [
-              { label: 'DASHBOARD', href: '#' },
               { label: 'CALENDARIO', href: '#' },
               { label: selectedSession.course.nombre.toUpperCase(), current: true }
             ]
           : [
-              { label: 'DASHBOARD', href: '#' },
               { label: 'CALENDARIO', current: true }
             ];
       case 'enrollment':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'INSCRIPCIONES', current: true }
         ];
       case 'reports':
         return [
-          { label: 'DASHBOARD', href: '#' },
           { label: 'REPORTES', current: true }
         ];
       default:

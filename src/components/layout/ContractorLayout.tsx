@@ -40,11 +40,16 @@ export function ContractorLayout({
   };
 
   return (
-    <div className={`min-h-screen ${theme.bgSecondary}`}>
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/img/fondo/fondo_1.png')",
+        backgroundColor: '#1a1a2e' // Fallback color
+      }}
+    >
       {/* Main Navigation */}
       <MainNavigation
         breadcrumbs={breadcrumbs}
-        title={title}
         onHomeClick={handleHomeClick}
         showMobileMenu={showMobileMenu}
         onToggleMobileMenu={() => setShowMobileMenu(!showMobileMenu)}
@@ -65,7 +70,7 @@ export function ContractorLayout({
         <div className={`hidden md:flex md:flex-col transition-all duration-300 ease-in-out ${
           isMenuCollapsed ? 'md:w-16' : 'md:w-64'
         }`}>
-          <div className={`flex flex-col flex-grow pt-5 ${theme.bg} border-r ${theme.border} overflow-y-auto`}>
+          <div className={`flex flex-col flex-grow ${theme.bg} border-r ${theme.border} overflow-y-auto`} style={{ paddingTop: '72px' }}>
             <div className="flex items-center justify-between flex-shrink-0 px-4">
               {!isMenuCollapsed && (
                 <h2 className={`text-lg font-semibold ${theme.text}`}>Menú Principal</h2>
@@ -97,7 +102,7 @@ export function ContractorLayout({
 
         {/* Main Content - Adaptativo al estado del menú */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          <main className={`flex-1 relative overflow-y-auto focus:outline-none ${theme.bg}`}>
+          <main className={`flex-1 relative overflow-y-auto focus:outline-none`} style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
             <div className="py-6">
               <div className={`mx-auto px-4 sm:px-6 md:px-8 transition-all duration-300 ${
                 isMenuCollapsed

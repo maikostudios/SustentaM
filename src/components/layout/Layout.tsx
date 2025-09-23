@@ -51,7 +51,17 @@ export function Layout({
         </ContractorLayout>
       );
     case 'usuario':
-      return <UserLayout>{children}</UserLayout>;
+      return (
+        <UserLayout
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
+          breadcrumbs={breadcrumbs}
+          title={title}
+          onHelpClick={onHelpClick}
+        >
+          {children}
+        </UserLayout>
+      );
     default:
       return <>{children}</>;
   }

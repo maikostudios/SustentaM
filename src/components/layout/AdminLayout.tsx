@@ -44,7 +44,6 @@ export function AdminLayout({
       {/* Main Navigation */}
       <MainNavigation
         breadcrumbs={breadcrumbs}
-        title={title}
         onHomeClick={handleHomeClick}
         showMobileMenu={showMobileMenu}
         onToggleMobileMenu={() => setShowMobileMenu(!showMobileMenu)}
@@ -65,8 +64,8 @@ export function AdminLayout({
         <div className={`hidden md:flex md:flex-col transition-all duration-300 ease-in-out ${
           isMenuCollapsed ? 'md:w-16' : 'md:w-64'
         }`}>
-          <div className={`flex flex-col flex-grow pt-5 ${theme.bg} border-r ${theme.border} overflow-y-auto`}>
-            <div className="flex items-center justify-between flex-shrink-0 px-4">
+          <div className={`flex flex-col flex-grow ${theme.bg} border-r ${theme.border} overflow-y-auto`} style={{ paddingTop: '72px' }}>
+            <div className="flex items-center justify-between flex-shrink-0 px-4 py-1">
               {!isMenuCollapsed && (
                 <h2 className={`text-lg font-semibold ${theme.text}`}>Menú Principal</h2>
               )}
