@@ -83,9 +83,20 @@ export function MainNavigation({
   };
 
   return (
-    <div className={`${roleNavbarTheme.navbar} shadow-lg border-b`}>
+    <div className={`${roleNavbarTheme.navbar} shadow-lg border-b relative`}>
+      {/* Logo SUSTENTA en esquina superior izquierda - solo en desktop */}
+      <div className="hidden md:flex absolute left-0 top-0 w-64 h-16 items-center justify-center bg-blue-600 dark:bg-blue-700">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
+          <img
+            src="/img/logo/logo_sustenta_rectangular.png"
+            alt="SUSTENTA"
+            className="h-10 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+          />
+        </div>
+      </div>
+
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 md:ml-64">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Home button and title */}
           <div className="flex items-center space-x-6">
