@@ -120,10 +120,21 @@ export function LoginForm() {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${theme.bg}`}>
-      {/* Selector de Tema Oculto para evitar problemas de elementos perdidos */}
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+      {/* Imagen de fondo con opacidad */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/img/fondo/fondo_1.png)',
+          opacity: 0.08
+        }}
+      ></div>
 
-      <div className="max-w-md w-full space-y-8">
+      {/* Overlay adicional para mejor contraste */}
+      <div className={`absolute inset-0 ${theme.bg} opacity-92`}></div>
+
+      {/* Contenido principal */}
+      <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Header con logo SUSTENTA y tipografía consistente */}
         <div className="text-center">
           {/* Logo SUSTENTA cuadrado con efectos modernos */}
