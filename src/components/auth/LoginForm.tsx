@@ -120,18 +120,17 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      {/* Imagen de fondo con opacidad */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url(/img/fondo/fondo_1.png)',
-          opacity: 0.08
-        }}
-      ></div>
-
-      {/* Overlay adicional para mejor contraste */}
-      <div className={`absolute inset-0 ${theme.bg} opacity-92`}></div>
+    <div
+      className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative"
+      style={{
+        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%), url("/img/fondo/fondo_1.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Overlay para contraste */}
+      <div className={`absolute inset-0 ${theme.bg} opacity-80`}></div>
 
       {/* Contenido principal */}
       <div className="max-w-md w-full space-y-8 relative z-10">

@@ -66,6 +66,27 @@ export function AdminLayout({
           isMenuCollapsed ? 'md:w-16' : 'md:w-64'
         }`}>
           <div className={`flex flex-col flex-grow pt-5 ${theme.bg} border-r ${theme.border} overflow-y-auto`}>
+            {/* Logo SUSTENTA en sidebar */}
+            <div className="flex items-center justify-center flex-shrink-0 px-4 pb-6">
+              {!isMenuCollapsed ? (
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                  <img
+                    src="/img/logo/logo_sustenta_rectangular.png"
+                    alt="SUSTENTA"
+                    className="h-16 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+                  />
+                </div>
+              ) : (
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
+                  <img
+                    src="/img/logo/logo_sustenta_cuadrado.png"
+                    alt="SUSTENTA"
+                    className="h-10 w-10 object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+                  />
+                </div>
+              )}
+            </div>
+
             <div className="flex items-center justify-between flex-shrink-0 px-4">
               {!isMenuCollapsed && (
                 <h2 className={`text-lg font-semibold ${theme.text}`}>Menú Principal</h2>

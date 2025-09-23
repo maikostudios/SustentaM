@@ -87,18 +87,8 @@ export function MainNavigation({
       {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center h-16">
-          {/* Left side - Logo, Home button and title */}
+          {/* Left side - Home button and title */}
           <div className="flex items-center space-x-6">
-            {/* Logo SUSTENTA rectangular - Posicionado primero, más grande */}
-            <div className="block">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-sm">
-                <img
-                  src="/img/logo/logo_sustenta_rectangular.png"
-                  alt="SUSTENTA"
-                  className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
-                />
-              </div>
-            </div>
 
             {/* Mobile menu button */}
             <button
