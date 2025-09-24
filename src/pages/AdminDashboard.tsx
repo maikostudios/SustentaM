@@ -7,8 +7,8 @@ import { CourseForm } from '../components/courses/CourseForm';
 import { AttendanceTable } from '../components/attendance/AttendanceTable';
 import { Modal } from '../components/ui/Modal';
 import { Button } from '../components/ui/Button';
-import { PlusIcon } from '@heroicons/react/24/outline';
-import { generateBulkCertificates, downloadBlob } from '../lib/pdfGenerator';
+import { PlusIcon, DocumentArrowDownIcon, BookOpenIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
+import { generateBulkCertificates, downloadBlob, downloadPdfFromPublic } from '../lib/pdfGenerator';
 import { DeleteConfirmationModal } from '../components/ui/ConfirmationModal';
 import { HelpModal } from '../components/help/HelpModal';
 import { useNotifications, NotificationTemplates } from '../contexts/ToastContext';
@@ -85,6 +85,62 @@ export function AdminDashboard() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  // Función para descargar el certificado de Libro de Clases y Registro de Asistencias
+  const handleDownloadLibroClases = async () => {
+    try {
+      notifications.info(
+        'Descargando certificado',
+        'Preparando descarga del Libro de Clases y Registro de Asistencias...',
+        { duration: 2000 }
+      );
+
+      await downloadPdfFromPublic(
+        'CERTIFICADO-LIBRO-CLASES-ASISTENCIA.pdf',
+        'Libro_de_Clases_y_Registro_de_Asistencias.pdf'
+      );
+
+      notifications.success(
+        'Descarga exitosa',
+        'El certificado de Libro de Clases y Registro de Asistencias se ha descargado correctamente.',
+        { duration: 3000 }
+      );
+    } catch (error) {
+      console.error('Error downloading certificate:', error);
+      notifications.error(
+        'Error en la descarga',
+        'No se pudo descargar el certificado. Por favor, inténtalo de nuevo.'
+      );
+    }
+  };
+
+  // Función para descargar el certificado de Asistencia y Aprobación
+  const handleDownloadCertificadoInduccion = async () => {
+    try {
+      notifications.info(
+        'Descargando certificado',
+        'Preparando descarga del Certificado de Asistencia y Aprobación...',
+        { duration: 2000 }
+      );
+
+      await downloadPdfFromPublic(
+        'CERTIFICADO DE INDUCCION.pdf',
+        'Certificado_de_Asistencia_y_Aprobacion.pdf'
+      );
+
+      notifications.success(
+        'Descarga exitosa',
+        'El certificado de Asistencia y Aprobación se ha descargado correctamente.',
+        { duration: 3000 }
+      );
+    } catch (error) {
+      console.error('Error downloading certificate:', error);
+      notifications.error(
+        'Error en la descarga',
+        'No se pudo descargar el certificado. Por favor, inténtalo de nuevo.'
+      );
+    }
   };
 
   const handleCreateCourse = () => {
@@ -266,7 +322,7 @@ export function AdminDashboard() {
       attendanceData.forEach(data => {
         const participant = participants.find(p => p.rut === data.rut);
         if (participant) {
-          updateAttendance(participant.id, data.asistencia, participant.nota);
+          updateAttendance(participant.id, data.asistencia, participant.calificacion);
           successCount++;
         } else {
           errorCount++;
@@ -310,7 +366,7 @@ export function AdminDashboard() {
       gradesData.forEach(data => {
         const participant = participants.find(p => p.rut === data.rut);
         if (participant) {
-          updateAttendance(participant.id, participant.asistencia, data.nota);
+          updateAttendance(participant.id, participant.asistencia, data.calificacion);
           successCount++;
         } else {
           errorCount++;
@@ -383,7 +439,7 @@ export function AdminDashboard() {
             {/* Header con tipografía consistente */}
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden">
               <div className="p-8">
-                <h1 className="font-sans text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                <h1 className="section-title text-3xl mb-2">
                   BIENVENIDO AL PANEL DE ADMINISTRACIÓN
                 </h1>
                 <p className="font-sans text-base text-gray-600 dark:text-gray-400">
@@ -457,7 +513,7 @@ export function AdminDashboard() {
         return (
           <div className="w-full space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">GESTIÓN DE CURSOS</h2>
+              <h2 className="section-title">GESTIÓN DE CURSOS</h2>
               <Button onClick={handleCreateCourse} className="flex items-center space-x-2">
                 <PlusIcon className="w-4 h-4" />
                 <span>Nuevo Curso</span>
@@ -489,35 +545,104 @@ export function AdminDashboard() {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">GESTIÓN DE CERTIFICADOS</h2>
+              <h2 className="section-title">GESTIÓN DE CERTIFICADOS</h2>
               <div className="space-x-3">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowHelp(true)}
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-white hover:text-gray-200 dark:text-white dark:hover:text-gray-300"
                 >
                   Ayuda
                 </Button>
-                {/* Vista Previa PDF - Oculto por solicitud del cliente */}
-                {/* <Button
-                  variant="secondary"
-                  onClick={() => setShowCertificatePreview(true)}
-                >
-                  Vista Previa
-                </Button> */}
+              </div>
+            </div>
+
+            {/* Sección 1: Libro de Clases y Registro de Asistencias */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center mb-4">
+                <BookOpenIcon className="w-6 h-6 text-blue-600 mr-3" />
+                <h3 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Libro de Clases y Registro de Asistencias
+                </h3>
+              </div>
+
+              <p className="font-sans text-gray-600 dark:text-gray-400 mb-6">
+                Descarga el certificado oficial del Libro de Clases y Registro de Asistencias para documentación administrativa.
+              </p>
+
+              <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                <div className="flex items-center">
+                  <div className="bg-blue-100 dark:bg-blue-800 p-2 rounded-lg mr-4">
+                    <DocumentArrowDownIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-medium text-gray-900 dark:text-gray-100">
+                      Certificado de Libro de Clases
+                    </h4>
+                    <p className="font-sans text-sm text-gray-600 dark:text-gray-400">
+                      Documento oficial para registro administrativo
+                    </p>
+                  </div>
+                </div>
                 <Button
-                  onClick={handleGenerateCertificates}
-                  disabled={participants.filter(p => p.estado === 'aprobado').length === 0}
+                  onClick={handleDownloadLibroClases}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
-                  Generar Certificados
+                  <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
+                  Descargar PDF
                 </Button>
               </div>
             </div>
-            
+
+            {/* Sección 2: Certificado de Asistencia y Aprobación */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center mb-4">
+                <AcademicCapIcon className="w-6 h-6 text-green-600 mr-3" />
+                <h3 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Certificado de Asistencia y Aprobación
+                </h3>
+              </div>
+
+              <p className="font-sans text-gray-600 dark:text-gray-400 mb-6">
+                Descarga el certificado oficial de Asistencia y Aprobación para participantes que completaron exitosamente el curso.
+              </p>
+
+              <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                <div className="flex items-center">
+                  <div className="bg-green-100 dark:bg-green-800 p-2 rounded-lg mr-4">
+                    <AcademicCapIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-medium text-gray-900 dark:text-gray-100">
+                      Certificado de Inducción
+                    </h4>
+                    <p className="font-sans text-sm text-gray-600 dark:text-gray-400">
+                      Documento de aprobación y asistencia
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  onClick={handleDownloadCertificadoInduccion}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <DocumentArrowDownIcon className="w-4 h-4 mr-2" />
+                  Descargar PDF
+                </Button>
+              </div>
+            </div>
+
+            {/* Sección de Certificados Personalizados (funcionalidad original) */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center mb-4">
+                <DocumentArrowDownIcon className="w-6 h-6 text-purple-600 mr-3" />
+                <h3 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Certificados Personalizados
+                </h3>
+              </div>
+
               <p className="font-sans text-gray-600 dark:text-gray-400 mb-4">
-                Genere certificados para participantes aprobados de cualquier curso.
+                Genere certificados personalizados para participantes aprobados de cualquier curso.
               </p>
 
               {participants.filter(p => p.estado === 'aprobado').length === 0 ? (
@@ -526,11 +651,11 @@ export function AdminDashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">
+                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                       {participants.filter(p => p.estado === 'aprobado').length}
                     </div>
-                    <div className="text-sm text-gray-600">Certificados Disponibles</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Certificados Disponibles</div>
                   </div>
                 </div>
               )}
@@ -551,7 +676,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sistema de Notificaciones</h2>
+                <h2 className="section-title mb-4">Sistema de Notificaciones</h2>
                 <LazyNotificationDemoComponent />
               </div>
             </div>
@@ -563,7 +688,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Optimizaciones de Rendimiento</h2>
+                <h2 className="section-title mb-4">Optimizaciones de Rendimiento</h2>
                 <PerformanceDemo />
               </div>
             </div>
@@ -575,7 +700,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Validación de Formularios</h2>
+                <h2 className="section-title mb-4">Validación de Formularios</h2>
                 <ValidationDemo />
               </div>
             </div>
@@ -587,7 +712,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Búsqueda y Filtros Avanzados</h2>
+                <h2 className="section-title mb-4">Búsqueda y Filtros Avanzados</h2>
                 <SearchDemo />
               </div>
             </div>
@@ -599,7 +724,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Accesibilidad (a11y)</h2>
+                <h2 className="section-title mb-4">Accesibilidad (a11y)</h2>
                 <AccessibilityDemo />
               </div>
             </div>
@@ -611,7 +736,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sistema de Temas</h2>
+                <h2 className="section-title mb-4">Sistema de Temas</h2>
                 <ThemeDemo />
               </div>
             </div>
@@ -623,7 +748,7 @@ export function AdminDashboard() {
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <h2 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Manejo de Errores</h2>
+                <h2 className="section-title mb-4">Manejo de Errores</h2>
                 <ErrorHandlingDemo />
               </div>
             </div>

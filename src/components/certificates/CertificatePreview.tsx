@@ -107,7 +107,7 @@ export function CertificatePreview({
       <div className="space-y-6">
         {/* Template Selector */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 flex items-center">
+          <h3 className="section-subtitle mb-3 flex items-center">
             <SwatchIcon className="w-5 h-5 mr-2" />
             Seleccionar Plantilla
           </h3>
@@ -168,7 +168,7 @@ export function CertificatePreview({
 
         {/* Preview Area */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 flex items-center">
+          <h3 className="section-subtitle mb-3 flex items-center">
             <EyeIcon className="w-5 h-5 mr-2" />
             Vista Previa
           </h3>

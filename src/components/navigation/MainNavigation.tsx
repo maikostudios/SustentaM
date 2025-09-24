@@ -123,6 +123,14 @@ export function MainNavigation({
               <span className="hidden sm:inline">Inicio</span>
             </Button>
 
+            {/* Desktop title */}
+            {title && (
+              <div className="hidden md:block">
+                <h1 className="text-xl font-bold text-white dark:text-white font-sans">
+                  {title}
+                </h1>
+              </div>
+            )}
 
           </div>
 
@@ -135,9 +143,6 @@ export function MainNavigation({
               <div className="hidden sm:block text-right">
                 <div className={`text-sm font-medium ${roleNavbarTheme.text}`}>
                   {user?.nombre || 'Usuario'}
-                </div>
-                <div className={`text-xs ${roleNavbarTheme.textMuted}`}>
-                  {user?.rut}
                 </div>
               </div>
               
@@ -160,7 +165,7 @@ export function MainNavigation({
                 variant="ghost"
                 size="sm"
                 onClick={onHelpClick}
-                className="flex items-center space-x-2 text-gray-600 hover:text-blue-600"
+                className="flex items-center space-x-2 text-white hover:text-gray-200 dark:text-white dark:hover:text-gray-300"
               >
                 <QuestionMarkCircleIcon className="w-5 h-5" />
                 <span className="hidden sm:inline">Ayuda</span>
@@ -189,7 +194,7 @@ export function MainNavigation({
           <div className="px-4 py-3 space-y-2">
             {/* Mobile title */}
             {title && (
-              <div className="text-lg font-semibold text-gray-900 mb-3">
+              <div className="text-lg font-semibold text-white dark:text-white mb-3">
                 {title}
               </div>
             )}
@@ -202,7 +207,7 @@ export function MainNavigation({
                   {user?.nombre || 'Usuario'}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {user?.rut} • {getRoleDisplayName(user?.rol || '')}
+                  {getRoleDisplayName(user?.rol || '')}
                 </div>
               </div>
             </div>

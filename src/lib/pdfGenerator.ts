@@ -292,6 +292,23 @@ export function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
+// Función para descargar archivos PDF desde la carpeta public
+export async function downloadPdfFromPublic(filename: string, downloadName?: string) {
+  try {
+    const response = await fetch(`/certificates/${filename}`);
+    if (!response.ok) {
+      throw new Error(`Error al cargar el archivo: ${response.statusText}`);
+    }
+
+    const blob = await response.blob();
+    const finalDownloadName = downloadName || filename;
+    downloadBlob(blob, finalDownloadName);
+  } catch (error) {
+    console.error('Error downloading PDF:', error);
+    throw error;
+  }
+}
+
 export async function generateCertificatePreview(
   participant: Participant,
   course: Course,

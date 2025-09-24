@@ -19,7 +19,7 @@ interface CourseState {
   fetchParticipants: (courseId?: string) => Promise<void>;
   fetchParticipantsBySession: (sessionId: string) => Promise<void>;
   addParticipants: (sessionId: string, participants: Array<{nombre: string; rut: string; contractor: string}>) => Promise<void>;
-  updateAttendance: (participantId: string, asistencia: number, nota: number) => Promise<void>;
+  updateAttendance: (participantId: string, asistencia: number, calificacion: number) => Promise<void>;
 }
 
 export const useCourseStore = create<CourseState>((set, get) => ({
@@ -119,7 +119,7 @@ export const useCourseStore = create<CourseState>((set, get) => ({
       sessionId,
       ...p,
       asistencia: 0,
-      nota: 0,
+      calificacion: 0,
       estado: 'inscrito'
     }));
 
@@ -128,9 +128,10 @@ export const useCourseStore = create<CourseState>((set, get) => ({
     // El componente se encarga de actualizar los datos específicos
   },
   
-  updateAttendance: async (participantId, asistencia, nota) => {
-    const estado = asistencia >= 50 && nota >= 4.0 ? 'aprobado' : 'reprobado';
-    await db.participants.update(participantId, { asistencia, nota, estado });
+  updateAttendance: async (participantId, asistencia, calificacion) => {
+    // Como usamos porcentajes directamente, aprobado es >= 80% en ambos
+    const estado = asistencia >= 80 && calificacion >= 80 ? 'aprobado' : 'reprobado';
+    await db.participants.update(participantId, { asistencia, calificacion, estado });
     get().fetchParticipants();
   }
 }));

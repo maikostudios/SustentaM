@@ -241,7 +241,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       <div className={`${theme.bg} border ${theme.border} rounded-lg shadow-sm p-6`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className={`font-sans text-3xl font-bold ${theme.text} flex items-center`}>
+            <h1 className="section-title text-3xl flex items-center">
               <ChartBarIcon className="w-8 h-8 mr-3 text-blue-600 dark:text-blue-400" />
               DASHBOARD DE REPORTES
             </h1>
@@ -288,7 +288,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Estadísticas por curso con nueva paleta */}
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
-          <h3 className="font-sans text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Rendimiento por Curso</h3>
+          <h3 className="section-title text-xl mb-6">Rendimiento por Curso</h3>
           <div className="space-y-6">
             {reportData.cursoStats.map((curso, index) => (
               <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
@@ -336,7 +336,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
 
         {/* Estadísticas por contratista con nueva paleta */}
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
-          <h3 className="font-sans text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Rendimiento por Contratista</h3>
+          <h3 className="section-title text-xl mb-6">Rendimiento por Contratista</h3>
           <div className="space-y-6">
             {reportData.contratistaStats.map((contratista, index) => (
               <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
@@ -385,7 +385,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
 
       {/* Tendencias */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
-        <h3 className="font-sans text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Tendencias Mensuales</h3>
+        <h3 className="section-title text-lg mb-4">Tendencias Mensuales</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {reportData.tendencias.map((mes, index) => (
             <div key={index} className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -405,7 +405,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
         <div className="flex items-start">
           <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mt-1" />
           <div className="ml-3">
-            <h3 className="font-sans text-lg font-medium text-yellow-800 dark:text-yellow-200">Recomendaciones</h3>
+            <h3 className="section-title text-lg text-yellow-800 dark:text-yellow-200">Recomendaciones</h3>
             <div className="mt-2 font-sans text-sm text-yellow-700 dark:text-yellow-300">
               <ul className="list-disc list-inside space-y-1">
                 <li>Servicios Integrales DEF tiene una tasa de aprobación del 80%, considerar refuerzo.</li>

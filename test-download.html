@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PDF Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #2563eb;
+        }
+        .green {
+            background-color: #10b981;
+        }
+        .green:hover {
+            background-color: #059669;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Descarga de Certificados</h1>
+    
+    <h2>Certificados Disponibles:</h2>
+    
+    <div>
+        <h3>1. Libro de Clases y Registro de Asistencias</h3>
+        <button class="button" onclick="downloadPDF('public/certificates/CERTIFICADO-LIBRO-CLASES-ASISTENCIA.pdf', 'Libro_de_Clases_y_Registro_de_Asistencias.pdf')">
+            Descargar Libro de Clases
+        </button>
+    </div>
+    
+    <div>
+        <h3>2. Certificado de Asistencia y Aprobación</h3>
+        <button class="button green" onclick="downloadPDF('public/certificates/CERTIFICADO DE INDUCCION.pdf', 'Certificado_de_Asistencia_y_Aprobacion.pdf')">
+            Descargar Certificado de Inducción
+        </button>
+    </div>
+
+    <div>
+        <h3>Prueba desde dist (build):</h3>
+        <button class="button" onclick="downloadPDF('certificates/CERTIFICADO-LIBRO-CLASES-ASISTENCIA.pdf', 'Libro_de_Clases_y_Registro_de_Asistencias.pdf')">
+            Descargar Libro de Clases (dist)
+        </button>
+        <button class="button green" onclick="downloadPDF('certificates/CERTIFICADO DE INDUCCION.pdf', 'Certificado_de_Asistencia_y_Aprobacion.pdf')">
+            Descargar Certificado de Inducción (dist)
+        </button>
+    </div>
+
+    <script>
+        async function downloadPDF(filePath, downloadName) {
+            try {
+                console.log('Intentando descargar:', filePath);
+                const response = await fetch(filePath);
+                
+                if (!response.ok) {
+                    throw new Error(`Error al cargar el archivo: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = downloadName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                console.log('Descarga exitosa:', downloadName);
+                alert('Descarga exitosa: ' + downloadName);
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                alert('Error en la descarga: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

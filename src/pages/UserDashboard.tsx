@@ -14,28 +14,41 @@ import {
 
 export function UserDashboard() {
   const { user } = useAuthStore();
-  const { courses, participants, fetchCourses, fetchParticipants } = useCourseStore();
+  const { courses, participants, sessions, fetchCourses, fetchParticipants, fetchSessions } = useCourseStore();
   const [generatingCertificate, setGeneratingCertificate] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCourses();
     fetchParticipants();
-  }, [fetchCourses, fetchParticipants]);
+    fetchSessions();
+  }, [fetchCourses, fetchParticipants, fetchSessions]);
 
   // Filter participants for current user (simulated by RUT match)
   const userParticipations = participants.filter(p => p.rut === user?.rut);
 
   const handleDownloadCertificate = async (participantId: string) => {
     const participant = participants.find(p => p.id === participantId);
-    if (!participant) return;
+    if (!participant) {
+      console.error('Participant not found:', participantId);
+      alert('Participante no encontrado');
+      return;
+    }
 
-    // Find the course for this participant
-    const course = courses.find(c => {
-      // In a real app, we'd have proper session-course relationships
-      return true; // For demo, use first course
-    }) || courses[0];
+    // Find the session for this participant
+    const session = sessions.find(s => s.id === participant.sessionId);
+    if (!session) {
+      console.error('Session not found for participant:', participant.sessionId);
+      alert('Sesión no encontrada para el participante');
+      return;
+    }
 
-    if (!course) return;
+    // Find the course for this session
+    const course = courses.find(c => c.id === session.courseId);
+    if (!course) {
+      console.error('Course not found for session:', session.courseId);
+      alert('Curso no encontrado para la sesión');
+      return;
+    }
 
     setGeneratingCertificate(participantId);
     
@@ -77,7 +90,7 @@ export function UserDashboard() {
     <UserLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          <h1 className="section-title mb-2">
             MIS CURSOS
           </h1>
           <p className="font-sans text-gray-600 dark:text-gray-400">

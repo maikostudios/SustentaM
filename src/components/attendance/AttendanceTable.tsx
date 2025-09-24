@@ -14,10 +14,11 @@ import { AttendanceDetailModal } from './AttendanceDetailModal';
 import { PencilIcon, DocumentArrowDownIcon, DocumentArrowUpIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Modal } from '../ui/Modal';
 import { useNotifications } from '../../contexts/ToastContext';
+import { useForm } from 'react-hook-form';
 
 interface AttendanceTableProps {
   participants: Participant[];
-  onUpdateAttendance: (participantId: string, asistencia: number, nota: number) => void;
+  onUpdateAttendance: (participantId: string, asistencia: number, calificacion: number) => void;
   onImportAttendance: () => void;
   onImportGrades: () => void;
   onExportReport: () => void;
@@ -33,34 +34,43 @@ export function AttendanceTable({
   onExportReport
 }: AttendanceTableProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState<{ asistencia: number; nota: number }>({
-    asistencia: 0,
-    nota: 0
-  });
   const [showAttendanceDetail, setShowAttendanceDetail] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [participantToDelete, setParticipantToDelete] = useState<Participant | null>(null);
   const notifications = useNotifications();
 
+  // Usar react-hook-form para manejar los inputs de edición
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<{
+    asistencia: number;
+    calificacion: number;
+  }>();
+
   const handleEdit = (participant: Participant) => {
     setEditingId(participant.id);
-    setEditData({
-      asistencia: participant.asistencia,
-      nota: participant.nota
-    });
+    // Establecer valores en el formulario
+    setValue('asistencia', participant.asistencia);
+    setValue('calificacion', participant.calificacion);
   };
 
-  const handleSave = () => {
+  const onSubmitEdit = (data: { asistencia: number; calificacion: number }) => {
     if (editingId) {
-      onUpdateAttendance(editingId, editData.asistencia, editData.nota);
+      onUpdateAttendance(editingId, data.asistencia, data.calificacion);
       setEditingId(null);
+      reset();
+
+      notifications.showNotification({
+        type: 'success',
+        title: 'Datos Actualizados',
+        message: 'Asistencia y calificación guardadas correctamente',
+        duration: 3000
+      });
     }
   };
 
   const handleCancel = () => {
     setEditingId(null);
-    setEditData({ asistencia: 0, nota: 0 });
+    reset();
   };
 
   const handleShowAttendanceDetail = (participant: Participant) => {
@@ -121,10 +131,17 @@ export function AttendanceTable({
               type="number"
               min="0"
               max="100"
-              value={editData.asistencia}
-              onChange={(e) => setEditData({ ...editData, asistencia: Number(e.target.value) })}
-              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              step="1"
+              {...register('asistencia', {
+                valueAsNumber: true,
+                min: { value: 0, message: 'Mínimo 0%' },
+                max: { value: 100, message: 'Máximo 100%' },
+                required: 'Asistencia requerida'
+              })}
+              onFocus={(e) => e.target.select()}
+              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               aria-label="Porcentaje de asistencia"
+              placeholder="0-100"
             />
           );
         }
@@ -153,21 +170,29 @@ export function AttendanceTable({
               min="0"
               max="100"
               step="1"
-              value={editData.calificacion}
-              onChange={(e) => setEditData({ ...editData, calificacion: Number(e.target.value) })}
-              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              {...register('calificacion', {
+                valueAsNumber: true,
+                min: { value: 0, message: 'Mínimo 0%' },
+                max: { value: 100, message: 'Máximo 100%' },
+                required: 'Calificación requerida'
+              })}
+              onFocus={(e) => e.target.select()}
+              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               aria-label="Calificación en porcentaje"
-              placeholder="0-100%"
+              placeholder="0-100"
             />
           );
         }
 
-        const statusClasses = getGradeStatusClasses(participant.calificacion);
-        const percentage = formatGradeAsPercentage(participant.calificacion);
+        // Como ya guardamos porcentajes directamente, no necesitamos conversión
+        const percentage = participant.calificacion;
+        const statusClasses = percentage >= 80
+          ? { badge: 'bg-green-100 text-green-800' }
+          : { badge: 'bg-red-100 text-red-800' };
 
         return (
           <span className={`font-medium px-2 py-1 rounded ${statusClasses.badge}`}>
-            {percentage}
+            {percentage}%
           </span>
         );
       }
@@ -176,7 +201,8 @@ export function AttendanceTable({
       header: 'ESTADO',
       cell: ({ row }) => {
         const participant = row.original;
-        const isApproved = isGradeApproved(participant.calificacion);
+        // Como usamos porcentajes directamente, aprobado es >= 80%
+        const isApproved = participant.asistencia >= 80 && participant.calificacion >= 80;
         const estado = isApproved ? 'APROBADO' : 'REPROBADO';
 
         return (
@@ -220,7 +246,7 @@ export function AttendanceTable({
               <Button
                 variant="primary"
                 size="sm"
-                onClick={handleSave}
+                onClick={handleSubmit(onSubmitEdit)}
               >
                 Guardar
               </Button>
@@ -270,7 +296,7 @@ export function AttendanceTable({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-sans text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="section-title">
           ASISTENCIA Y CALIFICACIONES
         </h2>
         
@@ -313,13 +339,13 @@ export function AttendanceTable({
           </div>
           <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
             <div className="font-sans text-2xl font-bold text-green-600 dark:text-green-400">
-              {participants.filter(p => p.estado === 'aprobado').length}
+              {participants.filter(p => p.asistencia >= 80 && p.calificacion >= 80).length}
             </div>
             <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Aprobados</div>
           </div>
           <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
             <div className="font-sans text-2xl font-bold text-red-600 dark:text-red-400">
-              {participants.filter(p => p.estado === 'reprobado').length}
+              {participants.filter(p => p.asistencia < 80 || p.calificacion < 80).length}
             </div>
             <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Reprobados</div>
           </div>

@@ -699,9 +699,9 @@ export const mockSessions: Session[] = [
   }
 ];
 
-// Participantes con datos realistas y consistentes
+// Participantes con datos realistas - PORCENTAJES DIRECTOS (0-100%)
 export const mockParticipants: Participant[] = [
-  // Excel Avanzado - Session 1
+  // ESTUDIANTES APROBADOS (Asistencia >= 80% Y Calificación >= 80%)
   {
     id: 'participant-1',
     sessionId: 'session-1',
@@ -710,7 +710,7 @@ export const mockParticipants: Participant[] = [
     contractor: 'Empresa ABC Ltda.',
     genero: 'Masculino',
     asistencia: 95,
-    calificacion: 6.8,
+    calificacion: 92,
     estado: 'aprobado'
   },
   {
@@ -721,7 +721,7 @@ export const mockParticipants: Participant[] = [
     contractor: 'Constructora XYZ S.A.',
     genero: 'Femenino',
     asistencia: 88,
-    calificacion: 6.2,
+    calificacion: 85,
     estado: 'aprobado'
   },
   {
@@ -732,7 +732,7 @@ export const mockParticipants: Participant[] = [
     contractor: 'Empresa ABC Ltda.',
     genero: 'Masculino',
     asistencia: 92,
-    calificacion: 6.5,
+    calificacion: 88,
     estado: 'aprobado'
   },
   {
@@ -742,8 +742,8 @@ export const mockParticipants: Participant[] = [
     rut: '19.876.543-2',
     contractor: 'Servicios Integrales DEF',
     genero: 'Femenino',
-    asistencia: 75,
-    calificacion: 5.8,
+    asistencia: 82,
+    calificacion: 83,
     estado: 'aprobado'
   },
   {
@@ -754,160 +754,204 @@ export const mockParticipants: Participant[] = [
     contractor: 'Constructora XYZ S.A.',
     genero: 'Masculino',
     asistencia: 65,
-    calificacion: 4.2,
+    calificacion: 72,
+    estado: 'reprobado'
+  },
+  {
+    id: 'participant-6',
+    sessionId: 'session-1',
+    nombre: 'Valentina Isabel Torres Mendoza',
+    rut: '20.012.345-6',
+    contractor: 'Constructora XYZ S.A.',
+    genero: 'Femenino',
+    asistencia: 78,
+    calificacion: 55,
+    estado: 'reprobado'
+  },
+  {
+    id: 'participant-7',
+    sessionId: 'session-1',
+    nombre: 'Sebastián Ignacio Ramírez Flores',
+    rut: '21.123.456-7',
+    contractor: 'Tech Solutions SpA',
+    genero: 'Masculino',
+    asistencia: 95,
+    calificacion: 67,
+    estado: 'reprobado'
+  },
+  {
+    id: 'participant-8',
+    sessionId: 'session-1',
+    nombre: 'Francisca Alejandra Cortés Vega',
+    rut: '22.234.567-8',
+    contractor: 'Servicios Integrales DEF',
+    genero: 'Femenino',
+    asistencia: 82,
+    calificacion: 89,
+    estado: 'aprobado'
+  },
+  {
+    id: 'participant-9',
+    sessionId: 'session-1',
+    nombre: 'Matías Esteban Guerrero Pinto',
+    rut: '23.345.678-9',
+    contractor: 'Consultora Beta Ltda.',
+    genero: 'Masculino',
+    asistencia: 100,
+    calificacion: 68,
     estado: 'reprobado'
   },
 
-  // Power BI - Session 4
+  // Power BI - Session 4 (DIFERENTES PARTICIPANTES)
   {
-    id: 'participant-6',
+    id: 'participant-10',
     sessionId: 'session-4',
     nombre: 'Laura Patricia Fernández Morales',
     rut: '14.567.890-1',
     contractor: 'Tech Solutions SpA',
     genero: 'Femenino',
     asistencia: 98,
-    calificacion: 6.9,
+    calificacion: 94,
     estado: 'aprobado'
   },
   {
-    id: 'participant-7',
+    id: 'participant-11',
     sessionId: 'session-4',
     nombre: 'Diego Alejandro Vargas Soto',
     rut: '16.789.012-3',
     contractor: 'Consultora Beta Ltda.',
     genero: 'Masculino',
     asistencia: 85,
-    calificacion: 6.1,
+    calificacion: 81,
     estado: 'aprobado'
   },
   {
-    id: 'participant-8',
+    id: 'participant-12',
     sessionId: 'session-4',
     nombre: 'Claudia Beatriz Jiménez Rojas',
     rut: '17.890.123-4',
     contractor: 'Innovación Digital S.A.',
     genero: 'Femenino',
     asistencia: 90,
-    calificacion: 6.4,
+    calificacion: 84,
     estado: 'aprobado'
   },
 
-  // Gestión Ágil - Session 9
+  // Gestión Ágil - Session 9 (DIFERENTES PARTICIPANTES)
   {
-    id: 'participant-9',
+    id: 'participant-13',
     sessionId: 'session-9',
     nombre: 'Andrés Felipe Muñoz Contreras',
     rut: '18.901.234-5',
     contractor: 'Empresa ABC Ltda.',
     genero: 'Masculino',
     asistencia: 100,
-    calificacion: 7.0,
-    estado: 'aprobado'
-  },
-  {
-    id: 'participant-10',
-    sessionId: 'session-9',
-    nombre: 'Valentina Isabel Torres Mendoza',
-    rut: '20.012.345-6',
-    contractor: 'Constructora XYZ S.A.',
-    genero: 'Femenino',
-    asistencia: 78,
-    calificacion: 5.5,
-    estado: 'aprobado'
-  },
-
-  // Seguridad Informática - Session 13
-  {
-    id: 'participant-11',
-    sessionId: 'session-13',
-    nombre: 'Sebastián Ignacio Ramírez Flores',
-    rut: '21.123.456-7',
-    contractor: 'Tech Solutions SpA',
-    genero: 'Masculino',
-    asistencia: 95,
-    calificacion: 6.7,
-    estado: 'aprobado'
-  },
-  {
-    id: 'participant-12',
-    sessionId: 'session-13',
-    nombre: 'Francisca Alejandra Cortés Vega',
-    rut: '22.234.567-8',
-    contractor: 'Servicios Integrales DEF',
-    genero: 'Femenino',
-    asistencia: 82,
-    calificacion: 5.9,
-    estado: 'aprobado'
-  },
-
-  // Técnicas de Presentación - Session 15
-  {
-    id: 'participant-13',
-    sessionId: 'session-15',
-    nombre: 'Matías Esteban Guerrero Pinto',
-    rut: '23.345.678-9',
-    contractor: 'Consultora Beta Ltda.',
-    genero: 'Masculino',
-    asistencia: 100,
-    calificacion: 6.8,
+    calificacion: 95,
     estado: 'aprobado'
   },
   {
     id: 'participant-14',
-    sessionId: 'session-15',
-    nombre: 'Camila Antonia Espinoza Ruiz',
+    sessionId: 'session-9',
+    nombre: 'Carmen Rosa Delgado Herrera',
     rut: '24.456.789-0',
-    contractor: 'Innovación Digital S.A.',
+    contractor: 'Constructora XYZ S.A.',
     genero: 'Femenino',
-    asistencia: 88,
-    calificacion: 6.3,
-    estado: 'aprobado'
+    asistencia: 78,
+    calificacion: 55,
+    estado: 'reprobado'
   },
 
-  // Marketing Digital - Session 17
+  // Seguridad Informática - Session 13 (DIFERENTES PARTICIPANTES)
   {
     id: 'participant-15',
-    sessionId: 'session-17',
-    nombre: 'Nicolás Benjamín Salinas Herrera',
+    sessionId: 'session-13',
+    nombre: 'Ricardo Alejandro Silva Moreno',
     rut: '25.567.890-1',
     contractor: 'Tech Solutions SpA',
     genero: 'Masculino',
-    asistencia: 92,
-    calificacion: 6.6,
+    asistencia: 95,
+    calificacion: 87,
     estado: 'aprobado'
   },
   {
     id: 'participant-16',
-    sessionId: 'session-17',
-    nombre: 'Carmen Esperanza López Martínez',
+    sessionId: 'session-13',
+    nombre: 'Patricia Elena Vargas Núñez',
     rut: '26.678.901-2',
     contractor: 'Servicios Integrales DEF',
     genero: 'Femenino',
-    asistencia: 85,
-    calificacion: 6.0,
-    estado: 'aprobado'
+    asistencia: 82,
+    calificacion: 79,
+    estado: 'reprobado'
   },
+
+  // Técnicas de Presentación - Session 15 (DIFERENTES PARTICIPANTES)
   {
     id: 'participant-17',
-    sessionId: 'session-9',
-    nombre: 'Joaquín Emilio Reyes Sandoval',
+    sessionId: 'session-15',
+    nombre: 'Fernando José Castillo Ramos',
     rut: '27.789.012-3',
-    contractor: 'Empresa ABC Ltda.',
+    contractor: 'Consultora Beta Ltda.',
     genero: 'Masculino',
-    asistencia: 95,
-    calificacion: 6.7,
+    asistencia: 100,
+    calificacion: 88,
     estado: 'aprobado'
   },
   {
     id: 'participant-18',
+    sessionId: 'session-15',
+    nombre: 'Camila Antonia Espinoza Ruiz',
+    rut: '28.890.123-4',
+    contractor: 'Innovación Digital S.A.',
+    genero: 'Femenino',
+    asistencia: 88,
+    calificacion: 83,
+    estado: 'aprobado'
+  },
+
+  // Marketing Digital - Session 17 (DIFERENTES PARTICIPANTES)
+  {
+    id: 'participant-19',
+    sessionId: 'session-17',
+    nombre: 'Nicolás Benjamín Salinas Herrera',
+    rut: '29.901.234-5',
+    contractor: 'Tech Solutions SpA',
+    genero: 'Masculino',
+    asistencia: 92,
+    calificacion: 86,
+    estado: 'aprobado'
+  },
+  {
+    id: 'participant-20',
+    sessionId: 'session-17',
+    nombre: 'Carmen Esperanza López Martínez',
+    rut: '30.012.345-6',
+    contractor: 'Servicios Integrales DEF',
+    genero: 'Femenino',
+    asistencia: 85,
+    calificacion: 80,
+    estado: 'aprobado'
+  },
+  {
+    id: 'participant-21',
+    sessionId: 'session-9',
+    nombre: 'Joaquín Emilio Reyes Sandoval',
+    rut: '31.123.456-7',
+    contractor: 'Empresa ABC Ltda.',
+    genero: 'Masculino',
+    asistencia: 95,
+    calificacion: 87,
+    estado: 'aprobado'
+  },
+  {
+    id: 'participant-22',
     sessionId: 'session-13',
     nombre: 'Isidora Fernanda Bravo Castillo',
-    rut: '28.890.123-4',
+    rut: '32.234.567-8',
     contractor: 'Constructora XYZ S.A.',
     genero: 'Femenino',
     asistencia: 70,
-    calificacion: 5.1,
-    estado: 'aprobado'
+    calificacion: 51,
+    estado: 'reprobado'
   }
 ];

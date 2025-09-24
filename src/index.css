@@ -1,6 +1,6 @@
 /* Importar tema oficial SUSTENTA */
-@import './styles/sustenta-theme.css';
-@import './styles/accessibility-improvements.css';
+@import "./styles/sustenta-theme.css";
+@import "./styles/accessibility-improvements.css";
 
 @tailwind base;
 @tailwind components;
@@ -17,8 +17,8 @@
 .theme-transitions *,
 .theme-transitions *:before,
 .theme-transitions *:after {
-  transition:
-    background-color var(--theme-transition-duration) var(--theme-transition-timing),
+  transition: background-color var(--theme-transition-duration)
+      var(--theme-transition-timing),
     border-color var(--theme-transition-duration) var(--theme-transition-timing),
     color var(--theme-transition-duration) var(--theme-transition-timing),
     fill var(--theme-transition-duration) var(--theme-transition-timing),
@@ -85,6 +85,39 @@ body {
   font-family: var(--font-family-sans);
   background-color: var(--color-background-primary);
   color: var(--color-text-primary);
+}
+
+/* === TÍTULOS DE SECCIÓN ESTANDARIZADOS === */
+.section-title {
+  font-family: var(--font-family-sans);
+  font-size: 1.5rem; /* 24px - text-2xl */
+  font-weight: 700; /* font-bold */
+  color: white;
+  line-height: 1.2;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* Variante para modo oscuro */
+.dark .section-title {
+  color: white;
+}
+
+/* Subtítulos para modales y componentes internos */
+.section-subtitle {
+  font-family: var(--font-family-sans);
+  font-size: 1.125rem; /* 18px - text-lg */
+  font-weight: 600; /* font-semibold */
+  color: white;
+  line-height: 1.2;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.dark .section-subtitle {
+  color: white;
 }
 
 /* === CUSTOM FULLCALENDAR OVERRIDES === */

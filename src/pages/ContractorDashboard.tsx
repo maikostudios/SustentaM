@@ -90,7 +90,7 @@ export function ContractorDashboard() {
             <div className={`${theme.bg} overflow-hidden shadow-lg rounded-xl border ${theme.border} transition-all duration-300 hover:shadow-xl`}>
               <div className="p-8">
                 <div className="mb-8">
-                  <h2 className={`text-3xl font-black ${theme.text} font-sans mb-2`}>
+                  <h2 className="section-title text-3xl mb-2">
                     PANEL DE EMPRESA
                   </h2>
                   {user?.empresa && (
@@ -214,7 +214,7 @@ export function ContractorDashboard() {
     if (!selectedSession) {
       return (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">GESTIÓN DE INSCRIPCIONES</h2>
+          <h2 className="section-title">GESTIÓN DE INSCRIPCIONES</h2>
           <div className="bg-white p-6 rounded-lg shadow">
             <p className="text-gray-600">Selecciona un curso del calendario para gestionar inscripciones.</p>
           </div>
@@ -245,7 +245,7 @@ export function ContractorDashboard() {
           {/* Información del Curso */}
           <div className="space-y-4">
             <div>
-              <h2 className={`text-2xl font-bold ${theme.text} font-sans`}>
+              <h2 className="section-title">
                 {selectedSession.course.nombre}
               </h2>
               <p className={`${theme.textSecondary} font-sans text-sm mt-1`}>

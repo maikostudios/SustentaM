@@ -104,10 +104,10 @@ export function CourseCalendar({ onSelectSession, courses: propCourses, sessions
   const days = getDaysInMonth();
 
   return (
-    <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-6`}>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-red-600">
-          Calendario de Cursos
+    <div className={`${theme.bg} rounded-lg shadow-sm border ${theme.border} p-3 w-full`}>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-xl font-semibold text-white dark:text-white font-sans">
+          CALENDARIO DE CURSOS
         </h2>
 
         {/* Selector de vista - OCULTO PARA PRESENTACIÓN AL CLIENTE */}

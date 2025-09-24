@@ -153,9 +153,7 @@ export function LoginForm() {
           <p className={`font-sans text-base ${theme.textSecondary}`}>
             Plataforma de Gestión de Cursos
           </p>
-          <div className={`mt-1 text-sm font-medium ${theme.text} opacity-80`}>
-            SUSTENTA
-          </div>
+         
         </div>
         
         {/* Formulario con espaciado consistente */}

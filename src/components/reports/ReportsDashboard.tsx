@@ -205,7 +205,7 @@ FILTROS APLICADOS:
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+          <h1 className="section-title flex items-center">
             <ChartBarIcon className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
             DASHBOARD DE REPORTES
           </h1>
