@@ -97,10 +97,10 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
       };
     }
 
-    // Tamaños base ultra-optimizados - OBJETIVO: 30 DÍAS VISIBLES
+    // Tamaños base optimizados - OBJETIVO: 30 DÍAS VISIBLES CON HORAS LEGIBLES
     const BASE_SIZES = {
       courseWidth: Math.max(100, Math.min(140, containerWidth * 0.10)), // 10% del ancho disponible, min 100px, max 140px
-      hoursWidth: 35, // Ultra reducido para horas
+      hoursWidth: 55, // Aumentado para mejor legibilidad de las horas
     };
 
     // Calcular ancho disponible para días - OPTIMIZADO PARA 30 DÍAS
@@ -184,8 +184,9 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
             <div className={`p-2 text-center text-sm font-black text-white rounded-md shadow-md ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800' : 'bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-700 dark:to-purple-800'}`}>
               📚 CURSOS
             </div>
-            <div className={`p-1 text-center text-xs font-black text-white rounded-md shadow-md ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800' : 'bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-700 dark:to-purple-800'}`}>
-              ⏰ H
+            <div className={`p-1 text-center text-xs font-black text-white rounded-md shadow-md flex flex-col items-center justify-center ${matrixType === 'propios-ecc' ? 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800' : 'bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-700 dark:to-purple-800'}`}>
+              <span className="text-xs leading-none">⏰</span>
+              <span className="text-xs leading-none font-bold">HRS</span>
             </div>
             {days.map((date, index) => {
               const holidayName = getHolidayName(date);
@@ -255,7 +256,7 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                         </div>
                         <div>
                           <span className={`font-medium ${theme.textSecondary}`}>Horas:</span>
-                          <div className={`font-bold ${theme.text}`}>{course.horas}h</div>
+                          <div className={`font-bold ${theme.text}`}>{course.duracionHoras}h</div>
                         </div>
                       </div>
                       <div className={`text-xs ${theme.textSecondary} leading-relaxed`}>
@@ -265,14 +266,16 @@ export function MatrixCalendar({ courses, sessions, currentDate, onSessionSelect
                   </div>
                 </div>
 
-                {/* Horas del curso - ULTRA COMPACTO */}
-                <div className={`p-1 text-center text-xs font-bold rounded-md border shadow-sm h-12 flex items-center justify-center
+                {/* Horas del curso - MEJORADO PARA MEJOR VISIBILIDAD */}
+                <div className={`p-1 text-center font-bold rounded-md border-2 shadow-md h-12 flex flex-col items-center justify-center min-w-[55px] transition-all duration-200 hover:scale-105
                   ${matrixType === 'propios-ecc'
-                    ? 'bg-gradient-to-b from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-900/50 text-blue-800 dark:text-blue-400 border-blue-300 dark:border-blue-700'
-                    : 'bg-gradient-to-b from-purple-100 to-purple-200 dark:from-purple-900/30 dark:to-purple-900/50 text-purple-800 dark:text-purple-400 border-purple-300 dark:border-purple-700'
+                    ? 'bg-gradient-to-b from-blue-200 to-blue-300 dark:from-blue-800/50 dark:to-blue-900/70 text-blue-900 dark:text-blue-200 border-blue-400 dark:border-blue-600'
+                    : 'bg-gradient-to-b from-purple-200 to-purple-300 dark:from-purple-800/50 dark:to-purple-900/70 text-purple-900 dark:text-purple-200 border-purple-400 dark:border-purple-600'
                   }`}
+                  title={`Duración: ${course.duracionHoras} horas`}
                 >
-                  {course.horas}
+                  <span className="text-base leading-tight font-black">{course.duracionHoras}</span>
+                  <span className="text-xs leading-none opacity-90 font-bold">hrs</span>
                 </div>
 
                 {/* Días del mes con UX mejorado */}
