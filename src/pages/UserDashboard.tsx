@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
-import { generateCertificate, downloadBlob } from '../lib/pdfGenerator';
 import { formatGradeAsPercentage, isGradeApproved } from '../utils/gradeUtils';
 import { Button } from '../components/ui/Button';
 import { UserLayout } from '../components/layout/UserLayout';
@@ -34,31 +33,27 @@ export function UserDashboard() {
       return;
     }
 
-    // Find the session for this participant
-    const session = sessions.find(s => s.id === participant.sessionId);
-    if (!session) {
-      console.error('Session not found for participant:', participant.sessionId);
-      alert('Sesión no encontrada para el participante');
-      return;
-    }
-
-    // Find the course for this session
-    const course = courses.find(c => c.id === session.courseId);
-    if (!course) {
-      console.error('Course not found for session:', session.courseId);
-      alert('Curso no encontrado para la sesión');
-      return;
-    }
-
     setGeneratingCertificate(participantId);
-    
+
     try {
-      const certificateBytes = await generateCertificate(participant, course);
-      const blob = new Blob([certificateBytes], { type: 'application/pdf' });
-      downloadBlob(blob, `certificado-${participant.nombre.replace(/\s+/g, '-')}.pdf`);
+      // Simular descarga del certificado predefinido
+      const response = await fetch('/certificates/certificado_participante.pdf');
+      if (!response.ok) {
+        throw new Error('No se pudo cargar el certificado');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `certificado_participante.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error generating certificate:', error);
-      alert('Error al generar el certificado');
+      console.error('Error downloading certificate:', error);
+      alert('Error al descargar el certificado');
     } finally {
       setGeneratingCertificate(null);
     }

@@ -87,7 +87,7 @@ export function MainNavigation({
       {/* Logo SUSTENTA en esquina superior izquierda - solo en desktop */}
       <div className={`hidden md:flex absolute left-0 top-0 w-64 items-center justify-center z-10 ${roleNavbarTheme.navbar}`} style={{ height: '72px' }}>
         <img
-          src="/img/logo/logo_sustenta_rectangular.png"
+          src="/img/logo/logo_sustenta_rectangular_blanco.png"
           alt="SUSTENTA"
           className="h-16 w-auto object-contain opacity-95 hover:opacity-100 transition-opacity duration-300"
         />

@@ -37,28 +37,28 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
     // Datos por curso
     cursoStats: [
       {
-        curso: 'Excel Avanzado',
+        curso: 'INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO',
         participantes: 25,
         aprobados: 22,
         promedio: 6.2,
         asistencia: 92
       },
       {
-        curso: 'Power BI',
+        curso: 'PROTOCOLOS MINISTERIO DE SALUD',
         participantes: 45,
         aprobados: 41,
         promedio: 6.5,
         asistencia: 89
       },
       {
-        curso: 'Gestión Ágil',
+        curso: 'ESPACIOS CONFINADOS',
         participantes: 18,
         aprobados: 16,
         promedio: 6.8,
         asistencia: 95
       },
       {
-        curso: 'Seguridad Informática',
+        curso: 'TRABAJO EN ALTURA',
         participantes: 68,
         aprobados: 55,
         promedio: 5.9,
@@ -115,35 +115,35 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
     // Datos para gráfico de asistencia por curso
     attendanceByCourse: [
       {
-        curso: 'Excel Avanzado',
+        curso: 'INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO',
         asistenciaPromedio: 92,
         participantes: 25,
         sesionesCompletadas: 8,
         totalSesiones: 10
       },
       {
-        curso: 'Power BI',
+        curso: 'PROTOCOLOS MINISTERIO DE SALUD',
         asistenciaPromedio: 89,
         participantes: 45,
         sesionesCompletadas: 12,
         totalSesiones: 15
       },
       {
-        curso: 'Gestión Ágil',
+        curso: 'ESPACIOS CONFINADOS',
         asistenciaPromedio: 95,
         participantes: 18,
         sesionesCompletadas: 6,
         totalSesiones: 8
       },
       {
-        curso: 'Seguridad Informática',
+        curso: 'TRABAJO EN ALTURA',
         asistenciaPromedio: 82,
         participantes: 68,
         sesionesCompletadas: 15,
         totalSesiones: 20
       },
       {
-        curso: 'Marketing Digital',
+        curso: 'MONTACARGAS',
         asistenciaPromedio: 87,
         participantes: 32,
         sesionesCompletadas: 10,
@@ -155,7 +155,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
     topStudents: [
       {
         nombre: 'María González',
-        curso: 'Gestión Ágil',
+        curso: 'ESPACIOS CONFINADOS',
         asistencia: 98,
         promedio: 6.8,
         puntuacionTotal: 94.4,
@@ -163,7 +163,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Carlos Rodríguez',
-        curso: 'Excel Avanzado',
+        curso: 'INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO',
         asistencia: 95,
         promedio: 6.5,
         puntuacionTotal: 92.0,
@@ -171,7 +171,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Ana Martínez',
-        curso: 'Power BI',
+        curso: 'PROTOCOLOS MINISTERIO DE SALUD',
         asistencia: 92,
         promedio: 6.7,
         puntuacionTotal: 91.6,
@@ -179,7 +179,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Luis Fernández',
-        curso: 'Marketing Digital',
+        curso: 'MONTACARGAS',
         asistencia: 90,
         promedio: 6.4,
         puntuacionTotal: 90.4,
@@ -187,7 +187,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Patricia Silva',
-        curso: 'Seguridad Informática',
+        curso: 'TRABAJO EN ALTURA',
         asistencia: 88,
         promedio: 6.6,
         puntuacionTotal: 89.6,
@@ -195,7 +195,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Roberto Morales',
-        curso: 'Excel Avanzado',
+        curso: 'INDUCCIÓN SEGURIDAD Y SALUD OCUPACIONAL SSO',
         asistencia: 85,
         promedio: 6.3,
         puntuacionTotal: 87.8,
@@ -203,7 +203,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Carmen López',
-        curso: 'Power BI',
+        curso: 'PROTOCOLOS MINISTERIO DE SALUD',
         asistencia: 87,
         promedio: 6.1,
         puntuacionTotal: 87.4,
@@ -211,7 +211,7 @@ export function SimpleReportsDashboard({ hidePerformanceMetrics = false }: Simpl
       },
       {
         nombre: 'Diego Herrera',
-        curso: 'Gestión Ágil',
+        curso: 'ESPACIOS CONFINADOS',
         asistencia: 82,
         promedio: 6.5,
         puntuacionTotal: 86.2,
