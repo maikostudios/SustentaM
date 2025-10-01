@@ -186,7 +186,7 @@ export function ContractorManagement() {
             <UserIcon className="w-8 h-8 text-blue-500 dark:text-blue-400" />
             <div className="ml-3">
               <div className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100">{contractors.length}</div>
-              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Total Contratistas</div>
+              <div className="font-sans text-sm text-gray-600 dark:text-gray-400">Total Representantes</div>
             </div>
           </div>
         </div>
@@ -221,13 +221,13 @@ export function ContractorManagement() {
             <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  REPRESENTANTE
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   EMPRESA
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Empresa
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Contacto
+                  CONTACTO
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Estado
