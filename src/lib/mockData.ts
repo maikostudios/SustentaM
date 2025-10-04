@@ -88,6 +88,22 @@ export const mockUsers: User[] = [
     rut: '15.678.234-3',
     rol: 'usuario',
     clave: 'user123'
+  },
+
+  // OTIC
+  {
+    id: 'otic-1',
+    nombre: 'OTIC Principal',
+    rut: '33.333.333-3',
+    rol: 'otic',
+    clave: 'otic123'
+  },
+  {
+    id: 'otic-2',
+    nombre: 'OTIC Administrador',
+    rut: 'otic@sustenta.cl',
+    rol: 'otic',
+    clave: 'otic123'
   }
 ];
 

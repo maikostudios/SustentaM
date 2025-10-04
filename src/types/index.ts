@@ -2,7 +2,7 @@ export interface User {
   id: string;
   nombre: string;
   rut: string;
-  rol: 'administrador' | 'contratista' | 'usuario';
+  rol: 'administrador' | 'contratista' | 'usuario' | 'otic';
   clave: string;
   empresa?: string; // Empresa (solo para rol contratista)
 }

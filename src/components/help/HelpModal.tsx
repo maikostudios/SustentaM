@@ -20,7 +20,7 @@ interface HelpSection {
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
-  userRole: 'administrador' | 'contratista' | 'usuario';
+  userRole: 'administrador' | 'contratista' | 'usuario' | 'otic';
 }
 
 export function HelpModal({ isOpen, onClose, userRole }: HelpModalProps) {
@@ -269,7 +269,41 @@ export function HelpModal({ isOpen, onClose, userRole }: HelpModalProps) {
             )
           }
         ];
-      
+
+      case 'otic':
+        return [
+          ...commonSections,
+          {
+            id: 'certificates',
+            title: 'Certificados OTIC',
+            icon: DocumentTextIcon,
+            content: (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Gestión de Certificados OTIC</h3>
+                <p className="text-gray-600">
+                  Como OTIC tienes acceso completo a todos los certificados del sistema para descarga y gestión.
+                </p>
+
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                  <h4 className="font-semibold text-purple-900 mb-2">📋 Certificados Disponibles</h4>
+                  <ul className="list-disc list-inside text-sm text-purple-800 space-y-1">
+                    <li><strong>Certificado de Inducción:</strong> Documento oficial de inducción SSO</li>
+                    <li><strong>Libro de Clases:</strong> Registro de asistencia y calificaciones</li>
+                    <li><strong>Certificado Participante:</strong> Certificado individual de aprobación</li>
+                  </ul>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <h4 className="font-semibold text-blue-900 mb-2">🔍 Reportes</h4>
+                  <p className="text-sm text-blue-800">
+                    Accede a reportes completos con estadísticas, gráficos y análisis de rendimiento de todos los cursos y participantes.
+                  </p>
+                </div>
+              </div>
+            )
+          }
+        ];
+
       default:
         return commonSections;
     }

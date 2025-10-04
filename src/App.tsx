@@ -6,6 +6,7 @@ import { LoginForm } from './components/auth/LoginForm';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { ContractorDashboard } from './pages/ContractorDashboard';
 import { UserDashboard } from './pages/UserDashboard';
+import { OticDashboard } from './pages/OticDashboard';
 import { ToastProvider } from './contexts/ToastContext';
 import { logger } from './utils/logger';
 import { LogViewer } from './components/debug/LogViewer';
@@ -56,6 +57,9 @@ function App() {
       case 'usuario':
         logger.info('App', 'Cargando UserDashboard');
         return <UserDashboard />;
+      case 'otic':
+        logger.info('App', 'Cargando OticDashboard');
+        return <OticDashboard />;
       default:
         logger.warn('App', 'Rol no reconocido', { rol: user?.rol });
         return <div>Rol no reconocido</div>;

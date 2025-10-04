@@ -83,6 +83,32 @@ Este documento contiene las credenciales de acceso para los diferentes roles del
 
 ---
 
+### 🏛️ **OTIC**
+
+**Rol:** Organismo Técnico Intermedio de Capacitación
+**Permisos:** Acceso completo a certificados y reportes
+
+**Credenciales (Opción 1 - Original):**
+
+- **Usuario:** `33.333.333-3`
+- **Contraseña:** `otic123`
+
+**Credenciales (Opción 2 - Nueva):**
+
+- **Usuario:** `otic@sustenta.cl`
+- **Contraseña:** `otic123`
+
+**Funcionalidades disponibles:**
+
+- ✅ Dashboard OTIC
+- ✅ Descarga de Certificado de Inducción
+- ✅ Descarga de Libro de Clases y Asistencia
+- ✅ Descarga de Certificado de Participante
+- ✅ Reportes y Análisis Completos
+- ✅ Visualización de Estadísticas Generales
+
+---
+
 ## 🚀 **INSTRUCCIONES DE ACCESO**
 
 1. **Acceder al sistema:** Navegar a la URL del sistema

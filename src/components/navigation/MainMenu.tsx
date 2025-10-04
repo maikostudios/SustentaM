@@ -31,7 +31,7 @@ interface MenuItem {
 interface MainMenuProps {
   activeItem?: string;
   onItemClick: (itemId: string) => void;
-  userRole: 'administrador' | 'contratista' | 'usuario';
+  userRole: 'administrador' | 'contratista' | 'usuario' | 'otic';
   className?: string;
   isCollapsed?: boolean;
 }
@@ -191,6 +191,28 @@ export function MainMenu({ activeItem, onItemClick, userRole, className = '', is
             description: 'Certificados obtenidos'
           }
         ];
+
+      case 'otic':
+        return [
+          {
+            id: 'dashboard',
+            label: 'DASHBOARD OTIC',
+            icon: HomeIcon,
+            description: 'Vista general OTIC'
+          },
+          {
+            id: 'certificates',
+            label: 'CERTIFICADOS',
+            icon: DocumentCheckIcon,
+            description: 'Descargar todos los certificados'
+          },
+          {
+            id: 'reports',
+            label: 'REPORTES',
+            icon: ChartBarIcon,
+            description: 'Reportes y análisis'
+          }
+        ];
       
       default:
         return [];
@@ -312,7 +334,14 @@ export function MobileMainMenu({ activeItem, onItemClick, userRole }: Omit<MainM
           { id: 'courses', label: 'CURSOS', icon: AcademicCapIcon },
           { id: 'certificates', label: 'CERTIFICADOS', icon: DocumentCheckIcon }
         ];
-      
+
+      case 'otic':
+        return [
+          { id: 'dashboard', label: 'DASHBOARD', icon: HomeIcon },
+          { id: 'certificates', label: 'CERTIFICADOS', icon: DocumentCheckIcon },
+          { id: 'reports', label: 'REPORTES', icon: ChartBarIcon }
+        ];
+
       default:
         return [];
     }
